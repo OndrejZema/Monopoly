@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "DataSource=D:\source\repos\monopoly\monopolydb.db" Microsoft.EntityFrameworkCore.Sqlite
