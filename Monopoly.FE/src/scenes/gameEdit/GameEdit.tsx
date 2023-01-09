@@ -14,6 +14,7 @@ export const GameEdit = () => {
                 returnUrl='/'
                 saveUrl='/api/games'
                 schema={GameSchema}
+                options={{}}
                 data={game}
             />
         </>

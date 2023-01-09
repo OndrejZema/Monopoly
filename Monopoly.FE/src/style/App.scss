@@ -10,3 +10,10 @@
   border-color: black !important;
 
 }
+.link{
+  text-decoration: none;
+  color: black;
+  &:hover{
+    color: black;
+  }
+}

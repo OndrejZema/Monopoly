@@ -13,13 +13,17 @@ export const Games = () => {
 
 
     return (<>
-        <h2>Games</h2>
+        <div className="d-flex justify-content-center">
+            <h2>Games</h2>
+        </div>
+        <div className='d-flex justify-content-end'>
         <Link to="games/create">
             <Button variant="outline-dark" className='mb-2'>
                 <FontAwesomeIcon icon={faPlus} className="me-1" />
                 New game
             </Button>
         </Link>
+        </div>
         {games.map(item => <Game />)}
         <PaginationPanel label='Games per page' page={0} perPage={10} perPageOptions={[1, 2, 4]} total={30} />
     </>)

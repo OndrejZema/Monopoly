@@ -8,13 +8,17 @@ import { PaginationPanel } from '../../components/PaginationPanel'
 
 export const FieldTypes = () => {
     return (<>
-        <h2>Field types</h2>
-        <Link to="/field-types/create">
-            <Button variant="outline-dark" className='mb-2'>
-                <FontAwesomeIcon icon={faPlus} className="me-1" />
-                New field type
-            </Button>
-        </Link>
+        <div className="d-flex justify-content-center">
+            <h2>Field types</h2>
+        </div>
+        <div className="d-flex justify-content-end">
+            <Link to="/field-types/create">
+                <Button variant="outline-dark" className='mb-2'>
+                    <FontAwesomeIcon icon={faPlus} className="me-1" />
+                    New field type
+                </Button>
+            </Link>
+        </div>
         <div className="border rounded p-1 mb-3">
             <Table bordered striped responsive >
                 <thead>

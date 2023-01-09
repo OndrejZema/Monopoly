@@ -1,4 +1,4 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Button, Table } from 'react-bootstrap'
@@ -6,16 +6,23 @@ import { Link } from 'react-router-dom'
 import { PaginationPanel } from '../../components/PaginationPanel'
 
 
-export const CardTypes = () => {
+export const Cards = () => {
     return (<>
         <div className="d-flex justify-content-center">
-            <h2>Card types</h2>
+            <h2>Cards</h2>
         </div>
-        <div className="d-flex justify-content-end">
-            <Link to="/card-types/create">
+        <div className="d-flex justify-content-between">
+            <Link to="/">
+                <Button variant="outline-secondary" className='mb-2'>
+                    <FontAwesomeIcon icon={faAngleLeft} className="me-1" />
+                    Back
+                </Button>
+            </Link>
+
+            <Link to="/cards/create">
                 <Button variant="outline-dark" className='mb-2'>
                     <FontAwesomeIcon icon={faPlus} className="me-1" />
-                    New card type
+                    New card
                 </Button>
             </Link>
         </div>

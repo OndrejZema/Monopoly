@@ -10,4 +10,13 @@
   background-color: #fcfcfc;
   border-color: black !important;
 }
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.link:hover {
+  color: black;
+}
 /*# sourceMappingURL=App.css.map */

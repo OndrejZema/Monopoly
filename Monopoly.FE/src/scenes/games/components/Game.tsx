@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { Col, Container, Row } from 'react-bootstrap'
 import { PaginationPanel } from '../../../components/PaginationPanel'
+import { Link } from 'react-router-dom'
 
 export const Game = () => {
     return (
@@ -20,11 +21,13 @@ export const Game = () => {
             <Container>
                 <Row>
                     <Col>
-                        <div className="border rounded cursor-pointer p-2 m-1 bg-white game-card">
-                            <h6>Cards</h6>
-                            <hr className='my-1' />
-                            <div className="font-monospace">Total: 12312</div>
-                        </div>
+                        <Link to="/cards" className='link'>
+                            <div className="border rounded cursor-pointer p-2 m-1 bg-white game-card">
+                                <h6>Cards</h6>
+                                <hr className='my-1' />
+                                <div className="font-monospace">Total: 12312</div>
+                            </div>
+                        </Link>
                     </Col>
                     <Col>
                         <div className="border rounded cursor-pointer p-2 m-1 bg-white  game-card">

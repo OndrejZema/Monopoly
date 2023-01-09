@@ -15,6 +15,7 @@ export const CardTypeEdit = () => {
                 returnUrl='/card-types'
                 saveUrl='/api/card-types'
                 schema={CardTypeSchema}
+                options={{}}
                 data={cardType}
             />
         </>

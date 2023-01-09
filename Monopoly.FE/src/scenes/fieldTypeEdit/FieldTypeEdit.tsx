@@ -14,6 +14,7 @@ export const FieldTypeEdit = () => {
                 returnUrl='/field-types'
                 saveUrl='/api/file-types'
                 schema={FieldTypeSchema}
+                options={{}}
                 data={fieldType}
             />
         </>

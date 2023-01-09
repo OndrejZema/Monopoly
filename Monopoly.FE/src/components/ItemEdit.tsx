@@ -10,6 +10,7 @@ interface Props {
     returnUrl: string
     saveUrl: string
     schema: any
+    options: any // object of options like {type: [{label: "Card type one", value: "1"}], gameId: [{label: "Game 1", value: "game1"}]}
     data: any
 }
 
@@ -53,7 +54,7 @@ export const ItemEdit = (props: Props) => {
                     name={item}
                     label={ props.schema.properties[item]["title"]}
                     type={props.schema.properties[item]["type"]}
-                    options={props.schema.properties[item]["items"]}
+                    options={props.options[item]}
                     onChange={handleChange}
                     value={data[item]}
                 />)}

@@ -5,6 +5,6 @@ export interface IProperty {
     options?: Array<IOption>
 }
 export interface IOption {
+    value: string | number,
     label: string,
-    value: string | number
 }

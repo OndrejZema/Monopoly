@@ -13,6 +13,8 @@ import { CardTypes } from './scenes/cardTypes/CardTypes';
 import { FieldTypes } from './scenes/fieldTypes/FieldTypes';
 import { CardTypeEdit } from './scenes/cardTypeEdit/CardTypeEdit';
 import { FieldTypeEdit } from './scenes/fieldTypeEdit/FieldTypeEdit';
+import { CardEdit } from './scenes/cardEdit/CardEdit';
+import { Cards } from './scenes/cards/Cards';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/card-types/create" element={<CustomRoute> <CardTypeEdit /> </CustomRoute>}></Route>
           <Route path="/field-types" element={<CustomRoute> <FieldTypes /> </CustomRoute>}></Route>
           <Route path="/field-types/create" element={<CustomRoute> <FieldTypeEdit /> </CustomRoute>}></Route>
+          <Route path="/cards" element={<CustomRoute> <Cards /> </CustomRoute>}></Route>
+          <Route path="/cards/create" element={<CustomRoute> <CardEdit /> </CustomRoute>}></Route>
         </Routes>
       </BrowserRouter>
 
