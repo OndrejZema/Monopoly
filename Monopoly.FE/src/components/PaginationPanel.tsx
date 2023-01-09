@@ -7,6 +7,7 @@ interface Props {
     perPage: number
     perPageOptions: Array<number>
     total: number
+    label: string
 }
 
 export const PaginationPanel = (props: Props) => {
@@ -20,7 +21,7 @@ export const PaginationPanel = (props: Props) => {
             <Container>
                 <Row md="1" lg="2" xl="2" className='justify-content-between'>
                     <Col md={3} lg={3} xl={3}>
-                        <span>Games per page</span>
+                        <span>{props.label}</span>
                         <Select options={props.perPageOptions} />
                     </Col>
                     <Col md={9} lg={9} xl={9} className="d-flex justify-content-end align-items-end">

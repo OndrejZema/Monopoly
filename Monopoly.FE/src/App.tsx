@@ -8,6 +8,11 @@ import {
 } from "react-router-dom";
 import { CustomRoute } from './components/CustomRoute';
 import { Games } from './scenes/games/Games';
+import { GameEdit } from './scenes/gameEdit/GameEdit';
+import { CardTypes } from './scenes/cardTypes/CardTypes';
+import { FieldTypes } from './scenes/fieldTypes/FieldTypes';
+import { CardTypeEdit } from './scenes/cardTypeEdit/CardTypeEdit';
+import { FieldTypeEdit } from './scenes/fieldTypeEdit/FieldTypeEdit';
 
 function App() {
   return (
@@ -15,6 +20,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CustomRoute> <Games /> </CustomRoute>}></Route>
+          <Route path="/games/create" element={<CustomRoute> <GameEdit /> </CustomRoute>}></Route>
+          <Route path="/card-types" element={<CustomRoute> <CardTypes /> </CustomRoute>}></Route>
+          <Route path="/card-types/create" element={<CustomRoute> <CardTypeEdit /> </CustomRoute>}></Route>
+          <Route path="/field-types" element={<CustomRoute> <FieldTypes /> </CustomRoute>}></Route>
+          <Route path="/field-types/create" element={<CustomRoute> <FieldTypeEdit /> </CustomRoute>}></Route>
         </Routes>
       </BrowserRouter>
 

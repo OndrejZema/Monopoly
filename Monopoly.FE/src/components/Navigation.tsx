@@ -21,13 +21,13 @@ export const Navigation = () => {
                             </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link to="/" eventKey={2} as={Link}>
+                            <Nav.Link to="/card-types" eventKey={2} as={Link}>
                                 <FontAwesomeIcon icon={faAddressCard} className="me-1" ></FontAwesomeIcon>
                                 Card types
                             </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link to="/" eventKey={3} as={Link}>
+                            <Nav.Link to="/field-types" eventKey={3} as={Link}>
                                 <FontAwesomeIcon icon={faHouseFlag} className="me-1" ></FontAwesomeIcon>
                                 Field types
                             </Nav.Link>
