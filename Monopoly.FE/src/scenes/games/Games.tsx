@@ -5,12 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { PaginationPanel } from '../../components/PaginationPanel'
 import { Link } from 'react-router-dom'
+import { GlobalContext } from '../../store/GlobalContextProvider'
 
 let games = [{}, {}, {}]
 
 export const Games = () => {
 
-
+    const {gamesPaginationState, gamesPaginationDispatch} = React.useContext(GlobalContext)
 
     return (<>
         <div className="d-flex justify-content-center">
@@ -25,6 +26,13 @@ export const Games = () => {
         </Link>
         </div>
         {games.map(item => <Game />)}
-        <PaginationPanel label='Games per page' page={0} perPage={10} perPageOptions={[1, 2, 4]} total={30} />
+        <PaginationPanel 
+        label='Games per page' 
+        page={gamesPaginationState.page} 
+        perPage={gamesPaginationState.perPage} 
+        perPageOptions={gamesPaginationState.perPageOptions} 
+        total={30} 
+        dispatch={gamesPaginationDispatch}
+        />
     </>)
 }

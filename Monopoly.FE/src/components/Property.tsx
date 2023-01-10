@@ -14,8 +14,8 @@ interface Props {
 
 export const Property = (props: Props) => {
     return (
-        <>
-            <Form.Label>{props.label}</Form.Label>
+        <div className="mb-3">
+            <Form.Label className='mb-1'>{props.label}</Form.Label>
             {(props.type === "string" || props.type === "number") ?
                 (<Form.Control type={props.type}
                     onChange={(e) => { props.onChange(props.name, e.target.value) }}
@@ -24,6 +24,6 @@ export const Property = (props: Props) => {
                     <Select options={(props.options as any)}
                         onChange={(e) => {e && props.onChange(props.name, e)}}
                         value={props.value} /> : <>Chybny parametr</>)}
-        </>
+        </div>
     )
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 import { ItemEdit } from '../../components/ItemEdit'
-import { CardSchema, emptyCard, emptyCardType } from '../../schemas/Schemas'
-import { ICardType } from '../../types/MonopolyTypes'
+import { CardFormSchema, emptyCard, emptyCardType } from '../../schemas/Schemas'
+import { ICard } from '../../types/MonopolyTypes'
 
 export const CardEdit = () => {
     
-    const [card, setCard] = React.useState<ICardType>(emptyCard)
+    const [card, setCard] = React.useState<ICard>(emptyCard)
 
 
     return (
@@ -14,8 +14,8 @@ export const CardEdit = () => {
                 title='Card edit'
                 returnUrl='/cards'
                 saveUrl='/api/cards'
-                schema={CardSchema}
-                options={{type: [{label: "lb1", value: "val1"}]}}
+                schema={CardFormSchema}
+                options={{types: [{label: "lb1", value: "val1"}], games: [{label: "game 1", value: "game1"}]}}
                 data={card}
             />
         </>

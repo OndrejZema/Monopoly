@@ -1,6 +1,6 @@
 import React from 'react'
 import { ItemEdit } from '../../components/ItemEdit'
-import { CardTypeSchema, emptyCardType } from '../../schemas/Schemas'
+import { CardTypeFormSchema, emptyCardType } from '../../schemas/Schemas'
 import { ICardType } from '../../types/MonopolyTypes'
 
 export const CardTypeEdit = () => {
@@ -14,7 +14,7 @@ export const CardTypeEdit = () => {
                 title='Card type edit'
                 returnUrl='/card-types'
                 saveUrl='/api/card-types'
-                schema={CardTypeSchema}
+                schema={CardTypeFormSchema}
                 options={{}}
                 data={cardType}
             />

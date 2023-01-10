@@ -15,6 +15,10 @@ import { CardTypeEdit } from './scenes/cardTypeEdit/CardTypeEdit';
 import { FieldTypeEdit } from './scenes/fieldTypeEdit/FieldTypeEdit';
 import { CardEdit } from './scenes/cardEdit/CardEdit';
 import { Cards } from './scenes/cards/Cards';
+import { Fields } from './scenes/fields/Fields';
+import { FieldEdit } from './scenes/fieldEdit/FiledEdit';
+import { Banknotes } from './scenes/banknotes/Banknotes';
+import { BanknoteEdit } from './scenes/banknoteEdit/BanknoteEdit';
 
 function App() {
   return (
@@ -29,6 +33,10 @@ function App() {
           <Route path="/field-types/create" element={<CustomRoute> <FieldTypeEdit /> </CustomRoute>}></Route>
           <Route path="/cards" element={<CustomRoute> <Cards /> </CustomRoute>}></Route>
           <Route path="/cards/create" element={<CustomRoute> <CardEdit /> </CustomRoute>}></Route>
+          <Route path="/fields" element={<CustomRoute> <Fields /> </CustomRoute>}></Route>
+          <Route path="/fields/create" element={<CustomRoute> <FieldEdit /> </CustomRoute>}></Route>
+          <Route path="/banknotes" element={<CustomRoute> <Banknotes /> </CustomRoute>}></Route>
+          <Route path="/banknotes/create" element={<CustomRoute> <BanknoteEdit /> </CustomRoute>}></Route>
         </Routes>
       </BrowserRouter>
 

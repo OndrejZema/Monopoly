@@ -1,6 +1,6 @@
 import React from 'react'
 import { ItemEdit } from '../../components/ItemEdit'
-import { emptyFieldType, FieldTypeSchema } from '../../schemas/Schemas'
+import { emptyFieldType, FieldTypeFormSchema } from '../../schemas/Schemas'
 import {IFieldType} from '../../types/MonopolyTypes'
 
 export const FieldTypeEdit = () => {
@@ -13,7 +13,7 @@ export const FieldTypeEdit = () => {
                 title='Field type edit'
                 returnUrl='/field-types'
                 saveUrl='/api/file-types'
-                schema={FieldTypeSchema}
+                schema={FieldTypeFormSchema}
                 options={{}}
                 data={fieldType}
             />

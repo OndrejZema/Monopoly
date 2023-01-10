@@ -30,17 +30,22 @@ export const Game = () => {
                         </Link>
                     </Col>
                     <Col>
-                        <div className="border rounded cursor-pointer p-2 m-1 bg-white  game-card">
-                            <h6>Fields</h6>
-                            <hr className='my-1' />
-                            <div className="font-monospace">Total: 12312</div>
-                        </div>
-                    </Col>                    <Col>
-                        <div className="border rounded cursor-pointer p-2 m-1 bg-white  game-card">
-                            <h6>Banknotes</h6>
-                            <hr className='my-1' />
-                            <div className="font-monospace">Total: 12312</div>
-                        </div>
+                        <Link to="/fields" className='link'>
+                            <div className="border rounded cursor-pointer p-2 m-1 bg-white  game-card">
+                                <h6>Fields</h6>
+                                <hr className='my-1' />
+                                <div className="font-monospace">Total: 12312</div>
+                            </div>
+                        </Link>
+                    </Col>
+                    <Col>
+                        <Link to="/banknotes" className='link'>
+                            <div className="border rounded cursor-pointer p-2 m-1 bg-white  game-card">
+                                <h6>Banknotes</h6>
+                                <hr className='my-1' />
+                                <div className="font-monospace">Total: 12312</div>
+                            </div>
+                        </Link>
                     </Col>
                 </Row>
             </Container>

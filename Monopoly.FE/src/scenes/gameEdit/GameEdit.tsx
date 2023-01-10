@@ -1,6 +1,6 @@
 import React from 'react'
 import { ItemEdit } from '../../components/ItemEdit'
-import { emptyGame, GameSchema } from '../../schemas/Schemas'
+import { emptyGame, GameFormSchema } from '../../schemas/Schemas'
 import { IGame } from '../../types/MonopolyTypes'
 
 export const GameEdit = () => {
@@ -13,7 +13,7 @@ export const GameEdit = () => {
                 title='Game edit'
                 returnUrl='/'
                 saveUrl='/api/games'
-                schema={GameSchema}
+                schema={GameFormSchema}
                 options={{}}
                 data={game}
             />

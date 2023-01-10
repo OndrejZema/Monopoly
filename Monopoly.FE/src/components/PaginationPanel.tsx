@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Container, Pagination, Row } from 'react-bootstrap'
 import Select from 'react-select'
+import { IPaginationAction } from '../store/reducers/PaginationReducer'
 
 interface Props {
     page: number
@@ -8,6 +9,7 @@ interface Props {
     perPageOptions: Array<number>
     total: number
     label: string
+    dispatch: React.Dispatch<IPaginationAction>
 }
 
 export const PaginationPanel = (props: Props) => {

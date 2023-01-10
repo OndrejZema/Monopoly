@@ -8,8 +8,8 @@ export interface ICard{
     id?: number
     name: string
     description: string
-    type: ICardType
-    game: IGame
+    type?: ICardType
+    game?: IGame
 }
 export interface ICardType{
     id?: number
@@ -21,13 +21,13 @@ export interface IBanknote{
     value: number
     count: number
     unit: string
-    game: IGame
+    game?: IGame
 }
 export interface IField{
     id?: number
     name: string
-    type: IFieldType
-    game: IGame
+    type?: IFieldType
+    game?: IGame
 
 }
 export interface IFieldType{
