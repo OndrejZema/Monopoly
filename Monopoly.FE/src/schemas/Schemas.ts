@@ -80,22 +80,6 @@ export const CardFormSchema = {
                 },
                 required: ["value", "label"]
             }
-        },
-        games: {
-            type: "array",
-            title: "Games",
-            items: {
-                type: "object",
-                properties: {
-                    value: {
-                        type: "number"
-                    },
-                    label: {
-                        type: "string"
-                    }
-                },
-                required: ["value", "label"]
-            }
         }
     },
     required: ["name", "description", "types", "games"]
@@ -114,6 +98,7 @@ export const FieldFormSchema = {
         },
         types: {
             type: "array",
+            title: "Field type",
             items: {
                 type: "object",
                 properties: {
@@ -125,22 +110,6 @@ export const FieldFormSchema = {
                         type: "string",
                         title: "Name"
                     },
-                },
-                required: ["value", "label"]
-            }
-        },
-        games: {
-            type: "array",
-            title: "Games",
-            items: {
-                type: "object",
-                properties: {
-                    value: {
-                        type: "number"
-                    },
-                    label: {
-                        type: "string"
-                    }
                 },
                 required: ["value", "label"]
             }
@@ -164,22 +133,6 @@ export const BanknoteFormSchema = {
         unit: {
             type: "string",
             title: "Unit"
-        },
-        games: {
-            type: "array",
-            title: "Games",
-            items: {
-                type: "object",
-                properties: {
-                    value: {
-                        type: "number"
-                    },
-                    label: {
-                        type: "string"
-                    }
-                },
-                required: ["value", "label"]
-            }
         }
     },
     required: ["value", "count", "unit", "games"]

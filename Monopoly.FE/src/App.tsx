@@ -16,7 +16,7 @@ import { FieldTypeEdit } from './scenes/fieldTypeEdit/FieldTypeEdit';
 import { CardEdit } from './scenes/cardEdit/CardEdit';
 import { Cards } from './scenes/cards/Cards';
 import { Fields } from './scenes/fields/Fields';
-import { FieldEdit } from './scenes/fieldEdit/FiledEdit';
+import { FieldEdit } from './scenes/fieldEdit/FieldEdit';
 import { Banknotes } from './scenes/banknotes/Banknotes';
 import { BanknoteEdit } from './scenes/banknoteEdit/BanknoteEdit';
 

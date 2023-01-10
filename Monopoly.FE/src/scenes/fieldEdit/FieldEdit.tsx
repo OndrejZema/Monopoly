@@ -15,7 +15,7 @@ export const FieldEdit = () => {
                 returnUrl='/fields'
                 saveUrl='/api/fields'
                 schema={FieldFormSchema}
-                options={{types: [{label: "lb1", value: "val1"}], games: [{label: "Game 1", value: "game1"}]}}
+                options={{types: [{label: "lb1", value: "val1"}]}}
                 data={field}
             />
         </>
