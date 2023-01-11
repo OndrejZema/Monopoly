@@ -18,7 +18,7 @@ namespace Monopoly.Repository.Repositories
         {
             DbContext.CardTypes.Add(entity);
             DbContext.SaveChanges();
-            return null;
+            return entity;
         }
 
         public void Delete(int id)
@@ -39,7 +39,13 @@ namespace Monopoly.Repository.Repositories
 
         public CardType Update(CardType entity)
         {
-            throw new NotImplementedException();
+            DbContext.CardTypes.Update(entity);
+            DbContext.SaveChanges();
+            return entity;
+        }
+        public int Total()
+        {
+            return DbContext.FieldTypes.Count();
         }
     }
 }

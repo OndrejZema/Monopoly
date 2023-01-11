@@ -18,7 +18,7 @@ namespace Monopoly.Repository.Repositories
         {
             DbContext.Fields.Add(entity);
             DbContext.SaveChanges();
-            return null;
+            return entity;
         }
 
         public void Delete(int id)
@@ -39,7 +39,13 @@ namespace Monopoly.Repository.Repositories
 
         public Field Update(Field entity)
         {
-            throw new NotImplementedException();
+            DbContext.Fields.Update(entity);
+            DbContext.SaveChanges();
+            return entity;
+        }
+        public int Total()
+        {
+            return DbContext.Fields.Count();
         }
     }
 }

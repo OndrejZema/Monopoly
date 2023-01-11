@@ -15,19 +15,18 @@ namespace Monopoly.API.Controllers
         public BanknotesController(BanknoteService service) { 
             this.service = service; 
         }
-        [HttpGet("")]
+        [HttpGet]
         public List<Banknote> Index()
         {
+            Response.Headers.Add("X-Total-Count", service.Total().ToString());
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            Response.Headers.Add("Access-Control-Expose-Headers", "X-Total-Count");
             return service.GetAll();
         }
         [HttpGet("{id}")]
         public Banknote Details(int id)
         {
             return service.Get(id);
-        }
-        [HttpGet("/total")]
-        public int Total() { 
-            return service.Total();
         }
         [HttpPost]
         public Banknote Create(BanknoteVM banknote)

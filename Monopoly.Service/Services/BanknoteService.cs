@@ -17,8 +17,7 @@ namespace Monopoly.Service.Services
 
         public Banknote Create(Banknote entity)
         {
-            repository.Create(entity);
-            return null;
+            return repository.Create(entity);
         }
 
         public void Delete(int id)
@@ -36,13 +35,12 @@ namespace Monopoly.Service.Services
             return repository.GetAll();
         }
 
-        public int Total() { 
-            return repository.Total();
-        }
-
         public Banknote Update(Banknote entity)
         {
-            throw new NotImplementedException();
+            return repository.Update(entity);
+        }
+        public int Total() {
+            return repository.Total();
         }
     }
 }

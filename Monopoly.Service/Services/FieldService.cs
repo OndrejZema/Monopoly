@@ -1,10 +1,5 @@
-﻿using Monopoly.Repository.Repositories;
-using Monopoly.Model.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Monopoly.Model.Entities;
+using Monopoly.Repository.Repositories;
 
 namespace Monopoly.Service.Services
 {
@@ -12,14 +7,14 @@ namespace Monopoly.Service.Services
     {
 
         private FieldRepository repository;
-        public FieldService(FieldRepository repository) {
+        public FieldService(FieldRepository repository)
+        {
             this.repository = repository;
         }
 
         public Field Create(Field entity)
         {
-            repository.Create(entity);
-            return null;
+            return repository.Create(entity);
         }
 
         public void Delete(int id)
@@ -39,7 +34,11 @@ namespace Monopoly.Service.Services
 
         public Field Update(Field entity)
         {
-            throw new NotImplementedException();
+            return repository.Update(entity);
+        }
+        public int Total()
+        {
+            return repository.Total();
         }
     }
 }

@@ -5,7 +5,8 @@ import { paginationInitialState, paginationReducer } from '../../store/reducers/
 
 export const Banknotes = () => {
 
-    const [banknotesPaginationState, banknotesPaginationDispatch] = React.useReducer(paginationReducer, paginationInitialState)
+
+    const [banknotesPaginationState, banknotesPaginationDispatch] = React.useReducer(paginationReducer, paginationInitialState)    
 
     return (<>
         <ItemsPanel

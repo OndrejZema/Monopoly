@@ -9,5 +9,7 @@ public partial class Game
 
     public string Name { get; set; }
 
-    public long Complete { get; set; }
+    public string Description { get; set; }
+
+    public long IsComplete { get; set; }
 }

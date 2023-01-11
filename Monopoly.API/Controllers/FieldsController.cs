@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Monopoly.Repository.Repositories;
-using Monopoly.Service.Services;
+﻿using Microsoft.AspNetCore.Mvc;
 using Monopoly.Model.Entities;
+using Monopoly.Service.Services;
 using System.Collections.Generic;
 
 namespace Monopoly.API.Controllers
@@ -12,13 +10,17 @@ namespace Monopoly.API.Controllers
     public class FieldsController : ControllerBase
     {
         private FieldService service;
-        public FieldsController(FieldService service) { 
-            this.service= service;
+        public FieldsController(FieldService service)
+        {
+            this.service = service;
         }
 
         [HttpGet("")]
         public List<Field> Index()
         {
+            Response.Headers.Add("X-Total-Count", service.Total().ToString());
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            Response.Headers.Add("Access-Control-Expose-Headers", "X-Total-Count");
             return service.GetAll();
         }
         [HttpGet("{id}")]
@@ -32,14 +34,15 @@ namespace Monopoly.API.Controllers
             return service.Create(null);
         }
         [HttpPut]
-        public string Edit(int id, [FromBody] Field field)
+        public Field Edit([FromBody] Field field)
         {
-            return "";
+            return service.Update(field);
         }
         [HttpDelete]
-        public string Delete(int id)
+        public void Delete(int id)
         {
-            return "delete";
+            service.Delete(id);
         }
+
     }
 }

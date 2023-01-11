@@ -62,12 +62,9 @@ export const ItemsPanel = (props: Props) => {
                 </Table>
             </div>
             <PaginationPanel label={`{props.title} per page`}
-            page={props.paginationState.page}
-            perPage={props.paginationState.perPage}
-            perPageOptions={props.paginationState.perPageOptions}
-            total={30}
-            dispatch={props.paginationDispatch}
-        />
+                state={props.paginationState}
+                dispatch={props.paginationDispatch}
+            />
         </> : <div className="d-flex justify-content-center">
             <Spinner />
         </div>

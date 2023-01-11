@@ -16,8 +16,7 @@ namespace Monopoly.Service.Services
         }
         public Card Create(Card entity)
         {
-            repository.Create(entity);
-            return null;
+            return repository.Create(entity);
         }
 
         public void Delete(int id)
@@ -37,7 +36,10 @@ namespace Monopoly.Service.Services
 
         public Card Update(Card entity)
         {
-            throw new NotImplementedException();
+            return repository.Update(entity);
+        }
+        public int Total() { 
+            return repository.Total();  
         }
     }
 }

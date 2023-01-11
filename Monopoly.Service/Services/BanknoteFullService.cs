@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Service.Services
 {
-    public class FullBanknoteService
+    public class BanknoteFullService
     {
 
         private BanknoteRepository banknoteRepository;
 
         private GameRepository gameRepository;
-        public FullBanknoteService(BanknoteRepository banknoteRepository, GameRepository gameRepository)
+        public BanknoteFullService(BanknoteRepository banknoteRepository, GameRepository gameRepository)
         {
             this.banknoteRepository = banknoteRepository;
             this.gameRepository = gameRepository;
         }
 
-        public FullBanknote Get(int id)
+        public BanknoteFull Get(int id)
         {
 
             return null;
         }
 
-        public List<FullBanknote> GetAll()
+        public List<BanknoteFull> GetAll()
         {
             return null;
         }

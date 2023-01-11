@@ -18,6 +18,9 @@ namespace Monopoly.API.Controllers
         [HttpGet("")]
         public List<Card> Index()
         {
+            Response.Headers.Add("X-Total-Count", service.Total().ToString());
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            Response.Headers.Add("Access-Control-Expose-Headers", "X-Total-Count");
             return service.GetAll();
         }
         [HttpGet("{id}")]
@@ -31,14 +34,14 @@ namespace Monopoly.API.Controllers
             return service.Create(null);
         }
         [HttpPut]
-        public string Edit(int id, [FromBody]Card card)
+        public Card Edit(int id, [FromBody]Card card)
         {
-            return "";
+            return service.Update(card);
         }
         [HttpDelete]
-        public string Delete(int id)
+        public void Delete(int id)
         {
-            return "delete";
+            service.Delete(id);
         }
     }
 }

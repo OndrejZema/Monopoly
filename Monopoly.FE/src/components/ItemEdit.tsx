@@ -20,13 +20,18 @@ export const ItemEdit = (props: Props) => {
     const [data, setData] = React.useState<any>(props.data)
 
     const handleChange = (name: string, value: string | number) => {
-        setData({...data, [name]: value})
+        setData({ ...data, [name]: value })
     }
     return (
         <>
             <div className='d-flex justify-content-center'>
                 <h2>{props.title}</h2>
             </div>
+            { "game" in Object.keys(props.data) &&
+                <div className='d-flex justify-content-center'>
+                    <h2>{props.data.game.name}</h2>
+                </div>
+            }
             <div className="d-flex justify-content-between mb-2">
                 <Link to={props.returnUrl}>
                     <Button variant="outline-secondary">
@@ -52,7 +57,7 @@ export const ItemEdit = (props: Props) => {
             <div className='border rounded p-2'>
                 {Object.keys(props.schema.properties).map(item => <Property
                     name={item}
-                    label={ props.schema.properties[item]["title"]}
+                    label={props.schema.properties[item]["title"]}
                     type={props.schema.properties[item]["type"]}
                     options={props.options[item]}
                     onChange={handleChange}

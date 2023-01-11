@@ -18,7 +18,7 @@ namespace Monopoly.Repository.Repositories
         {
             DbContext.Games.Add(entity);
             DbContext.SaveChanges();
-            return null;
+            return entity;
         }
 
         public void Delete(int id)
@@ -36,12 +36,21 @@ namespace Monopoly.Repository.Repositories
         {
             return DbContext.Games.ToList();
         }
+        public List<Game> GetAll(int page, int perPage)
+        {
+            return DbContext.Games.ToList().Skip(perPage*page).Take(perPage).ToList();
+        }
 
         public Game Update(Game entity)
         {
             DbContext.Games.Update(entity);
             DbContext.SaveChanges();
-            return null;
+            return entity;
+            //return DbContext.Games.ToList().Find(game => game.Id == entity.Id);
+        }
+        public int Total()
+        {
+            return DbContext.Games.Count();
         }
     }
 }

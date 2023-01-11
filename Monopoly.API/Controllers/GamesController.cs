@@ -16,10 +16,14 @@ namespace Monopoly.API.Controllers
             this.service= service;
         }
 
-        [HttpGet("")]
-        public List<Game> Index()
+        //[HttpGet("{page}&{perPage}")]
+        [HttpGet]
+        public List<Game> Index(int page, int perPage)
         {
-            return service.GetAll();
+            Response.Headers.Add("X-Total-Count", service.Total().ToString());
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            Response.Headers.Add("Access-Control-Expose-Headers", "X-Total-Count");
+            return service.GetAll(page, perPage);
         }
         [HttpGet("{id}")]
         public Game Details(int id)
@@ -32,16 +36,15 @@ namespace Monopoly.API.Controllers
             return service.Create(null);
         }
         [HttpPut]
-        public string Edit(int id, [FromBody] Game game)
+        public Game Edit(int id, [FromBody] Game game)
         {
-            return "";
+            return service.Update(game);
         }
         [HttpDelete]
-        public string Delete(int id)
+        public void Delete(int id)
         {
-            return "delete";
+            service.Delete(id);
         }
-
 
     }
 }

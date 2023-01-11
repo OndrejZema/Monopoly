@@ -29,62 +29,94 @@ public partial class MonopolyDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("DataSource=D:\\source\\repos\\monopoly\\monopolyDB.db");
+        => optionsBuilder.UseSqlite("DataSource=D:\\source\\repos\\monopoly\\monopolydb.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Banknote>(entity =>
         {
-            entity.ToTable("Banknote");
+            entity.ToTable("banknote");
 
-            entity.HasIndex(e => e.Id, "IX_Banknote_Id").IsUnique();
+            entity.HasIndex(e => e.Id, "IX_banknote_id").IsUnique();
 
-            entity.Property(e => e.Unit).IsRequired();
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Count).HasColumnName("count");
+            entity.Property(e => e.GameId).HasColumnName("game_id");
+            entity.Property(e => e.Unit)
+                .IsRequired()
+                .HasColumnName("unit");
+            entity.Property(e => e.Value).HasColumnName("value");
         });
 
         modelBuilder.Entity<Card>(entity =>
         {
-            entity.ToTable("Card");
+            entity.ToTable("card");
 
-            entity.HasIndex(e => e.Id, "IX_Card_Id").IsUnique();
+            entity.HasIndex(e => e.Id, "IX_card_id").IsUnique();
 
-            entity.Property(e => e.Description).IsRequired();
-            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .IsRequired()
+                .HasColumnName("description");
+            entity.Property(e => e.GameId).HasColumnName("game_id");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasColumnName("name");
+            entity.Property(e => e.Type).HasColumnName("type");
         });
 
         modelBuilder.Entity<CardType>(entity =>
         {
-            entity.ToTable("CardType");
+            entity.ToTable("card_type");
 
-            entity.HasIndex(e => e.Id, "IX_CardType_Id").IsUnique();
+            entity.HasIndex(e => e.Id, "IX_card_type_id").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Name).HasColumnName("name");
         });
 
         modelBuilder.Entity<Field>(entity =>
         {
-            entity.ToTable("Field");
+            entity.ToTable("field");
 
-            entity.HasIndex(e => e.Id, "IX_Field_Id").IsUnique();
+            entity.HasIndex(e => e.Id, "IX_field_id").IsUnique();
 
-            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.GameId).HasColumnName("game_id");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasColumnName("name");
+            entity.Property(e => e.Type).HasColumnName("type");
         });
 
         modelBuilder.Entity<FieldType>(entity =>
         {
-            entity.ToTable("FieldType");
+            entity.ToTable("field_type");
 
-            entity.HasIndex(e => e.Id, "IX_FieldType_Id").IsUnique();
+            entity.HasIndex(e => e.Id, "IX_field_type_id").IsUnique();
 
-            entity.Property(e => e.Description).IsRequired();
-            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .IsRequired()
+                .HasColumnName("description");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.ToTable("Game");
+            entity.ToTable("game");
 
-            entity.HasIndex(e => e.Id, "IX_Game_Id").IsUnique();
+            entity.HasIndex(e => e.Id, "IX_game_id").IsUnique();
 
-            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.IsComplete).HasColumnName("is_complete");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasColumnName("name");
         });
 
         OnModelCreatingPartial(modelBuilder);

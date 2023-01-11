@@ -8,19 +8,16 @@ namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FullCardsController : ControllerBase
+    public class FieldsFullController : ControllerBase
     {
-        private FullCardService service;
-        public FullCardsController(FullCardService service) { 
+        private FieldFullService service;
+        public FieldsFullController(FieldFullService service) {
             this.service = service;
         }
-
-        public List<FullCard> Index() {
+        [HttpGet]
+        public List<FieldFull> Index()
+        {
             return service.GetAll();
-        }
-
-        public FullCard Detail(int index) {
-            return service.Get(index);
         }
     }
 }

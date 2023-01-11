@@ -2,6 +2,15 @@ export interface IGame{
     id?: number
     name: string
     description: string
+    complete: number
+}
+export interface IGamePreview{
+    id?: number
+    name: string
+    complete: boolean
+    cardsCount: number
+    fieldsCount: number
+    banknotesCount: number
 }
 
 export interface ICard{

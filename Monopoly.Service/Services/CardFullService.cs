@@ -9,21 +9,21 @@ using Monopoly.Model.Entities;
 
 namespace Monopoly.Service.Services
 {
-    public class FullCardService
+    public class CardFullService
     {
 
         private CardRepository cardRepository;
 
         private GameRepository gameRepository;
-        public FullCardService(CardRepository cardRepository, GameRepository gameRepository)
+        public CardFullService(CardRepository cardRepository, GameRepository gameRepository)
         {
             this.cardRepository= cardRepository;
             this.gameRepository = gameRepository;
         }
 
-        public FullCard Get(int id)
+        public CardFull Get(int id)
         {
-            FullCard fullCard = new FullCard();
+            CardFull fullCard = new CardFull();
             Card card = cardRepository.Get(id);
             fullCard.Id = card.Id;
             fullCard.Name = card.Name;
@@ -32,12 +32,12 @@ namespace Monopoly.Service.Services
             return fullCard;
         }
 
-        public List<FullCard> GetAll()
+        public List<CardFull> GetAll()
         {
-            List<FullCard> fullCards = new List<FullCard>();
+            List<CardFull> fullCards = new List<CardFull>();
             List<Game> games = gameRepository.GetAll();
             foreach (Card card in cardRepository.GetAll()) {
-                FullCard fullCard = new FullCard();
+                CardFull fullCard = new CardFull();
                 fullCard.Id = card.Id;
                 fullCard.Name = card.Name;
                 fullCard.Description = card.Description;

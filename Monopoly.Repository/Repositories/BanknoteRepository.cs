@@ -19,7 +19,7 @@ namespace Monopoly.Repository.Repositories
         {
             DbContext.Banknotes.Add(entity);
             DbContext.SaveChanges();
-            return null;
+            return entity;
         }
 
         public void Delete(int id)
@@ -40,7 +40,9 @@ namespace Monopoly.Repository.Repositories
 
         public Banknote Update(Banknote entity)
         {
-            throw new NotImplementedException();
+            DbContext.Banknotes.Update(entity);
+            DbContext.SaveChanges();
+            return entity;
         }
         public int Total() {
             return DbContext.Banknotes.Count();

@@ -17,8 +17,7 @@ namespace Monopoly.Service.Services
 
         public FieldType Create(FieldType entity)
         {
-            repository.Create(entity);
-            return null;
+            return repository.Create(entity);
         }
 
         public void Delete(int id)
@@ -38,7 +37,10 @@ namespace Monopoly.Service.Services
 
         public FieldType Update(FieldType entity)
         {
-            throw new NotImplementedException();
+            return repository.Update(entity);
+        }
+        public int Total() { 
+            return repository.Total();
         }
     }
 }

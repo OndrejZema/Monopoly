@@ -5,12 +5,17 @@ import { faCopy, faEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { Col, Container, Row } from 'react-bootstrap'
 import { PaginationPanel } from '../../../components/PaginationPanel'
 import { Link } from 'react-router-dom'
+import { IGamePreview } from '../../../types/MonopolyTypes'
 
-export const Game = () => {
+interface Props{
+    game: IGamePreview
+}
+
+export const Game = (props: Props) => {
     return (
         <div className='border p-2 mb-3 rounded cursor-pointer game'>
             <div className='d-flex justify-content-between align-items-end'>
-                <h4 className='mb-2'>Start wars</h4>
+                <h4 className='mb-2'>{props.game.name}</h4>
                 <div className='d-flex'>
                     <Button variant="outline-secondary" className="me-2"> <FontAwesomeIcon icon={faCopy} /> Clone</Button>
                     <Button variant="outline-success" className="me-2"> <FontAwesomeIcon icon={faEdit} /> Edit</Button>
@@ -25,7 +30,7 @@ export const Game = () => {
                             <div className="border rounded cursor-pointer p-2 m-1 bg-white game-card">
                                 <h6>Cards</h6>
                                 <hr className='my-1' />
-                                <div className="font-monospace">Total: 12312</div>
+                                <div className="font-monospace">Total: {props.game.cardsCount}</div>
                             </div>
                         </Link>
                     </Col>
@@ -34,7 +39,7 @@ export const Game = () => {
                             <div className="border rounded cursor-pointer p-2 m-1 bg-white  game-card">
                                 <h6>Fields</h6>
                                 <hr className='my-1' />
-                                <div className="font-monospace">Total: 12312</div>
+                                <div className="font-monospace">Total: {props.game.fieldsCount}</div>
                             </div>
                         </Link>
                     </Col>
@@ -43,7 +48,7 @@ export const Game = () => {
                             <div className="border rounded cursor-pointer p-2 m-1 bg-white  game-card">
                                 <h6>Banknotes</h6>
                                 <hr className='my-1' />
-                                <div className="font-monospace">Total: 12312</div>
+                                <div className="font-monospace">Total: {props.game.banknotesCount}</div>
                             </div>
                         </Link>
                     </Col>

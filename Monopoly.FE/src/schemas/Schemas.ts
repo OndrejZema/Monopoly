@@ -367,7 +367,8 @@ export const emptyCardType = {
 }
 export const emptyGame = {
     name: "",
-    description: ""
+    description: "",
+    complete: 1
 }
 export const emptyCard = {
     name: "",

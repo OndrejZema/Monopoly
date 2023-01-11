@@ -7,16 +7,14 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Repository.Model
 {
-    public class FullBanknote
+    public class FieldFull
     {
         public long Id { get; set; }
 
-        public long Value { get; set; }
+        public string Name { get; set; }
 
-        public long Count { get; set; }
+        public FieldType Type { get; set; }
 
-        public string Unit { get; set; }
-
-        public Game CurrentGame{ get; set; }
+        public Game GameId { get; set; }
     }
 }

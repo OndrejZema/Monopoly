@@ -17,8 +17,7 @@ namespace Monopoly.Service.Services
 
         public Game Create(Game entity)
         {
-            repository.Create(entity);
-            return null;
+            return repository.Create(entity);
         }
 
         public void Delete(int id)
@@ -35,10 +34,17 @@ namespace Monopoly.Service.Services
         {
             return repository.GetAll();
         }
+        public List<Game> GetAll(int page, int perPage)
+        {
+            return repository.GetAll(page, perPage);
+        }
 
         public Game Update(Game entity)
         {
-            throw new NotImplementedException();
+            return repository.Update(entity);
+        }
+        public int Total() {
+            return repository.Total();
         }
     }
 }

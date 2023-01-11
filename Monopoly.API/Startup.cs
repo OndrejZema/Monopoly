@@ -39,16 +39,21 @@ namespace Monopoly.API
             services.AddSingleton<BanknoteRepository>();
             
             services.AddSingleton<CardService>();
+            services.AddSingleton<CardFullService>();
             services.AddSingleton<CardTypeService>();
             services.AddSingleton<FieldService>();
+            services.AddSingleton<FieldFullService>();
             services.AddSingleton<FieldTypeService>();
             services.AddSingleton<GameService>();
+            services.AddSingleton<GamePreviewService>();
             services.AddSingleton<BanknoteService>();
+            services.AddSingleton<BanknoteFullService>();
             
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Monopoly.API", Version = "v1" });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +74,7 @@ namespace Monopoly.API
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllers();
             });
         }

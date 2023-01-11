@@ -19,10 +19,11 @@ import { Fields } from './scenes/fields/Fields';
 import { FieldEdit } from './scenes/fieldEdit/FieldEdit';
 import { Banknotes } from './scenes/banknotes/Banknotes';
 import { BanknoteEdit } from './scenes/banknoteEdit/BanknoteEdit';
+import { GlobalContextProvider } from './store/GlobalContextProvider';
 
 function App() {
   return (
-    <div>
+    <GlobalContextProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CustomRoute> <Games /> </CustomRoute>}></Route>
@@ -40,7 +41,7 @@ function App() {
         </Routes>
       </BrowserRouter>
 
-    </div>
+    </GlobalContextProvider>
   );
 }
 
