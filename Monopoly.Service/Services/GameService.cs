@@ -1,23 +1,25 @@
-﻿using Monopoly.Repository.Repositories;
-using Monopoly.Model.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Monopoly.Repository.DomainObjects;
+using Monopoly.Repository.Repositories;
+using Monopoly.Service.ViewModels;
 
 namespace Monopoly.Service.Services
 {
     public class GameService
     {
         private GameRepository repository;
-        public GameService(GameRepository repository) {
+        public GameService(GameRepository repository)
+        {
             this.repository = repository;
         }
 
-        public Game Create(Game entity)
+        public GameVM Create(GameVM entity)
         {
-            return repository.Create(entity);
+            GameDO gameDO = new GameDO();
+            gameDO.Name = entity.Name;
+            gameDO.Description = entity.Description;
+
+            entity.Id = repository.Create(gameDO).Id;
+            return entity;
         }
 
         public void Delete(int id)
@@ -25,26 +27,46 @@ namespace Monopoly.Service.Services
             repository.Delete(id);
         }
 
-        public Game Get(int id)
+        public GameVM Get(int id)
         {
-            return repository.Get(id);
+            GameVM gameVM = new GameVM();
+            GameDO gameDO = repository.Get(id);
+            gameVM.Id = gameDO.Id;
+            gameVM.Name = gameDO.Name;
+            gameVM.Description = gameDO.Description;
+            gameVM.IsCompleted= gameDO.IsCompleted;
+            return gameVM;
+        }
+        public List<GameVM> GetAll(int page, int perPage)
+        {
+            List<GameDO> gamesDO = repository.GetAll(page, perPage);
+            List<GameVM> gamesVM = new List<GameVM>();
+
+            gamesDO.ForEach(gameDO =>
+            {
+                GameVM gameVM = new GameVM();
+                gameVM.Id = gameDO.Id;
+                gameVM.Name = gameDO.Name;
+                gameVM.Description = gameDO.Description;
+                gameVM.IsCompleted = gameDO.IsCompleted;
+                gamesVM.Add(gameVM);
+            });
+            return gamesVM;
+            
         }
 
-        public List<Game> GetAll()
+        public GameVM Update(GameVM entity)
         {
-            return repository.GetAll();
+            GameDO gameDO = new GameDO();
+            gameDO.Name = entity.Name;
+            gameDO.Description = entity.Description;
+            gameDO.Id = (long)entity.Id;
+            repository.Update(gameDO);
+            return entity;
         }
-        public List<Game> GetAll(int page, int perPage)
+        public int TotalCount()
         {
-            return repository.GetAll(page, perPage);
-        }
-
-        public Game Update(Game entity)
-        {
-            return repository.Update(entity);
-        }
-        public int Total() {
-            return repository.Total();
+            return repository.TotalCount();
         }
     }
 }

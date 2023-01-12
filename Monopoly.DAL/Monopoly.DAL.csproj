@@ -21,8 +21,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Monopoly.Model\Monopoly.Model.csproj" />
-  </ItemGroup>
-
 </Project>

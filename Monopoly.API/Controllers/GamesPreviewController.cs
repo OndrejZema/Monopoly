@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Monopoly.Repository.Model;
+using Monopoly.Service.ViewModels;
 using Monopoly.Service.Services;
 using System.Collections.Generic;
 
@@ -17,9 +17,9 @@ namespace Monopoly.API.Controllers
             this.gameService = gameService;
         }
         [HttpGet]
-        public List<GamePreviewDO> Index(int page, int perPage)
+        public List<GamePreviewVM> Index(int page, int perPage)
         {
-            Response.Headers.Add("X-Total-Count", gameService.Total().ToString());
+            Response.Headers.Add("X-Total-Count", gameService.TotalCount().ToString());
             return service.GetAll(page, perPage);
         }
     }

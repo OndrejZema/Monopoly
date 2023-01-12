@@ -1,4 +1,4 @@
-﻿using Monopoly.Repository.Model;
+﻿using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;
 using System;
@@ -32,7 +32,7 @@ namespace Monopoly.Service.Services
             {
                 Id= (int)game.Id,
                 Name= game.Name,
-                IsCompleted = game.IsCompleted == 1?true:false,
+                IsCompleted = game.IsCompleted,
                 CardsCount = cardRepository.GetAll().Where(card => card.GameId == game.Id).Count(),
                 FieldsCount = fieldRepository.GetAll().Where(field => field.GameId == game.Id).Count(),
                 BanknotesCount = banknoteRepository.GetAll().Where(banknote => banknote.GameId == game.Id).Count()

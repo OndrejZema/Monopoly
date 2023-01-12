@@ -1,7 +1,6 @@
-﻿using Monopoly.DAL;
-using Monopoly.Model.Entities;
+﻿using Monopoly.DAL.Entities;
 using Monopoly.Repository.DomainObjects;
-
+using Monopoly.DAL;
 namespace Monopoly.Repository.Repositories
 {
     public class GameRepository : BaseRepository, IRepository<GameDO>
@@ -62,7 +61,6 @@ namespace Monopoly.Repository.Repositories
             DbContext.SaveChanges();
             entity.Id = game.Id;
             return entity;
-            //return DbContext.Games.ToList().Find(game => game.Id == entity.Id);
         }
         public int TotalCount()
         {

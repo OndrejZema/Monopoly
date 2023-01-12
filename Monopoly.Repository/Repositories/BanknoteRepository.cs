@@ -1,6 +1,6 @@
-﻿using Monopoly.DAL;
-using Monopoly.Model.Entities;
+﻿using Monopoly.DAL.Entities;
 using Monopoly.Repository.DomainObjects;
+using Monopoly.DAL;
 namespace Monopoly.Repository.Repositories
 {
     public class BanknoteRepository : BaseRepository, IRepository<BanknoteDO>
@@ -15,7 +15,7 @@ namespace Monopoly.Repository.Repositories
             banknote.Unit = entity.Unit;
             banknote.Value = entity.Value;
             banknote.Count = entity.Count;
-            banknote.GameId = entity.Game.Id;
+            banknote.GameId = entity.GameId;
             DbContext.Banknotes.Add(banknote);
             DbContext.SaveChanges();
             entity.Id = banknote.Id;
@@ -33,19 +33,33 @@ namespace Monopoly.Repository.Repositories
             BanknoteDO banknoteDO = new BanknoteDO();
             Banknote banknote = DbContext.Banknotes.ToList().Find(banknote => banknote.Id == id);
 
-            Game game = DbContext.Games.ToList().Find(game => game.Id == banknote.GameId);
-            GameDO gameDO = new GameDO();
-            gameDO.Id = game.Id;
-            gameDO.Name = game.Name;
-            gameDO.Description = game.Description;
-
             banknoteDO.Id = banknote.Id;
             banknoteDO.Value = banknote.Value;
             banknoteDO.Count = banknote.Count;
             banknoteDO.Unit = banknote.Unit;
-            banknoteDO.Game = gameDO;
+            banknoteDO.GameId = banknote.GameId;
 
             return banknoteDO;
+        }
+        public List<BanknoteDO> GetAll()
+        {
+            List<Banknote> banknotes = DbContext.Banknotes.ToList();
+            List<BanknoteDO> banknotesDO = new List<BanknoteDO>();
+            banknotes.ForEach(banknote =>
+            {
+                BanknoteDO banknoteDO = new BanknoteDO();
+                
+
+                banknoteDO.Id = banknote.Id;
+                banknoteDO.Value = banknote.Value;
+                banknoteDO.Count = banknote.Count;
+                banknoteDO.Unit = banknote.Unit;
+                banknoteDO.GameId = banknote.GameId;
+
+                banknotesDO.Add(banknoteDO);
+
+            });
+            return banknotesDO;
         }
         public List<BanknoteDO> GetAll(int page, int perPage)
         {
@@ -54,17 +68,12 @@ namespace Monopoly.Repository.Repositories
             banknotes.ForEach(banknote =>
             {
                 BanknoteDO banknoteDO = new BanknoteDO();
-                Game game = DbContext.Games.ToList().Find(game => game.Id == banknote.GameId);
-                GameDO gameDO = new GameDO();
-                gameDO.Id = game.Id;
-                gameDO.Name = game.Name;
-                gameDO.Description = game.Description;
 
                 banknoteDO.Id = banknote.Id;
                 banknoteDO.Value = banknote.Value;
                 banknoteDO.Count = banknote.Count;
                 banknoteDO.Unit = banknote.Unit;
-                banknoteDO.Game = gameDO;
+                banknoteDO.GameId = banknote.GameId;
 
                 banknotesDO.Add(banknoteDO);
 
@@ -78,7 +87,7 @@ namespace Monopoly.Repository.Repositories
             banknote.Unit = entity.Unit;
             banknote.Value = entity.Value;
             banknote.Count = entity.Count;
-            banknote.GameId = entity.Game.Id;
+            banknote.GameId = entity.GameId;
             DbContext.Banknotes.Add(banknote);
             DbContext.SaveChanges();
             entity.Id = banknote.Id;

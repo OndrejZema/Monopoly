@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.Services;
-using Monopoly.Model.Entities;
 using System.Collections.Generic;
-using Monopoly.API.Models.ViewModels;
 using System.Linq;
-
+using Monopoly.Service.ViewModels;
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
@@ -18,30 +16,30 @@ namespace Monopoly.API.Controllers
             this.service = service; 
         }
         [HttpGet]
-        public List<Banknote> Index(int page, int perPage)
+        public List<BanknoteVM> Index(int page, int perPage)
         {
-            Response.Headers.Add("X-Total-Count", service.Total().ToString());
+            Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
             return service.GetAll(page, perPage);
         }
         [HttpGet("{id}")]
-        public Banknote Details(int id)
+        public BanknoteVM Details(int id)
         {
             return service.Get(id);
         }
         [HttpPost]
-        public Banknote Create([FromBody]BanknoteVM banknote)
+        public BanknoteVM Create([FromBody]BanknoteVM banknote)
         {
             return service.Create(banknote);
         }
         [HttpPut]
-        public Banknote Edit([FromBody] Banknote banknote)
+        public BanknoteVM Edit([FromBody] BanknoteVM banknote)
         {
             return service.Update(banknote);
         }
         [HttpDelete]
-        public string Delete(int id)
+        public void Delete(int id)
         {
-            return "delete";
+            service.Delete(id);
         }
     }
 }

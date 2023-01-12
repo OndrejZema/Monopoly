@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.API", "Monopoly.AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.DAL", "Monopoly.DAL\Monopoly.DAL.csproj", "{83B02464-37C9-4EAC-9396-3CD514B9CD01}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.Model", "Monopoly.Model\Monopoly.Model.csproj", "{D72239F2-2437-4165-B6A0-8B46B9E380CB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.Terminal", "Monopoly.Terminal\Monopoly.Terminal.csproj", "{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monopoly.Service", "Monopoly.Service\Monopoly.Service.csproj", "{D45AD455-B73C-412D-9A5D-712C997E62EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.Service", "Monopoly.Service\Monopoly.Service.csproj", "{D45AD455-B73C-412D-9A5D-712C997E62EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monopoly.Repository", "Monopoly.Repository\Monopoly.Repository.csproj", "{E469B1AE-1CBB-4C8D-9E10-3297BDC352C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.Repository", "Monopoly.Repository\Monopoly.Repository.csproj", "{E469B1AE-1CBB-4C8D-9E10-3297BDC352C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{83B02464-37C9-4EAC-9396-3CD514B9CD01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83B02464-37C9-4EAC-9396-3CD514B9CD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83B02464-37C9-4EAC-9396-3CD514B9CD01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D72239F2-2437-4165-B6A0-8B46B9E380CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D72239F2-2437-4165-B6A0-8B46B9E380CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D72239F2-2437-4165-B6A0-8B46B9E380CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D72239F2-2437-4165-B6A0-8B46B9E380CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}.Release|Any CPU.ActiveCfg = Release|Any CPU

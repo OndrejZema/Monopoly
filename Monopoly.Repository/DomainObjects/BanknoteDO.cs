@@ -10,6 +10,6 @@
 
         public string Unit { get; set; }
 
-        public GameDO Game{ get; set; }
+        public long GameId{ get; set; }
     }
 }

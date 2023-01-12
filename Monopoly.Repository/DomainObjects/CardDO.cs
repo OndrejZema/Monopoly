@@ -9,7 +9,7 @@
         public string Description { get; set; }
 
         public CardTypeDO Type { get; set; }
-
-        public GameDO Game { get; set; }
+        
+        public long GameId { get; set; }
     }
 }

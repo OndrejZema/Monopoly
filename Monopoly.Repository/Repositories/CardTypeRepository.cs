@@ -1,7 +1,6 @@
-﻿using Monopoly.DAL;
-using Monopoly.Model.Entities;
+﻿using Monopoly.DAL.Entities;
 using Monopoly.Repository.DomainObjects;
-
+using Monopoly.DAL;
 namespace Monopoly.Repository.Repositories
 {
     public class CardTypeRepository : BaseRepository, IRepository<CardTypeDO>

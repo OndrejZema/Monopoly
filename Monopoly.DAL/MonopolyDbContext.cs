@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Monopoly.Model.Entities;
+using Monopoly.DAL.Entities;
+
 namespace Monopoly.DAL;
 
 public partial class MonopolyDbContext : DbContext
@@ -55,6 +56,7 @@ public partial class MonopolyDbContext : DbContext
             entity.HasIndex(e => e.Id, "IX_card_id").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CardTypeId).HasColumnName("card_type_id");
             entity.Property(e => e.Description)
                 .IsRequired()
                 .HasColumnName("description");
@@ -62,7 +64,6 @@ public partial class MonopolyDbContext : DbContext
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnName("name");
-            entity.Property(e => e.Type).HasColumnName("type");
         });
 
         modelBuilder.Entity<CardType>(entity =>
@@ -83,11 +84,14 @@ public partial class MonopolyDbContext : DbContext
             entity.HasIndex(e => e.Id, "IX_field_id").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .IsRequired()
+                .HasColumnName("description");
+            entity.Property(e => e.FieldTypeId).HasColumnName("field_type_id");
             entity.Property(e => e.GameId).HasColumnName("game_id");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnName("name");
-            entity.Property(e => e.Type).HasColumnName("type");
         });
 
         modelBuilder.Entity<FieldType>(entity =>
@@ -113,7 +117,7 @@ public partial class MonopolyDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.IsComplete).HasColumnName("is_complete");
+            entity.Property(e => e.IsCompleted).HasColumnName("is_completed");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnName("name");

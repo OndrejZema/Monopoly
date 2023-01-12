@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.Services;
-using Monopoly.Model.Entities;
 using System.Collections.Generic;
-
+using Monopoly.Service.ViewModels;
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
@@ -17,23 +16,23 @@ namespace Monopoly.API.Controllers
         }   
 
         [HttpGet("")]
-        public List<FieldType> Index(int page, int perPage)
+        public List<FieldTypeVM> Index(int page, int perPage)
         {
-            Response.Headers.Add("X-Total-Count", service.Total().ToString());
+            Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
             return service.GetAll(page, perPage);
         }
         [HttpGet("{id}")]
-        public FieldType Details(int id)
+        public FieldTypeVM Details(int id)
         {
             return service.Get(id);
         }
         [HttpPost]
-        public FieldType Create([FromBody] FieldType fieldType)
+        public FieldTypeVM Create([FromBody] FieldTypeVM fieldType)
         {
-            return service.Create(null);
+            return service.Create(fieldType);
         }
         [HttpPut]
-        public FieldType Edit([FromBody] FieldType fieldType)
+        public FieldTypeVM Edit([FromBody] FieldTypeVM fieldType)
         {
             return service.Update(fieldType);
         }

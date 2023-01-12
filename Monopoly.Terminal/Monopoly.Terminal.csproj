@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Monopoly.DAL\Monopoly.DAL.csproj" />
-    <ProjectReference Include="..\Monopoly.Model\Monopoly.Model.csproj" />
     <ProjectReference Include="..\Monopoly.Repository\Monopoly.Repository.csproj" />
     <ProjectReference Include="..\Monopoly.Service\Monopoly.Service.csproj" />
   </ItemGroup>

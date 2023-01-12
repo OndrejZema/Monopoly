@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.Services;
-using Monopoly.Model.Entities;
 using System.Collections.Generic;
-
+using Monopoly.Service.ViewModels;
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
@@ -18,23 +17,23 @@ namespace Monopoly.API.Controllers
 
         //[HttpGet("{page}&{perPage}")]
         [HttpGet]
-        public List<Game> Index(int page, int perPage)
+        public List<GameVM> Index(int page, int perPage)
         {
-            Response.Headers.Add("X-Total-Count", service.Total().ToString());
+            Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
             return service.GetAll(page, perPage);
         }
         [HttpGet("{id}")]
-        public Game Details(int id)
+        public GameVM Details(int id)
         {
             return service.Get(id);
         }
         [HttpPost]
-        public Game Create([FromBody] Game game)
+        public GameVM Create([FromBody] GameVM game)
         {
-            return service.Create(null);
+            return service.Create(game);
         }
         [HttpPut]
-        public Game Edit(int id, [FromBody] Game game)
+        public GameVM Edit([FromBody] GameVM game)
         {
             return service.Update(game);
         }

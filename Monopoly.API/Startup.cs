@@ -37,18 +37,14 @@ namespace Monopoly.API
             services.AddSingleton<FieldTypeRepository>();
             services.AddSingleton<GameRepository>();
             services.AddSingleton<BanknoteRepository>();
-            
             services.AddSingleton<CardService>();
-            services.AddSingleton<CardFullService>();
             services.AddSingleton<CardTypeService>();
             services.AddSingleton<FieldService>();
-            services.AddSingleton<FieldFullService>();
             services.AddSingleton<FieldTypeService>();
             services.AddSingleton<GameService>();
             services.AddSingleton<GamePreviewService>();
             services.AddSingleton<BanknoteService>();
-            services.AddSingleton<BanknoteFullService>();
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Monopoly.API", Version = "v1" });

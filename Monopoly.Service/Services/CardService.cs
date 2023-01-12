@@ -1,73 +1,103 @@
 ﻿using Monopoly.Repository.Repositories;
-using Monopoly.Repository.Model;
 using Monopoly.Service.ViewModels;
-using Monopoly.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monopoly.Repository.DomainObjects;
 
 namespace Monopoly.Service.Services
 {
     public class CardService
     {
-        private CardRepository cardRepo;
-        private GameRepository gameRepo;
-        public CardService(CardRepository cardRepo, GameRepository gameRepo)
+        private CardRepository repository;
+        public CardService(CardRepository repository)
         {
-            this.cardRepo = cardRepo;
-            this.gameRepo = gameRepo;
+            this.repository = repository;
         }
         public CardVM Create(CardVM entity)
         {
-            return cardRepo.Create(entity);
+            CardDO cardDO = new CardDO();
+
+            CardTypeDO cardTypeDO = new CardTypeDO();
+            cardTypeDO.Name = entity.Type.Name;
+            cardTypeDO.Description = entity.Type.Description;
+
+            cardDO.Name = entity.Name;
+            cardDO.Description = entity.Description;
+            cardDO.GameId = entity.GameId;
+            cardDO.Type = cardTypeDO;
+            entity.Id = repository.Create(cardDO).Id;
+            return entity;
         }
 
         public void Delete(int id)
         {
-            cardRepo.Delete(id);
+            repository.Delete(id);
         }
 
         public CardVM Get(int id)
         {
-            CardDO card = new CardDO();
-            Model.Entities.Card cardDTO = cardRepo.Get(id);
-            card.Id = card.Id;
-            card.Name = card.Name;
-            card.Description = card.Description;
-            card.Game = gameRepo.GetAll().Find(game => game.Id == cardDTO.GameId);
-            return card;
-        }
-        public List<CardVM> GetAll()
-        {
+            CardDO cardDO = repository.Get(id);
+            CardTypeVM cardTypeVM= new CardTypeVM();
+            cardTypeVM.Id= cardDO.Type.Id;
+            cardTypeVM.Name = cardDO.Type.Name;
+            cardTypeVM.Description= cardDO.Type.Description;
 
-            List<CardVM> fullCards = new List<CardDO>();
-            List<GameDO> games = gameRepository.GetAll();
-            foreach (Model.Entities.Card card in cardRepository.GetAll())
-            {
-                CardDO fullCard = new CardDO();
-                fullCard.Id = card.Id;
-                fullCard.Name = card.Name;
-                fullCard.Description = card.Description;
-                fullCard.CurrentGame = games.Find(game => game.Id == card.GameId);
-                fullCards.Add(fullCard);
-            }
-            return fullCards;
-
-            return repository.GetAll();
+            CardVM cardVM= new CardVM();
+            cardVM.Id = cardDO.Id;
+            cardVM.Name = cardDO.Name;
+            cardVM.Description = cardDO.Description;
+            cardVM.GameId = cardDO.GameId;
+            cardVM.Type= cardTypeVM;
+            return cardVM;
         }
+
         public List<CardVM> GetAll(int page, int perPage)
         {
-            return cardRepo.GetAll(page, perPage);
+            List<CardDO> cardsDO =  repository.GetAll(page, perPage);
+            List<CardVM> cardsVM = new List<CardVM>();
+            cardsDO.ForEach(cardDO =>
+            {
+                CardTypeVM cardTypeVM = new CardTypeVM();
+                cardTypeVM.Id = cardDO.Type.Id;
+                cardTypeVM.Name = cardDO.Type.Name;
+                cardTypeVM.Description = cardDO.Type.Description;
+
+                CardVM cardVM = new CardVM();
+                cardVM.Id = cardDO.Id;
+                cardVM.Name = cardDO.Name;
+                cardVM.Description = cardDO.Description;
+                cardVM.GameId = cardDO.GameId;
+                cardVM.Type = cardTypeVM;
+                cardsVM.Add(cardVM);
+            });
+            return cardsVM;
+
         }
 
         public CardVM Update(CardVM entity)
         {
-            return cardRepo.Update(entity);
+            CardDO cardDO = new CardDO();
+
+            CardTypeDO cardTypeDO = new CardTypeDO();
+            cardTypeDO.Id = (long)entity.Type.Id;
+            cardTypeDO.Name = entity.Type.Name;
+            cardTypeDO.Description = entity.Type.Description;
+            
+            cardDO.Name = entity.Name;
+            cardDO.Description = entity.Description;
+            cardDO.GameId = entity.GameId;
+            cardDO.Type = cardTypeDO;
+
+
+            repository.Update(cardDO);
+            entity.Id = repository.Create(cardDO).Id;
+            return entity;
         }
         public int TotalCount() { 
-            return cardRepo.Total();  
+            return repository.TotalCount();  
         }
     }
 }

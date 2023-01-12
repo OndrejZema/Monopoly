@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.Services;
-using Monopoly.Model.Entities;
 using System.Collections.Generic;
+using Monopoly.Service.ViewModels;
 
 namespace Monopoly.API.Controllers
 {
@@ -16,23 +16,23 @@ namespace Monopoly.API.Controllers
             this.service = service;
         }
         [HttpGet("")]
-        public List<Card> Index(int page, int perPage)
+        public List<CardVM> Index(int page, int perPage)
         {
-            Response.Headers.Add("X-Total-Count", service.Total().ToString());
+            Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
             return service.GetAll(page, perPage);
         }
         [HttpGet("{id}")]
-        public Card Details(int id)
+        public CardVM Details(int id)
         {
             return service.Get(id);
         }
         [HttpPost]
-        public Card Create(IFormCollection collection)
+        public CardVM Create([FromBody] CardVM card)
         {
             return service.Create(null);
         }
         [HttpPut]
-        public Card Edit(int id, [FromBody]Card card)
+        public CardVM Edit([FromBody]CardVM card)
         {
             return service.Update(card);
         }
