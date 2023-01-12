@@ -1,0 +1,33 @@
+@startuml
+
+package "WEB"{
+    [FE]
+    [View models]
+}
+
+package "API"{
+    [Controllers]
+}
+package "Service"{
+    [Services]
+    [Viewmodels]
+}
+package "Repository"{
+    [Repositories]
+    [Domain objects]
+}
+package "DAL"{
+    [DbConnector]
+    [Data transfer objects]
+}
+[FE] --> [Controllers] : VM
+[Controllers] --> [Services] : VM
+[Services] --> [Repositories] : DO
+[Repositories] --> [DbConnector] : DTO
+
+[FE] <-- [Controllers] : VM
+[Controllers] <-- [Services] : VM
+[Services] <-- [Repositories] : DO
+[Repositories] <-- [DbConnector] : DTO
+
+@enduml

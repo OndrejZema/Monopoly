@@ -11,13 +11,16 @@ namespace Monopoly.API.Controllers
     public class GamesPreviewController : ControllerBase
     {
         private GamePreviewService service;
-        public GamesPreviewController(GamePreviewService service) {
+        private GameService gameService;
+        public GamesPreviewController(GamePreviewService service, GameService gameService) {
             this.service = service;
+            this.gameService = gameService;
         }
         [HttpGet]
-        public List<GamePreview> Index()
+        public List<GamePreviewDO> Index(int page, int perPage)
         {
-            return service.GetAll();
+            Response.Headers.Add("X-Total-Count", gameService.Total().ToString());
+            return service.GetAll(page, perPage);
         }
     }
 }

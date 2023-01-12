@@ -1,4 +1,4 @@
-﻿namespace Monopoly.API.Models.ViewModels
+﻿namespace Monopoly.Service.ViewModels
 {
     public class BanknoteVM
     {
@@ -8,6 +8,6 @@
 
         public string Unit { get; set; }
 
-        public long GameId { get; set; }
+        public GameVM Game { get; set; }
     }
 }

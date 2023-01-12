@@ -1,6 +1,6 @@
-﻿namespace Monopoly.API.Models.ViewModels
+﻿namespace Monopoly.Service.ViewModels
 {
-    public class FieldTypeVM
+    public class CardTypeVM
     {
         public string Name { get; set; }
 

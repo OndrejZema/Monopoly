@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monopoly.Service.ViewModels;
 
 namespace Monopoly.Service.Services
 {
@@ -15,8 +16,9 @@ namespace Monopoly.Service.Services
             this.repository = repository;
         }
 
-        public Banknote Create(Banknote entity)
+        public BanknoteVM Create(BanknoteVM entity)
         {
+
             return repository.Create(entity);
         }
 
@@ -25,21 +27,25 @@ namespace Monopoly.Service.Services
             repository.Delete(id);
         }
 
-        public Banknote Get(int id)
+        public BanknoteVM Get(int id)
         {
             return repository.Get(id);
         }
-
-        public List<Banknote> GetAll()
+        public List<BanknoteVM> GetAll()
         {
             return repository.GetAll();
         }
 
-        public Banknote Update(Banknote entity)
+        public List<BanknoteVM> GetAll(int page, int perPage)
+        {
+            return repository.GetAll(page, perPage);
+        }
+
+        public BanknoteVM Update(BanknoteVM entity)
         {
             return repository.Update(entity);
         }
-        public int Total() {
+        public int TotalCount() {
             return repository.Total();
         }
     }

@@ -5,6 +5,8 @@ using Monopoly.Service.Services;
 using Monopoly.Model.Entities;
 using System.Collections.Generic;
 using Monopoly.API.Models.ViewModels;
+using System.Linq;
+
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
@@ -16,12 +18,10 @@ namespace Monopoly.API.Controllers
             this.service = service; 
         }
         [HttpGet]
-        public List<Banknote> Index()
+        public List<Banknote> Index(int page, int perPage)
         {
             Response.Headers.Add("X-Total-Count", service.Total().ToString());
-            Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            Response.Headers.Add("Access-Control-Expose-Headers", "X-Total-Count");
-            return service.GetAll();
+            return service.GetAll(page, perPage);
         }
         [HttpGet("{id}")]
         public Banknote Details(int id)
@@ -29,12 +29,12 @@ namespace Monopoly.API.Controllers
             return service.Get(id);
         }
         [HttpPost]
-        public Banknote Create(BanknoteVM banknote)
+        public Banknote Create([FromBody]BanknoteVM banknote)
         {
-            return service.Create(null);
+            return service.Create(banknote);
         }
         [HttpPut]
-        public Banknote Edit(int id, [FromBody] Banknote banknote)
+        public Banknote Edit([FromBody] Banknote banknote)
         {
             return service.Update(banknote);
         }

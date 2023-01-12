@@ -16,12 +16,10 @@ namespace Monopoly.API.Controllers
             this.service = service;
         }
         [HttpGet("")]
-        public List<Card> Index()
+        public List<Card> Index(int page, int perPage)
         {
             Response.Headers.Add("X-Total-Count", service.Total().ToString());
-            Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            Response.Headers.Add("Access-Control-Expose-Headers", "X-Total-Count");
-            return service.GetAll();
+            return service.GetAll(page, perPage);
         }
         [HttpGet("{id}")]
         public Card Details(int id)

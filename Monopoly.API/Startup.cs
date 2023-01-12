@@ -67,6 +67,13 @@ namespace Monopoly.API
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("X-Total-Count");
+            });
 
             app.UseRouting();
 

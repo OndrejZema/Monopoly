@@ -11,7 +11,7 @@ public partial class Card
 
     public string Description { get; set; }
 
-    public long Type { get; set; }
+    public long CardTypeId { get; set; }
 
     public long GameId { get; set; }
 }

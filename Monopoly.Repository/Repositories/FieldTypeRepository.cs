@@ -6,45 +6,70 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Monopoly.DAL;
+using Monopoly.Repository.DomainObjects;
 
 namespace Monopoly.Repository.Repositories
 {
-    public class FieldTypeRepository : BaseRepository, IRepository<FieldType>
+    public class FieldTypeRepository : BaseRepository, IRepository<FieldTypeDO>
     {
         public FieldTypeRepository(MonopolyDbContext dbContext) : base(dbContext)
         {
         }
 
-        public FieldType Create(FieldType entity)
+        public FieldTypeDO Create(FieldTypeDO entity)
         {
-            DbContext.FieldTypes.Add(entity);
+            FieldType fieldType = new FieldType();
+            fieldType.Name = entity.Name;
+            fieldType.Description = entity.Description;
+
+            DbContext.FieldTypes.Add(fieldType);
             DbContext.SaveChanges();
+            entity.Id = fieldType.Id;
             return entity;
         }
 
         public void Delete(int id)
         {
-            DbContext.FieldTypes.Remove(Get(id));
+            DbContext.FieldTypes.Remove(DbContext.FieldTypes.ToList().Find(fieldType => fieldType.Id == id));
             DbContext.SaveChanges();
         }
 
-        public FieldType Get(int id)
+        public FieldTypeDO Get(int id)
         {
-            return DbContext.FieldTypes.ToList().Find(item => item.Id == id);
+            FieldType fieldType = DbContext.FieldTypes.ToList().Find(item => item.Id == id);
+            FieldTypeDO fieldTypeDO = new FieldTypeDO();
+            fieldTypeDO.Id = fieldType.Id;
+            fieldTypeDO.Name = fieldType.Name;  
+            fieldTypeDO.Description = fieldType.Description;  
+            return fieldTypeDO;
+        }
+        public List<FieldTypeDO> GetAll(int page, int perPage)
+        {
+            List<FieldType> fieldTypes = DbContext.FieldTypes.Skip(perPage * page).Take(perPage).ToList();
+            List<FieldTypeDO> fieldTypesDO = new List<FieldTypeDO>();
+            fieldTypes.ForEach(fieldType =>
+            {
+                FieldTypeDO fieldTypeDO = new FieldTypeDO();
+                fieldTypeDO.Id = fieldType.Id;
+                fieldTypeDO.Name = fieldType.Name;
+                fieldTypeDO.Description = fieldType.Description;
+                fieldTypesDO.Add(fieldTypeDO);
+            });
+            return fieldTypesDO;
         }
 
-        public List<FieldType> GetAll()
+        public FieldTypeDO Update(FieldTypeDO entity)
         {
-            return DbContext.FieldTypes.ToList();
-        }
+            FieldType fieldType = new FieldType();
+            fieldType.Name = entity.Name;
+            fieldType.Description = entity.Description;
 
-        public FieldType Update(FieldType entity)
-        {
-            DbContext.FieldTypes.Update(entity);
+            DbContext.FieldTypes.Update(fieldType);
             DbContext.SaveChanges();
+            entity.Id = fieldType.Id;
             return entity;
         }
-        public int Total()
+        public int TotalCount()
         {
             return DbContext.FieldTypes.Count();
         }

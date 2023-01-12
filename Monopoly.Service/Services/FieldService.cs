@@ -1,5 +1,6 @@
 ﻿using Monopoly.Model.Entities;
 using Monopoly.Repository.Repositories;
+using Monopoly.Service.ViewModels;
 
 namespace Monopoly.Service.Services
 {
@@ -12,7 +13,7 @@ namespace Monopoly.Service.Services
             this.repository = repository;
         }
 
-        public Field Create(Field entity)
+        public FieldVM Create(FieldVM entity)
         {
             return repository.Create(entity);
         }
@@ -22,21 +23,24 @@ namespace Monopoly.Service.Services
             repository.Delete(id);
         }
 
-        public Field Get(int id)
+        public FieldVM Get(int id)
         {
             return repository.Get(id);
         }
-
-        public List<Field> GetAll()
+        public List<FieldVM> GetAll()
         {
             return repository.GetAll();
         }
+        public List<FieldVM> GetAll(int page, int perPage)
+        {
+            return repository.GetAll(page, perPage);
+        }
 
-        public Field Update(Field entity)
+        public FieldVM Update(FieldVM entity)
         {
             return repository.Update(entity);
         }
-        public int Total()
+        public int TotalCount()
         {
             return repository.Total();
         }

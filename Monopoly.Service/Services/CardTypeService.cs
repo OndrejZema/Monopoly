@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monopoly.Service.ViewModels;
 
 namespace Monopoly.Service.Services
 {
@@ -14,27 +15,28 @@ namespace Monopoly.Service.Services
         public CardTypeService(CardTypeRepository repository) { 
             this.repository = repository;
         }
-        public CardType Create(CardType entity)
+        public CardTypeVM Create(CardTypeVM entity)
         {
             return repository.Create(entity);
         }
-
         public void Delete(int id)
         {
             repository.Delete(id);
         }
-
-        public CardType Get(int id)
+        public CardTypeVM Get(int id)
         {
             return repository.Get(id);
         }
-
-        public List<CardType> GetAll()
+        public List<CardTypeVM> GetAll()
         {
             return repository.GetAll();
         }
 
-        public CardType Update(CardType entity)
+        public List<CardTypeVM> GetAll(int page, int perPage)
+        {
+            return repository.GetAll(page, perPage);
+        }
+        public CardTypeVM Update(CardTypeVM entity)
         {
             return repository.Update(entity);
         }

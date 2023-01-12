@@ -1,49 +1,69 @@
-﻿using Monopoly.Model.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Monopoly.DAL;
+﻿using Monopoly.DAL;
+using Monopoly.Model.Entities;
+using Monopoly.Repository.DomainObjects;
 
 namespace Monopoly.Repository.Repositories
 {
-    public class CardTypeRepository : BaseRepository, IRepository<CardType>
+    public class CardTypeRepository : BaseRepository, IRepository<CardTypeDO>
     {
         public CardTypeRepository(MonopolyDbContext dbContext) : base(dbContext)
         {
         }
 
-        public CardType Create(CardType entity)
+        public CardTypeDO Create(CardTypeDO entity)
         {
-            DbContext.CardTypes.Add(entity);
+            CardType cardType = new CardType();
+            cardType.Name = entity.Name;
+            cardType.Description = entity.Description;
+
+            DbContext.CardTypes.Add(cardType);
             DbContext.SaveChanges();
+            entity.Id = cardType.Id;
             return entity;
         }
 
         public void Delete(int id)
         {
-            DbContext.CardTypes.Remove(Get(id));
+            DbContext.CardTypes.Remove(DbContext.CardTypes.ToList().Find(cardType => cardType.Id == id));
             DbContext.SaveChanges();
         }
 
-        public CardType Get(int id)
+        public CardTypeDO Get(int id)
         {
-            return DbContext.CardTypes.ToList().Find(item => item.Id == id);
+            CardType cardType = DbContext.CardTypes.ToList().Find(item => item.Id == id);
+            CardTypeDO cardTypeDO = new CardTypeDO();
+            cardTypeDO.Name = cardType.Name;
+            cardTypeDO.Description = cardType.Description;
+            return cardTypeDO;
         }
 
-        public List<CardType> GetAll()
+        public List<CardTypeDO> GetAll(int page, int perPage)
         {
-            return DbContext.CardTypes.ToList();
+
+            List<CardType> cardTypes = DbContext.CardTypes.Skip(perPage * page).Take(perPage).ToList();
+            List<CardTypeDO> cardTypesDO = new List<CardTypeDO>();
+            cardTypes.ForEach(cardType =>
+            {
+                CardTypeDO cardTypeDO = new CardTypeDO();
+                cardTypeDO.Name = cardType.Name;
+                cardTypeDO.Description = cardType.Description;
+                cardTypesDO.Add(cardTypeDO);
+            });
+            return cardTypesDO;
+
         }
 
-        public CardType Update(CardType entity)
+        public CardTypeDO Update(CardTypeDO entity)
         {
-            DbContext.CardTypes.Update(entity);
+            CardType cardType = new CardType();
+            cardType.Name = entity.Name;
+            cardType.Description = entity.Description;
+            DbContext.CardTypes.Update(cardType);
             DbContext.SaveChanges();
+            entity.Id = cardType.Id;
             return entity;
         }
-        public int Total()
+        public int TotalCount()
         {
             return DbContext.FieldTypes.Count();
         }

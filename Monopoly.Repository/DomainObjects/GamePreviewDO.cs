@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Monopoly.Repository.Model
+﻿namespace Monopoly.Repository.DomainObjects
 {
-    public class GamePreview
+    public class GamePreviewDO
     {
         public long Id { get; set; }
         public string Name { get; set; }
         public int CardsCount { get; set; }
         public int FieldsCount { get; set; }
         public int BanknotesCount { get; set; }
-        public long Complete { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monopoly.Service.ViewModels;
 
 namespace Monopoly.Service.Services
 {
@@ -14,8 +15,8 @@ namespace Monopoly.Service.Services
         public FieldTypeService(FieldTypeRepository repository) { 
             this.repository = repository;   
         }
-
-        public FieldType Create(FieldType entity)
+        
+        public FieldTypeVM Create(FieldTypeVM entity)
         {
             return repository.Create(entity);
         }
@@ -25,17 +26,20 @@ namespace Monopoly.Service.Services
             repository.Delete(id);
         }
 
-        public FieldType Get(int id)
+        public FieldTypeVM Get(int id)
         {
             return repository.Get(id);
         }
-
-        public List<FieldType> GetAll()
+        public List<FieldTypeVM> GetAll()
+        {
+            return repository.GetAll();
+        }
+        public List<FieldTypeVM> GetAll(int page, int perPage)
         {
             return repository.GetAll();
         }
 
-        public FieldType Update(FieldType entity)
+        public FieldTypeVM Update(FieldTypeVM entity)
         {
             return repository.Update(entity);
         }

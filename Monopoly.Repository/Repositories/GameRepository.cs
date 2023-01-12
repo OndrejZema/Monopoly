@@ -1,54 +1,70 @@
-﻿using Monopoly.Model.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Monopoly.DAL;
+﻿using Monopoly.DAL;
+using Monopoly.Model.Entities;
+using Monopoly.Repository.DomainObjects;
 
 namespace Monopoly.Repository.Repositories
 {
-    public class GameRepository : BaseRepository, IRepository<Game>
+    public class GameRepository : BaseRepository, IRepository<GameDO>
     {
         public GameRepository(MonopolyDbContext dbContext) : base(dbContext)
         {
         }
 
-        public Game Create(Game entity)
+        public GameDO Create(GameDO entity)
         {
-            DbContext.Games.Add(entity);
+            Game game = new Game();
+            game.Name = entity.Name;
+            game.Description = entity.Description;
+
+            DbContext.Games.Add(game);
             DbContext.SaveChanges();
+            entity.Id = game.Id;
             return entity;
         }
 
         public void Delete(int id)
         {
-            DbContext.Games.Remove(Get(id));
+            DbContext.Games.Remove(DbContext.Games.ToList().Find(game => game.Id == id));
             DbContext.SaveChanges();
         }
 
-        public Game Get(int id)
+        public GameDO Get(int id)
         {
-            return DbContext.Games.ToList().Find(item => item.Id == id);
+            Game game = DbContext.Games.ToList().Find(item => item.Id == id);
+            GameDO gameDO = new GameDO();
+            gameDO.Id = game.Id;
+            gameDO.Name = game.Name;
+            gameDO.Description = game.Description;
+            return gameDO;
         }
 
-        public List<Game> GetAll()
+        public List<GameDO> GetAll(int page, int perPage)
         {
-            return DbContext.Games.ToList();
-        }
-        public List<Game> GetAll(int page, int perPage)
-        {
-            return DbContext.Games.ToList().Skip(perPage*page).Take(perPage).ToList();
+            List<Game> games = DbContext.Games.ToList().Skip(perPage * page).Take(perPage).ToList();
+            List<GameDO> gamesDO = new List<GameDO>();
+            games.ForEach(game =>
+            {
+                GameDO gameDO = new GameDO();
+                gameDO.Id = game.Id;
+                gameDO.Name = game.Name;
+                gameDO.Description = game.Description;
+                gamesDO.Add(gameDO);
+            });
+            return gamesDO;
         }
 
-        public Game Update(Game entity)
+        public GameDO Update(GameDO entity)
         {
-            DbContext.Games.Update(entity);
+            Game game = new Game();
+            game.Name = entity.Name;
+            game.Description = entity.Description;
+            DbContext.Games.Update(game);
             DbContext.SaveChanges();
+            entity.Id = game.Id;
             return entity;
             //return DbContext.Games.ToList().Find(game => game.Id == entity.Id);
         }
-        public int Total()
+        public int TotalCount()
         {
             return DbContext.Games.Count();
         }

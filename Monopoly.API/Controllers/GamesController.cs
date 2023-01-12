@@ -21,8 +21,6 @@ namespace Monopoly.API.Controllers
         public List<Game> Index(int page, int perPage)
         {
             Response.Headers.Add("X-Total-Count", service.Total().ToString());
-            Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            Response.Headers.Add("Access-Control-Expose-Headers", "X-Total-Count");
             return service.GetAll(page, perPage);
         }
         [HttpGet("{id}")]
