@@ -4,7 +4,7 @@ import { ItemEdit } from '../../components/ItemEdit'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { CardFormSchema, emptyCard, emptyCardType } from '../../schemas/Schemas'
 import { GlobalContext } from '../../store/GlobalContextProvider'
-import { ICard } from '../../types/MonopolyTypes'
+import { ICard } from '../../types/ViewModels'
 
 export const CardEdit = () => {
     
@@ -32,7 +32,7 @@ export const CardEdit = () => {
                 })
         }
         else {
-            setCard({...emptyCard, game: gameState.game})
+            setCard({...emptyCard, gameId: gameState.game?.id!})
         }
     }, [])
 

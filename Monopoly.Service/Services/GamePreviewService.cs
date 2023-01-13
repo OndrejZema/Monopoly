@@ -1,4 +1,5 @@
-﻿using Monopoly.Repository.DomainObjects;
+﻿using Monopoly.DAL.Entities;
+using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Exceptions;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;
@@ -35,9 +36,9 @@ namespace Monopoly.Service.Services
             game.Name,
             game.Description,
             game.IsCompleted,
-            cardRepository.GetAll().Where(card => card.GameId == game.Id).Count(),
-            fieldRepository.GetAll().Where(field => field.GameId == game.Id).Count(),
-            banknoteRepository.GetAll().Where(banknote => banknote.GameId == game.Id).Count())
+            cardRepository.GetAll().Where(card => card.GameId == game.Id).ToList().Count(),
+            fieldRepository.GetAll().Where(field => field.GameId == game.Id).ToList().Count(),
+            banknoteRepository.GetAll().Where(banknote => banknote.GameId == game.Id).ToList().Count())
             ).ToList();
         }
     }

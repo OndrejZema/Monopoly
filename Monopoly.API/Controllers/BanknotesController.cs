@@ -18,13 +18,13 @@ namespace Monopoly.API.Controllers
         public BanknotesController(BanknoteService service) { 
             this.service = service; 
         }
-        [HttpGet]
-        public ActionResult<List<BanknoteVM>> Index(int page, int perPage)
+        [HttpGet("/api/games/{gameId}/[controller]")]
+        public ActionResult<List<BanknoteVM>> Index(int gameId, int page, int perPage)
         {
             Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
             try
             {
-                return Ok(service.GetAll(page, perPage));
+                return Ok(service.GetAll(gameId, page, perPage));
             }
             catch(NotFoundRecordException ex)
             {

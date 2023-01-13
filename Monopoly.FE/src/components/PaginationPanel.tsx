@@ -48,9 +48,6 @@ export const PaginationPanel = (props: Props) => {
 
         setPages([...temp]);
     }, [props])
-    React.useEffect(()=>{
-        console.log(pages)
-    }, [pages])
 
     return (
         <div className="border rounded p-2 mb-3">

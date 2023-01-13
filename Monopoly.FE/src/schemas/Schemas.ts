@@ -145,15 +145,23 @@ export const GameSchema = {
     properties: {
         id: {
             type: "number",
-            title: "Id"
+            title: "Id",
+            visible: true,
         },
         name: {
             type: "string",
-            title: "Name"
+            title: "Name",
+            visible: true,
         },
         description: {
             type: "string",
-            title: "Description"
+            title: "Description",
+            visible: true,
+        },
+        isCompleted: {
+            type: "boolean",
+            title: "Is completed",
+            visible: true,
         }
     },
     required: ["id", "name", "description"]
@@ -164,15 +172,18 @@ export const CardTypeSchema = {
     properties: {
         id: {
             type: "number",
-            title: "Id"
+            title: "Id",
+            visible: true,
         },
         name: {
             type: "string",
-            title: "Name"
+            title: "Name",
+            visible: true,
         },
         description: {
             type: "string",
-            title: "Description"
+            title: "Description",
+            visible: true,
         }
     },
     required: ["id", "name", "description"]
@@ -183,15 +194,18 @@ export const FieldTypeSchema = {
     properties: {
         id: {
             type: "number",
-            title: "Id"
+            title: "Id",
+            visible: true,
         },
         name: {
             type: "string",
-            title: "Name"
+            title: "Name",
+            visible: true,
         },
         description: {
             type: "string",
-            title: "Description"
+            title: "Description",
+            visible: true,
         }
     },
     required: ["id", "name", "description"]
@@ -203,19 +217,23 @@ export const CardSchema = {
     properties: {
         id: {
             type: "number",
-            title: "Id"
+            title: "Id",
+            visible: true,
         },
         name: {
             type: "string",
-            title: "Name"
+            title: "Name",
+            visible: true,
         },
         description: {
             type: "string",
-            title: "Description"
+            title: "Description",
+            visible: true,
         },
         type: {
             type: "object",
             title: "Card type",
+            visible: true,
             properties: {
                 id: {
                     type: "number",
@@ -232,27 +250,13 @@ export const CardSchema = {
             },
             required: ["id", "name", "description"]
         },
-        game: {
-            type: "object",
+        gameId: {
+            type: "number",
             title: "Game",
-            properties: {
-                id: {
-                    type: "number",
-                    title: "Id"
-                },
-                name: {
-                    type: "string",
-                    title: "Name"
-                },
-                description: {
-                    type: "string",
-                    title: "Description"
-                }
-            },
-            required: ["id", "name", "description"]
+            visible: false,
         }
     },
-    required: ["name", "description", "types", "games"]
+    required: ["id", "name", "description", "type", "gameId"]
 }
 export const FieldSchema = {
     type: "object",
@@ -260,19 +264,23 @@ export const FieldSchema = {
     properties: {
         id: {
             type: "number",
-            title: "Id"
+            title: "Id",
+            visible: true
         },
         name: {
             type: "string",
-            title: "Name"
+            title: "Name",
+            visible: true
         },
         description: {
             type: "string",
-            title: "Description"
+            title: "Description",
+            visible: true
         },
         type: {
             type: "object",
             title: "Field type",
+            visible: true,
             properties: {
                 id: {
                     type: "number",
@@ -290,27 +298,13 @@ export const FieldSchema = {
             required: ["id", "name", "description"]
         },
 
-        game: {
-            type: "object",
+        gameId: {
+            type: "number",
             title: "Game",
-            properties: {
-                id: {
-                    type: "number",
-                    title: "Id"
-                },
-                name: {
-                    type: "string",
-                    title: "Name"
-                },
-                description: {
-                    type: "string",
-                    title: "Description"
-                }
-            },
-            required: ["id", "name", "description"]
+            visible: false
         }
     },
-    required: ["name", "description", "type", "game"]
+    required: ["id", "name", "description", "type", "gameId"]
 }
 
 export const BanknoteSchema = {
@@ -319,41 +313,31 @@ export const BanknoteSchema = {
     properties: {
         id: {
             type: "number",
-            title: "Id"
+            title: "Id",
+            visible: true
         },
         value: {
             type: "number",
-            title: "Value"
+            title: "Value",
+            visible: true
         },
         count: {
             type: "number",
-            title: "Count"
+            title: "Count",
+            visible: true
         },
         unit: {
             type: "string",
-            title: "Unit"
+            title: "Unit",
+            visible: true
         },
-        game: {
-            type: "object",
+        gameId: {
+            type: "number",
             title: "Game",
-            properties: {
-                id: {
-                    type: "number",
-                    title: "Id"
-                },
-                name: {
-                    type: "string",
-                    title: "Name"
-                },
-                description: {
-                    type: "string",
-                    title: "Description"
-                }
-            },
-            required: ["id", "name", "description"]
+            visible: false
         }
     },
-    required: ["id", "value", "count", "unit", "game"]
+    required: ["id", "value", "count", "unit", "gameId"]
 }
 //#endregion "Data schemas"
 
@@ -368,25 +352,25 @@ export const emptyCardType = {
 export const emptyGame = {
     name: "",
     description: "",
-    complete: 1
+    isCompleted: false
 }
 export const emptyCard = {
     name: "",
     description: "",
     type: undefined,
-    game: undefined
+    game: -1
 }
 export const emptyField = {
     name: "",
     description: "",
     type: undefined,
-    game: undefined
+    game: -1
 }
 export const emptyBanknote = {
     value: 0,
     count: 0,
     unit: "",
-    game: undefined
+    game: -1
 
 }
 

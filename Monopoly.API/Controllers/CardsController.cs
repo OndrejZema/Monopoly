@@ -16,8 +16,8 @@ namespace Monopoly.API.Controllers
         {
             this.service = service;
         }
-        [HttpGet("")]
-        public ActionResult<List<CardVM>> Index(int page, int perPage)
+        [HttpGet("/api/games/{gameId}/[controller]")]
+        public ActionResult<List<CardVM>> Index(int gameId, int page, int perPage)
         {
             try
             {

@@ -17,17 +17,16 @@ namespace Monopoly.API.Controllers
             this.gameService = gameService;
         }
         [HttpGet]
-        public List<GamePreviewVM> Index(int page, int perPage)
+        public ActionResult<List<GamePreviewVM>> Index(int page, int perPage)
         {
             try
             {
                 Response.Headers.Add("X-Total-Count", gameService.TotalCount().ToString());
-                return service.GetAll(page, perPage);
+                return Ok(service.GetAll(page, perPage));
             }
             catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 404;
-                return null;
+                return NotFound();
             }
         }
     }

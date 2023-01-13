@@ -4,7 +4,7 @@ import { ItemEdit } from '../../components/ItemEdit'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { CardTypeFormSchema, emptyCardType } from '../../schemas/Schemas'
 import { GlobalContext } from '../../store/GlobalContextProvider'
-import { ICardType } from '../../types/MonopolyTypes'
+import { ICardType } from '../../types/ViewModels'
 
 export const CardTypeEdit = () => {
     const params = useParams()

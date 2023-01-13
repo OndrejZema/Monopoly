@@ -2,12 +2,13 @@ export interface IGame{
     id?: number
     name: string
     description: string
-    complete: number
+    isCompleted: boolean
 }
 export interface IGamePreview{
     id?: number
     name: string
-    complete: boolean
+    description: string
+    isCompleted: boolean
     cardsCount: number
     fieldsCount: number
     banknotesCount: number
@@ -18,29 +19,29 @@ export interface ICard{
     name: string
     description: string
     type?: ICardType
-    game?: IGame
+    gameId: number
 }
 export interface ICardType{
     id?: number
-    name: string
-    description: string
+    name?: string
+    description?: string
 }
 export interface IBanknote{
     id?: number
     value: number
     count: number
     unit: string
-    game?: IGame
+    gameId: number
 }
 export interface IField{
     id?: number
     name: string
     type?: IFieldType
-    game?: IGame
+    gameId: number
 
 }
 export interface IFieldType{
     id?: number
-    name: string
-    description: string
+    name?: string
+    description?: string
 }

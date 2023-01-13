@@ -17,7 +17,7 @@ namespace Monopoly.API.Controllers
         }
 
         [HttpGet("")]
-        public List<CardTypeVM> Index(int page, int perPage)
+        public ActionResult<List<CardTypeVM>> Index(int page, int perPage)
         {
             try
             {
@@ -26,12 +26,11 @@ namespace Monopoly.API.Controllers
             }
             catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 404;
-                return null;
+                return NotFound();
             }
         }
         [HttpGet("{id}")]
-        public CardTypeVM Details(int id)
+        public ActionResult<CardTypeVM> Details(int id)
         {
             try
             {
@@ -39,12 +38,11 @@ namespace Monopoly.API.Controllers
             }
             catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 404;
-                return null;
+                return NotFound();
             }
         }
         [HttpPost]
-        public CardTypeVM Create([FromBody] CardTypeVM cardType)
+        public ActionResult<CardTypeVM> Create([FromBody] CardTypeVM cardType)
         {
             try
             {
@@ -57,32 +55,28 @@ namespace Monopoly.API.Controllers
             }
         }
         [HttpPut]
-        public CardTypeVM Edit([FromBody] CardTypeVM cardType)
+        public ActionResult<CardTypeVM> Edit([FromBody] CardTypeVM cardType)
         {
             try
             {
                 return service.Update(cardType);
             }
-            catch (Exception ex)
+            catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 500;
-                return null;
+                return NotFound();
             }
         }
         [HttpDelete]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
                 service.Delete(id);
+                return Ok();
             }
             catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 404;
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = 500;
+                return NotFound();
             }
         }
     }

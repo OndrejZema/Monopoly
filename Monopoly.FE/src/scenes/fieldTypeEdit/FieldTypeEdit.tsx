@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { ItemEdit } from '../../components/ItemEdit'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { emptyFieldType, FieldTypeFormSchema } from '../../schemas/Schemas'
-import {IFieldType} from '../../types/MonopolyTypes'
+import {IFieldType} from '../../types/ViewModels'
 
 export const FieldTypeEdit = () => {
 

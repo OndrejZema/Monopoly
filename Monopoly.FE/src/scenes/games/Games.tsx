@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { PaginationPanel } from '../../components/PaginationPanel'
 import { Link } from 'react-router-dom'
 import { GlobalContext } from '../../store/GlobalContextProvider'
-import { IGamePreview } from '../../types/MonopolyTypes'
+import { IGamePreview } from '../../types/ViewModels'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { setTotalCount } from '../../store/actions/PaginationActions'
 
@@ -17,8 +17,7 @@ export const Games = () => {
     const [games, setGames] = React.useState<Array<IGamePreview>>()
 
     React.useEffect(() => {
-        console.log(gamesPaginationState)
-        fetch(`${process.env.REACT_APP_API}/games?page=${gamesPaginationState.page}&perPage=${gamesPaginationState.perPage}`)
+        fetch(`${process.env.REACT_APP_API}/gamespreview?page=${gamesPaginationState.page}&perPage=${gamesPaginationState.perPage}`)
             .then(data => {
                 if (!data.ok) {
                     throw new Error()
@@ -34,7 +33,6 @@ export const Games = () => {
                 return data.json()
             })
             .then(json => {
-                console.log(json)
                 setGames(json)
             })
             .catch(err => {

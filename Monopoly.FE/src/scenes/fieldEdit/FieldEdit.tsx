@@ -4,7 +4,7 @@ import { ItemEdit } from '../../components/ItemEdit'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { emptyField, FieldFormSchema, FieldTypeSchema } from '../../schemas/Schemas'
 import { GlobalContext } from '../../store/GlobalContextProvider'
-import { IField } from '../../types/MonopolyTypes'
+import { IField } from '../../types/ViewModels'
 
 export const FieldEdit = () => {
 
@@ -31,7 +31,7 @@ export const FieldEdit = () => {
                 })
         }
         else {
-            setField({...emptyField, game: gameState.game})
+            setField({...emptyField, gameId: gameState.game?.id!})
         }
     }, [])
 

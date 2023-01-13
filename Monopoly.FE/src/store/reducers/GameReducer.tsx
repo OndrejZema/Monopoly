@@ -1,4 +1,4 @@
-import { IBanknote, ICard, IField, IGame } from "../../types/MonopolyTypes"
+import { IBanknote, ICard, IField, IGame } from "../../types/ViewModels"
 
 export interface IGameState {
     game?: IGame

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ItemEdit } from '../../components/ItemEdit'
 import { emptyGame, GameFormSchema } from '../../schemas/Schemas'
-import { IGame } from '../../types/MonopolyTypes'
+import { IGame } from '../../types/ViewModels'
 
 export const GameEdit = () => {
 

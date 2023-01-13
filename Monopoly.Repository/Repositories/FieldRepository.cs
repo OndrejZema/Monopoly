@@ -61,8 +61,7 @@ namespace Monopoly.Repository.Repositories
         public List<FieldDO> GetAll()
         {
             List<Field> fields = DbContext.Fields.ToList();
-            List<FieldDO> fieldsDO = new List<FieldDO>();
-            fields.ForEach(field =>
+            return fields.Select(field =>
             {
                 FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == field.FieldTypeId).FirstOrDefault();
                 if (fieldType == null)
@@ -72,18 +71,15 @@ namespace Monopoly.Repository.Repositories
                 FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id,
                      fieldType.Name, fieldType.Description);
 
-                FieldDO fieldDO = new FieldDO(field.Id,
+                return new FieldDO(field.Id,
                     field.Name, field.Description, fieldTypeDO, field.GameId);
 
-                fieldsDO.Add(fieldDO);
-            });
-            return fieldsDO;
+            }).ToList();
         }
         public List<FieldDO> GetAll(int page, int perPage)
         {
             List<Field> fields = DbContext.Fields.Skip(perPage * page).Take(perPage).ToList();
-            List<FieldDO> fieldsDO = new List<FieldDO>();
-            fields.ForEach(field =>
+            return fields.Select(field =>
             {
                 FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == field.FieldTypeId).FirstOrDefault();
                 if (fieldType == null)
@@ -93,12 +89,10 @@ namespace Monopoly.Repository.Repositories
                 FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id,
                      fieldType.Name, fieldType.Description);
 
-                FieldDO fieldDO = new FieldDO(field.Id,
+                return new FieldDO(field.Id,
                     field.Name, field.Description, fieldTypeDO, field.GameId);
 
-                fieldsDO.Add(fieldDO);
-            });
-            return fieldsDO;
+            }).ToList();
         }
 
         public FieldDO Update(FieldDO entity)

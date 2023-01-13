@@ -5,7 +5,7 @@ import { faCopy, faEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { Col, Container, Row } from 'react-bootstrap'
 import { PaginationPanel } from '../../../components/PaginationPanel'
 import { Link } from 'react-router-dom'
-import { IGamePreview } from '../../../types/MonopolyTypes'
+import { IGamePreview } from '../../../types/ViewModels'
 
 interface Props{
     game: IGamePreview

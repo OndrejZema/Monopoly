@@ -4,7 +4,7 @@ import { ItemEdit } from '../../components/ItemEdit'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { BanknoteFormSchema, emptyBanknote, emptyCard, emptyCardType } from '../../schemas/Schemas'
 import { GlobalContext } from '../../store/GlobalContextProvider'
-import { IBanknote, ICardType } from '../../types/MonopolyTypes'
+import { IBanknote, ICardType } from '../../types/ViewModels'
 
 export const BanknoteEdit = () => {
 
@@ -30,7 +30,7 @@ export const BanknoteEdit = () => {
                 })
         }
         else {
-            setBanknote({...emptyBanknote, game: gameState.game})
+            setBanknote({...emptyBanknote, gameId: gameState.game?.id!})
         }
     }, [])
 

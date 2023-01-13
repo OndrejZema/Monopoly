@@ -59,10 +59,8 @@ namespace Monopoly.Repository.Repositories
         public List<CardDO> GetAll()
         {
             List<Card> cards = DbContext.Cards.ToList();
-            List<CardDO> cardsDO = new List<CardDO>();
-            cards.ForEach(card =>
+            return cards.Select(card =>
             {
-
                 CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == card.CardTypeId).FirstOrDefault();
                 if (cardType == null)
                 {
@@ -71,18 +69,13 @@ namespace Monopoly.Repository.Repositories
                 CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id,
                     cardType.Name, cardType.Description);
 
-                CardDO cardDO = new CardDO(card.Id,
-                    card.Name, card.Description,
-                    cardTypeDO, card.GameId);
-                cardsDO.Add(cardDO);
-            });
-            return cardsDO;
+                return new CardDO(card.Id, card.Name, card.Description, cardTypeDO, card.GameId);
+            }).ToList();
         }
         public List<CardDO> GetAll(int page, int perPage)
         {
             List<Card> cards = DbContext.Cards.Skip(perPage * page).Take(perPage).ToList();
-            List<CardDO> cardsDO = new List<CardDO>();
-            cards.ForEach(card =>
+            return cards.Select(card =>
             {
                 CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == card.CardTypeId).FirstOrDefault();
                 if (cardType == null)
@@ -92,12 +85,8 @@ namespace Monopoly.Repository.Repositories
                 CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id,
                     cardType.Name, cardType.Description);
 
-                CardDO cardDO = new CardDO(card.Id,
-                    card.Name, card.Description,
-                    cardTypeDO, card.GameId);
-                cardsDO.Add(cardDO);
-            });
-            return cardsDO;
+                return new CardDO(card.Id, card.Name, card.Description, cardTypeDO, card.GameId);
+            }).ToList();
         }
 
         public CardDO Update(CardDO entity)

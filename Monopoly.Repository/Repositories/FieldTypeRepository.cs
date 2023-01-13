@@ -53,14 +53,10 @@ namespace Monopoly.Repository.Repositories
         public List<FieldTypeDO> GetAll(int page, int perPage)
         {
             List<FieldType> fieldTypes = DbContext.FieldTypes.Skip(perPage * page).Take(perPage).ToList();
-            List<FieldTypeDO> fieldTypesDO = new List<FieldTypeDO>();
-            fieldTypes.ForEach(fieldType =>
+            return fieldTypes.Select(fieldType =>
             {
-                FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id,
-                    fieldType.Name, fieldType.Description);
-                fieldTypesDO.Add(fieldTypeDO);
-            });
-            return fieldTypesDO;
+                return new FieldTypeDO(fieldType.Id, fieldType.Name, fieldType.Description);
+            }).ToList();
         }
 
         public FieldTypeDO Update(FieldTypeDO entity)

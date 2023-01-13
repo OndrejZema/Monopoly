@@ -44,14 +44,11 @@ namespace Monopoly.Repository.Repositories
 
         public List<GameDO> GetAll(int page, int perPage)
         {
-            List<Game> games = DbContext.Games.ToList().Skip(perPage * page).Take(perPage).ToList();
-            List<GameDO> gamesDO = new List<GameDO>();
-            games.ForEach(game =>
+            List<Game> games = DbContext.Games.Skip(perPage * page).Take(perPage).ToList();
+            return games.Select(game =>
             {
-                GameDO gameDO = new GameDO(game.Id, game.Name, game.Description, game.IsCompleted);
-                gamesDO.Add(gameDO);
-            });
-            return gamesDO;
+                return new GameDO(game.Id, game.Name, game.Description, game.IsCompleted);
+            }).ToList();
         }
 
         public GameDO Update(GameDO entity)

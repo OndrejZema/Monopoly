@@ -39,7 +39,7 @@ namespace Monopoly.Service.Services
             return banknoteVM;
         }
 
-        public List<BanknoteVM> GetAll(int page, int perPage)
+        public List<BanknoteVM> GetAll(int gameId, int page, int perPage)
         {
             List<BanknoteDO> banknotesDO = repository.GetAll(page, perPage);
             if (banknotesDO == null)

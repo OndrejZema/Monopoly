@@ -34,7 +34,7 @@ namespace Monopoly.Repository.Repositories
 
         public CardTypeDO Get(int id)
         {
-            CardType cardType = DbContext.CardTypes.Where(item => item.Id == id).FirstOrDefault();
+            CardType? cardType = DbContext.CardTypes.Where(item => item.Id == id).FirstOrDefault();
             if (cardType == null)
             {
                 throw new NotFoundRecordException();
@@ -48,13 +48,10 @@ namespace Monopoly.Repository.Repositories
         {
 
             List<CardType> cardTypes = DbContext.CardTypes.Skip(perPage * page).Take(perPage).ToList();
-            List<CardTypeDO> cardTypesDO = new List<CardTypeDO>();
-            cardTypes.ForEach(cardType =>
+            return cardTypes.Select(cardType =>
             {
-                CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id, cardType.Name, cardType.Description);
-                cardTypesDO.Add(cardTypeDO);
-            });
-            return cardTypesDO;
+                return new CardTypeDO(cardType.Id, cardType.Name, cardType.Description);
+            }).ToList();
 
         }
 

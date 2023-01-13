@@ -17,7 +17,7 @@ namespace Monopoly.API.Controllers
         }
 
         [HttpGet("")]
-        public List<FieldTypeVM> Index(int page, int perPage)
+        public ActionResult<List<FieldTypeVM>> Index(int page, int perPage)
         {
             try
             {
@@ -26,12 +26,11 @@ namespace Monopoly.API.Controllers
             }
             catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 404;
-                return null;
+                return NotFound();
             }
         }
         [HttpGet("{id}")]
-        public FieldTypeVM Details(int id)
+        public ActionResult<FieldTypeVM> Details(int id)
         {
             try
             {
@@ -39,50 +38,44 @@ namespace Monopoly.API.Controllers
             }
             catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 404;
-                return null;
+                return NotFound();
             }
         }
         [HttpPost]
-        public FieldTypeVM Create([FromBody] FieldTypeVM fieldType)
+        public ActionResult<FieldTypeVM> Create([FromBody] FieldTypeVM fieldType)
         {
             try
             {
                 return service.Create(fieldType);
             }
-            catch (Exception ex)
+            catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 500;
-                return null;
+                return NotFound();
             }
         }
         [HttpPut]
-        public FieldTypeVM Edit([FromBody] FieldTypeVM fieldType)
+        public ActionResult<FieldTypeVM> Edit([FromBody] FieldTypeVM fieldType)
         {
             try
             {
                 return service.Update(fieldType);
             }
-            catch (Exception ex)
+            catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 500;
-                return null;
+                return NotFound();
             }
         }
         [HttpDelete]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
                 service.Delete(id);
+                return Ok();
             }
             catch (NotFoundRecordException ex)
             {
-                Response.StatusCode = 404;
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = 500;
+                return NotFound();
             }
         }
     }

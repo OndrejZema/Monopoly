@@ -47,31 +47,29 @@ namespace Monopoly.Repository.Repositories
         public List<BanknoteDO> GetAll()
         {
             List<Banknote> banknotes = DbContext.Banknotes.ToList();
-            List<BanknoteDO> banknotesDO = new List<BanknoteDO>();
-            banknotes.ForEach(banknote =>
+            return banknotes.Select(banknote =>
             {
-                BanknoteDO banknoteDO = new BanknoteDO(banknote.Id,
-                        banknote.Value, banknote.Count,
+                return new BanknoteDO(banknote.Id, banknote.Value, banknote.Count,
                         banknote.Unit, banknote.GameId);
-                banknotesDO.Add(banknoteDO);
-
-            });
-            return banknotesDO;
+            }).ToList();
         }
         public List<BanknoteDO> GetAll(int page, int perPage)
         {
             List<Banknote> banknotes = DbContext.Banknotes.Skip(perPage * page).Take(perPage).ToList();
-            List<BanknoteDO> banknotesDO = new List<BanknoteDO>();
-            banknotes.ForEach(banknote =>
+            return banknotes.Select(banknote =>
             {
-                BanknoteDO banknoteDO = new BanknoteDO(banknote.Id,
-                    banknote.Value, banknote.Count,
+                return new BanknoteDO(banknote.Id, banknote.Value, banknote.Count,
                     banknote.Unit, banknote.GameId);
-
-                banknotesDO.Add(banknoteDO);
-
-            });
-            return banknotesDO;
+            }).ToList();
+        }
+        public List<BanknoteDO> GetAll(int gameId, int page, int perPage)
+        {
+            List<Banknote> banknotes = DbContext.Banknotes.Where(banknote => banknote.GameId == gameId).Skip(perPage * page).Take(perPage).ToList();
+            return banknotes.Select(banknote =>
+            {
+                return new BanknoteDO(banknote.Id, banknote.Value, banknote.Count,
+                    banknote.Unit, banknote.GameId);
+            }).ToList();
         }
 
         public BanknoteDO Update(BanknoteDO entity)

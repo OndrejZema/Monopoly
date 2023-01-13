@@ -43,7 +43,7 @@ export const ItemsPanel = (props: Props) => {
                         <tr>
                             {
                                 Object.keys(props.schema.properties).map(item => {
-                                    return <th>{props.schema.properties[item]["title"]}</th>
+                                    return props.schema.properties[item]["visible"]?<th>{props.schema.properties[item]["title"]}</th>:<></>
                                 })
                             }
                         </tr>
@@ -52,8 +52,17 @@ export const ItemsPanel = (props: Props) => {
                         {
                             props.data.map(item => {
                                 return <tr>
-                                    {props.schema.required.map(key => {
-                                        return <td>{item[key]}</td>
+                                    {Object.keys(props.schema.properties).map(key => {
+
+                                        if(props.schema.properties[key]["visible"]){
+                                            return <td>{typeof item[key] === "object"?(Object.keys(item[key]).includes("name")?item[key]["name"]:"undefiend name"):item[key]}</td>
+                                        }
+                                        else{
+                                            return <></>
+                                        }
+                                        // return { props.schema.properties[key]["visible"] ? (<td>
+                                        //     {typeof item[key] === "object"?(Object.keys(item[key]).includes("name")?item[key]["name"]:"undefiend name"):item[key]}
+                                        // </td>):<></>}
                                     })}
                                 </tr>
                             })
@@ -61,7 +70,7 @@ export const ItemsPanel = (props: Props) => {
                     </tbody>
                 </Table>
             </div>
-            <PaginationPanel label={`{props.title} per page`}
+            <PaginationPanel label={`${props.title} per page`}
                 state={props.paginationState}
                 dispatch={props.paginationDispatch}
             />
