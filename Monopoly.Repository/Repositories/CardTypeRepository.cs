@@ -1,6 +1,9 @@
 ﻿using Monopoly.DAL.Entities;
 using Monopoly.Repository.DomainObjects;
 using Monopoly.DAL;
+using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Utils;
+
 namespace Monopoly.Repository.Repositories
 {
     public class CardTypeRepository : BaseRepository, IRepository<CardTypeDO>
@@ -11,9 +14,7 @@ namespace Monopoly.Repository.Repositories
 
         public CardTypeDO Create(CardTypeDO entity)
         {
-            CardType cardType = new CardType();
-            cardType.Name = entity.Name;
-            cardType.Description = entity.Description;
+            CardType cardType = Converter.CardTypeDOToCardType(entity);
 
             DbContext.CardTypes.Add(cardType);
             DbContext.SaveChanges();
@@ -22,17 +23,24 @@ namespace Monopoly.Repository.Repositories
         }
 
         public void Delete(int id)
-        {
-            DbContext.CardTypes.Remove(DbContext.CardTypes.ToList().Find(cardType => cardType.Id == id));
+        {   CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == id).FirstOrDefault();
+            if (cardType == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            DbContext.CardTypes.Remove(cardType);
             DbContext.SaveChanges();
         }
 
         public CardTypeDO Get(int id)
         {
-            CardType cardType = DbContext.CardTypes.ToList().Find(item => item.Id == id);
-            CardTypeDO cardTypeDO = new CardTypeDO();
-            cardTypeDO.Name = cardType.Name;
-            cardTypeDO.Description = cardType.Description;
+            CardType cardType = DbContext.CardTypes.Where(item => item.Id == id).FirstOrDefault();
+            if (cardType == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id, cardType.Name, cardType.Description);
+
             return cardTypeDO;
         }
 
@@ -43,9 +51,7 @@ namespace Monopoly.Repository.Repositories
             List<CardTypeDO> cardTypesDO = new List<CardTypeDO>();
             cardTypes.ForEach(cardType =>
             {
-                CardTypeDO cardTypeDO = new CardTypeDO();
-                cardTypeDO.Name = cardType.Name;
-                cardTypeDO.Description = cardType.Description;
+                CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id, cardType.Name, cardType.Description);
                 cardTypesDO.Add(cardTypeDO);
             });
             return cardTypesDO;
@@ -54,12 +60,10 @@ namespace Monopoly.Repository.Repositories
 
         public CardTypeDO Update(CardTypeDO entity)
         {
-            CardType cardType = new CardType();
-            cardType.Name = entity.Name;
-            cardType.Description = entity.Description;
+            CardType cardType = Converter.CardTypeDOToCardType(entity);
             DbContext.CardTypes.Update(cardType);
             DbContext.SaveChanges();
-            entity.Id = cardType.Id;
+            //entity.Id = cardType.Id;
             return entity;
         }
         public int TotalCount()

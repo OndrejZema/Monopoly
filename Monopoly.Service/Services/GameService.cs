@@ -1,6 +1,8 @@
 ﻿using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;
+using Monopoly.Repository.Exceptions;
+using Monopoly.DAL.Entities;
 
 namespace Monopoly.Service.Services
 {
@@ -14,9 +16,7 @@ namespace Monopoly.Service.Services
 
         public GameVM Create(GameVM entity)
         {
-            GameDO gameDO = new GameDO();
-            gameDO.Name = entity.Name;
-            gameDO.Description = entity.Description;
+            GameDO gameDO = new GameDO(entity.Id, entity.Name, entity.Description, entity.IsCompleted);
 
             entity.Id = repository.Create(gameDO).Id;
             return entity;
@@ -29,38 +29,32 @@ namespace Monopoly.Service.Services
 
         public GameVM Get(int id)
         {
-            GameVM gameVM = new GameVM();
             GameDO gameDO = repository.Get(id);
-            gameVM.Id = gameDO.Id;
-            gameVM.Name = gameDO.Name;
-            gameVM.Description = gameDO.Description;
-            gameVM.IsCompleted= gameDO.IsCompleted;
+            if (gameDO == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            GameVM gameVM = new GameVM(gameDO.Id, gameDO.Name, gameDO.Description, gameDO.IsCompleted);
+
             return gameVM;
         }
         public List<GameVM> GetAll(int page, int perPage)
         {
             List<GameDO> gamesDO = repository.GetAll(page, perPage);
-            List<GameVM> gamesVM = new List<GameVM>();
-
-            gamesDO.ForEach(gameDO =>
+            if (gamesDO == null)
             {
-                GameVM gameVM = new GameVM();
-                gameVM.Id = gameDO.Id;
-                gameVM.Name = gameDO.Name;
-                gameVM.Description = gameDO.Description;
-                gameVM.IsCompleted = gameDO.IsCompleted;
-                gamesVM.Add(gameVM);
-            });
-            return gamesVM;
-            
+                throw new NotFoundRecordException();
+            }
+
+            return gamesDO.Select(gameDO =>
+            {
+                return new GameVM((long)gameDO.Id, gameDO.Name, gameDO.Description, gameDO.IsCompleted);
+            }).ToList();            
         }
 
         public GameVM Update(GameVM entity)
         {
-            GameDO gameDO = new GameDO();
-            gameDO.Name = entity.Name;
-            gameDO.Description = entity.Description;
-            gameDO.Id = (long)entity.Id;
+            GameDO gameDO = new GameDO(entity.Id, entity.Name, entity.Description, entity.IsCompleted);
             repository.Update(gameDO);
             return entity;
         }

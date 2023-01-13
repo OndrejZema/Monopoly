@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Monopoly.Repository.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using Monopoly.Repository.Exceptions;
 using Monopoly.Service.Services;
-using System.Collections.Generic;
 using Monopoly.Service.ViewModels;
+using System;
+using System.Collections.Generic;
 
 namespace Monopoly.API.Controllers
 {
@@ -12,34 +12,73 @@ namespace Monopoly.API.Controllers
     public class CardsController : ControllerBase
     {
         private CardService service;
-        public CardsController(CardService service) {
+        public CardsController(CardService service)
+        {
             this.service = service;
         }
         [HttpGet("")]
-        public List<CardVM> Index(int page, int perPage)
+        public ActionResult<List<CardVM>> Index(int page, int perPage)
         {
-            Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
-            return service.GetAll(page, perPage);
+            try
+            {
+                Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
+                return Ok(service.GetAll(page, perPage));
+            }
+            catch (NotFoundRecordException ex)
+            {
+                return NotFound();
+            }
         }
         [HttpGet("{id}")]
-        public CardVM Details(int id)
+        public ActionResult<CardVM> Details(int id)
         {
-            return service.Get(id);
+            try
+            {
+                return Ok(service.Get(id));
+            }
+            catch (NotFoundRecordException ex)
+            {
+                return NotFound();
+            }
         }
+
         [HttpPost]
-        public CardVM Create([FromBody] CardVM card)
+        public ActionResult<CardVM> Create([FromBody] CardVM card)
         {
-            return service.Create(null);
+            try
+            {
+                return Ok(service.Create(card));
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
         }
         [HttpPut]
-        public CardVM Edit([FromBody]CardVM card)
+        public ActionResult<CardVM> Edit([FromBody] CardVM card)
         {
-            return service.Update(card);
+            try
+            {
+                return Ok(service.Update(card));
+            }
+            catch(Exception ex)
+            {
+                return NotFound();
+            }
         }
         [HttpDelete]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            service.Delete(id);
+            try
+            {
+                service.Delete(id);
+                return Ok();
+            }
+            catch (NotFoundRecordException ex)
+            {
+                return NotFound();
+            }
+
         }
     }
 }

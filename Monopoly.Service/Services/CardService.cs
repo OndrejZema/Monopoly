@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Monopoly.Repository.DomainObjects;
+using Monopoly.Repository.Exceptions;
 
 namespace Monopoly.Service.Services
 {
@@ -18,16 +19,12 @@ namespace Monopoly.Service.Services
         }
         public CardVM Create(CardVM entity)
         {
-            CardDO cardDO = new CardDO();
+            
 
-            CardTypeDO cardTypeDO = new CardTypeDO();
-            cardTypeDO.Name = entity.Type.Name;
-            cardTypeDO.Description = entity.Type.Description;
+            CardTypeDO cardTypeDO = new CardTypeDO(entity.Type.Id, entity.Type.Name, entity.Type.Description);
 
-            cardDO.Name = entity.Name;
-            cardDO.Description = entity.Description;
-            cardDO.GameId = entity.GameId;
-            cardDO.Type = cardTypeDO;
+            CardDO cardDO = new CardDO(entity.Name, entity.Description, cardTypeDO, entity.GameId);
+
             entity.Id = repository.Create(cardDO).Id;
             return entity;
         }
@@ -40,60 +37,37 @@ namespace Monopoly.Service.Services
         public CardVM Get(int id)
         {
             CardDO cardDO = repository.Get(id);
-            CardTypeVM cardTypeVM= new CardTypeVM();
-            cardTypeVM.Id= cardDO.Type.Id;
-            cardTypeVM.Name = cardDO.Type.Name;
-            cardTypeVM.Description= cardDO.Type.Description;
+            if (cardDO == null) {
+                throw new NotFoundRecordException();
+            }
+            CardTypeVM cardTypeVM= new CardTypeVM(cardDO.Type.Id, cardDO.Type.Name, cardDO.Type.Description);
 
-            CardVM cardVM= new CardVM();
-            cardVM.Id = cardDO.Id;
-            cardVM.Name = cardDO.Name;
-            cardVM.Description = cardDO.Description;
-            cardVM.GameId = cardDO.GameId;
-            cardVM.Type= cardTypeVM;
+            CardVM cardVM= new CardVM(cardDO.Id, cardDO.Name, cardDO.Description, cardTypeVM, cardDO.GameId);
             return cardVM;
         }
 
         public List<CardVM> GetAll(int page, int perPage)
         {
             List<CardDO> cardsDO =  repository.GetAll(page, perPage);
-            List<CardVM> cardsVM = new List<CardVM>();
-            cardsDO.ForEach(cardDO =>
+            if(cardsDO == null)
             {
-                CardTypeVM cardTypeVM = new CardTypeVM();
-                cardTypeVM.Id = cardDO.Type.Id;
-                cardTypeVM.Name = cardDO.Type.Name;
-                cardTypeVM.Description = cardDO.Type.Description;
-
-                CardVM cardVM = new CardVM();
-                cardVM.Id = cardDO.Id;
-                cardVM.Name = cardDO.Name;
-                cardVM.Description = cardDO.Description;
-                cardVM.GameId = cardDO.GameId;
-                cardVM.Type = cardTypeVM;
-                cardsVM.Add(cardVM);
-            });
-            return cardsVM;
+                throw new NotFoundRecordException();
+            }
+            return cardsDO.Select(cardDO =>
+            {
+                CardTypeVM cardTypeVM = new CardTypeVM(cardDO.Type.Id, cardDO.Type.Name, cardDO.Type.Description);
+                return  new CardVM(cardDO.Id, cardDO.Name, cardDO.Description, cardTypeVM, cardDO.GameId);
+            }).ToList();
 
         }
 
         public CardVM Update(CardVM entity)
         {
-            CardDO cardDO = new CardDO();
+            CardTypeDO cardTypeDO = new CardTypeDO(entity.Type.Id, entity.Type.Name, entity.Type.Description);
 
-            CardTypeDO cardTypeDO = new CardTypeDO();
-            cardTypeDO.Id = (long)entity.Type.Id;
-            cardTypeDO.Name = entity.Type.Name;
-            cardTypeDO.Description = entity.Type.Description;
-            
-            cardDO.Name = entity.Name;
-            cardDO.Description = entity.Description;
-            cardDO.GameId = entity.GameId;
-            cardDO.Type = cardTypeDO;
+            CardDO cardDO = new CardDO(entity.Name, entity.Description, cardTypeDO, entity.GameId);
 
-
-            repository.Update(cardDO);
-            entity.Id = repository.Create(cardDO).Id;
+            entity.Id = repository.Update(cardDO).Id;
             return entity;
         }
         public int TotalCount() { 

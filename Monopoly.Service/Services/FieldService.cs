@@ -1,6 +1,8 @@
 ﻿using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;
+using Monopoly.Repository.Exceptions;
+using Monopoly.DAL.Entities;
 
 namespace Monopoly.Service.Services
 {
@@ -15,16 +17,10 @@ namespace Monopoly.Service.Services
 
         public FieldVM Create(FieldVM entity)
         {
-            FieldDO fieldDO = new FieldDO();
-            FieldTypeDO fieldTypeDO = new FieldTypeDO();
-            fieldTypeDO.Name = entity.Type.Name;
-            fieldTypeDO.Description = entity.Type.Description;
+            FieldTypeDO fieldTypeDO = new FieldTypeDO(entity.Type.Id, entity.Type.Name, entity.Type.Description);
 
-            fieldDO.Name = entity.Name; 
-            fieldDO.Description = entity.Description;
 
-            
-            fieldDO.Type = fieldTypeDO;
+            FieldDO fieldDO = new FieldDO(entity.Name, entity.Description, fieldTypeDO, entity.GameId);
 
             entity.Id = repository.Create(fieldDO).Id;
             return entity;
@@ -38,56 +34,41 @@ namespace Monopoly.Service.Services
         public FieldVM Get(int id)
         {
             FieldDO fieldDO = repository.Get(id);
-            FieldVM fieldVM = new FieldVM();
-            fieldVM.Name = fieldDO.Name;
-            fieldVM.Description = fieldDO.Description;
-            fieldVM.GameId = fieldDO.GameId;
+            if (fieldDO == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            FieldTypeVM fieldTypeVM = new FieldTypeVM(fieldDO.Type.Id, fieldDO.Type.Name, fieldDO.Type.Description);
 
-            FieldTypeVM fieldTypeVM = new FieldTypeVM();
-            fieldTypeVM.Name = fieldDO.Type.Name;
-            fieldTypeVM.Description = fieldDO.Type.Description;
+            FieldVM fieldVM = new FieldVM(fieldDO.Id, fieldDO.Name, fieldDO.Description, fieldTypeVM, fieldDO.GameId);
 
-            fieldVM.Type = fieldTypeVM;
 
             return fieldVM;
         }
         public List<FieldVM> GetAll(int page, int perPage)
         {
             List<FieldDO> fieldsDO =  repository.GetAll(page, perPage);
-            List<FieldVM> fieldsVM = new List<FieldVM>();
-
-            fieldsDO.ForEach(fieldDO =>
+            if (fieldsDO== null)
             {
-                FieldVM fieldVM = new FieldVM();
-                fieldVM.Name = fieldDO.Name;
-                fieldVM.Description = fieldDO.Description;
-                fieldVM.GameId = fieldDO.GameId;
+                throw new NotFoundRecordException();
+            }
 
-                FieldTypeVM fieldTypeVM = new FieldTypeVM();
-                fieldTypeVM.Name = fieldDO.Type.Name;
-                fieldTypeVM.Description = fieldDO.Type.Description;
+            return fieldsDO.Select(fieldDO =>
+            {
+                FieldTypeVM fieldTypeVM = new FieldTypeVM(fieldDO.Type.Id, fieldDO.Type.Name, fieldDO.Type.Description);
 
-                fieldVM.Type = fieldTypeVM;
+                return new FieldVM(fieldDO.Id, fieldDO.Name, fieldDO.Description, fieldTypeVM, fieldDO.GameId);
 
-                fieldsVM.Add(fieldVM);
-            });
+             }).ToList();
 
-            return fieldsVM;
 
         }
 
         public FieldVM Update(FieldVM entity)
         {
-            FieldDO fieldDO = new FieldDO();
-            FieldTypeDO fieldTypeDO = new FieldTypeDO();
-            fieldTypeDO.Name = entity.Type.Name;
-            fieldTypeDO.Description = entity.Type.Description;
 
-            fieldDO.Name = entity.Name;
-            fieldDO.Description = entity.Description;
-
-
-            fieldDO.Type = fieldTypeDO;
+            FieldTypeDO fieldTypeDO = new FieldTypeDO(entity.Type.Id, entity.Type.Name, entity.Type.Description);
+            FieldDO fieldDO = new FieldDO(entity.Id, entity.Name, entity.Description, fieldTypeDO, entity.GameId);
 
             entity.Id = repository.Update(fieldDO).Id;
             return entity;

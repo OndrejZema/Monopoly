@@ -12,5 +12,16 @@ namespace Monopoly.Service.ViewModels
 
         public long GameId { get; set; }
 
+        public FieldVM() { }
+        public FieldVM(long? id, string name, string description, FieldTypeVM type, long gameId)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Description = description;
+            this.Type = type;
+            this.GameId = gameId;
+        }
+        public FieldVM(string name, string description, FieldTypeVM type, long gameId)
+            : this(null, name, description, type, gameId) { }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Monopoly.Repository.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using Monopoly.Repository.Exceptions;
 using Monopoly.Service.Services;
-using System.Collections.Generic;
 using Monopoly.Service.ViewModels;
+using System;
+using System.Collections.Generic;
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
@@ -11,35 +11,79 @@ namespace Monopoly.API.Controllers
     public class CardTypesController : ControllerBase
     {
         private CardTypeService service;
-        public CardTypesController(CardTypeService service) {
-            this.service = service; 
+        public CardTypesController(CardTypeService service)
+        {
+            this.service = service;
         }
 
         [HttpGet("")]
         public List<CardTypeVM> Index(int page, int perPage)
         {
-            Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
-            return service.GetAll(page, perPage);
+            try
+            {
+                Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
+                return service.GetAll(page, perPage);
+            }
+            catch (NotFoundRecordException ex)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
         }
         [HttpGet("{id}")]
         public CardTypeVM Details(int id)
         {
-            return service.Get(id);
+            try
+            {
+                return service.Get(id);
+            }
+            catch (NotFoundRecordException ex)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
         }
         [HttpPost]
         public CardTypeVM Create([FromBody] CardTypeVM cardType)
         {
-            return service.Create(cardType);
+            try
+            {
+                return service.Create(cardType);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return null;
+            }
         }
         [HttpPut]
         public CardTypeVM Edit([FromBody] CardTypeVM cardType)
         {
-            return service.Update(cardType);
+            try
+            {
+                return service.Update(cardType);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return null;
+            }
         }
         [HttpDelete]
         public void Delete(int id)
         {
-            service.Delete(id);
+            try
+            {
+                service.Delete(id);
+            }
+            catch (NotFoundRecordException ex)
+            {
+                Response.StatusCode = 404;
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+            }
         }
     }
 }

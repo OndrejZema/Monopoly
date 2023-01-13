@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Monopoly.Repository.DomainObjects;
 using Monopoly.DAL.Entities;
 using Monopoly.DAL;
+using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Utils;
+
 namespace Monopoly.Repository.Repositories
 {
     public class FieldRepository : BaseRepository, IRepository<FieldDO>
@@ -16,12 +19,7 @@ namespace Monopoly.Repository.Repositories
 
         public FieldDO Create(FieldDO entity)
         {
-            Field field = new Field();
-            field.Name = entity.Name;
-            field.Description = entity.Description;
-            field.FieldTypeId = entity.Type.Id;
-            field.GameId = entity.GameId;
-
+            Field field = Converter.FieldDOToField(entity);
             DbContext.Fields.Add(field);
             DbContext.SaveChanges();
             entity.Id = field.Id;
@@ -30,26 +28,33 @@ namespace Monopoly.Repository.Repositories
 
         public void Delete(int id)
         {
-            DbContext.Fields.Remove(DbContext.Fields.ToList().Find(field => field.Id == id));
+            Field? field = DbContext.Fields.Where(field => field.Id == id).FirstOrDefault();
+            if(field == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            DbContext.Fields.Remove(field);
             DbContext.SaveChanges();
         }
 
         public FieldDO Get(int id)
         {
-            FieldDO fieldDO = new FieldDO();
-            Field field = DbContext.Fields.ToList().Find(item => item.Id == id);
-            FieldType fieldType = DbContext.FieldTypes.ToList().Find(fieldType => fieldType.Id == field.FieldTypeId);
-            FieldTypeDO fieldTypeDO = new FieldTypeDO();
-            fieldTypeDO.Id = fieldType.Id;
-            fieldTypeDO.Name = fieldType.Name;
-            fieldTypeDO.Description = fieldType.Description;
+            Field? field = DbContext.Fields.Where(item => item.Id == id).FirstOrDefault();
+            if (field == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == field.FieldTypeId).FirstOrDefault();
+            if (field == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id,
+                fieldType.Name, fieldType.Description
+                );
 
-
-            fieldDO.Id = field.Id;
-            fieldDO.Name = field.Name;
-            fieldDO.Description = field.Description;
-            fieldDO.Type = fieldTypeDO;
-            fieldDO.GameId = field.GameId;
+            FieldDO fieldDO = new FieldDO(field.Id, 
+                field.Name, field.Description, fieldTypeDO, field.GameId);
 
             return fieldDO;
         }
@@ -59,19 +64,17 @@ namespace Monopoly.Repository.Repositories
             List<FieldDO> fieldsDO = new List<FieldDO>();
             fields.ForEach(field =>
             {
-                FieldDO fieldDO = new FieldDO();
+                FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == field.FieldTypeId).FirstOrDefault();
+                if (fieldType == null)
+                {
+                    throw new NotFoundRecordException();
+                }
+                FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id,
+                     fieldType.Name, fieldType.Description);
 
-                FieldType fieldType = DbContext.FieldTypes.ToList().Find(fieldType => fieldType.Id == field.FieldTypeId);
-                FieldTypeDO fieldTypeDO = new FieldTypeDO();
-                fieldTypeDO.Id = fieldType.Id;
-                fieldTypeDO.Name = fieldType.Name;
-                fieldTypeDO.Description = fieldType.Description;
+                FieldDO fieldDO = new FieldDO(field.Id,
+                    field.Name, field.Description, fieldTypeDO, field.GameId);
 
-                fieldDO.Id = field.Id;
-                fieldDO.Name = field.Name;
-                fieldDO.Description = field.Description;
-                fieldDO.Type = fieldTypeDO;
-                fieldDO.GameId = field.GameId;
                 fieldsDO.Add(fieldDO);
             });
             return fieldsDO;
@@ -82,19 +85,17 @@ namespace Monopoly.Repository.Repositories
             List<FieldDO> fieldsDO = new List<FieldDO>();
             fields.ForEach(field =>
             {
-                FieldDO fieldDO = new FieldDO();
+                FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == field.FieldTypeId).FirstOrDefault();
+                if (fieldType == null)
+                {
+                    throw new NotFoundRecordException();
+                }
+                FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id,
+                     fieldType.Name, fieldType.Description);
 
-                FieldType fieldType = DbContext.FieldTypes.ToList().Find(fieldType => fieldType.Id == field.FieldTypeId);
-                FieldTypeDO fieldTypeDO = new FieldTypeDO();
-                fieldTypeDO.Id = fieldType.Id;
-                fieldTypeDO.Name = fieldType.Name;
-                fieldTypeDO.Description = fieldType.Description;
+                FieldDO fieldDO = new FieldDO(field.Id,
+                    field.Name, field.Description, fieldTypeDO, field.GameId);
 
-                fieldDO.Id = field.Id;
-                fieldDO.Name = field.Name;
-                fieldDO.Description = field.Description;
-                fieldDO.Type = fieldTypeDO;
-                fieldDO.GameId = field.GameId;
                 fieldsDO.Add(fieldDO);
             });
             return fieldsDO;
@@ -102,14 +103,10 @@ namespace Monopoly.Repository.Repositories
 
         public FieldDO Update(FieldDO entity)
         {
-            Field field = new Field();
-            field.Name = entity.Name;
-            field.Description = entity.Description;
-            field.FieldTypeId = entity.Type.Id;
-            field.GameId = entity.GameId;
+            Field field = Converter.FieldDOToField(entity);
             DbContext.Fields.Update(field);
             DbContext.SaveChanges();
-            entity.Id = field.Id;
+            //entity.Id = field.Id;
             return entity;
         }
         public int TotalCount()

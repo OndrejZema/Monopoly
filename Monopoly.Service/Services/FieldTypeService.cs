@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Monopoly.Service.ViewModels;
 using Monopoly.Repository.DomainObjects;
 using Microsoft.VisualBasic.FileIO;
+using Monopoly.Repository.Exceptions;
+using Monopoly.DAL.Entities;
 
 namespace Monopoly.Service.Services
 {
@@ -19,9 +21,7 @@ namespace Monopoly.Service.Services
         
         public FieldTypeVM Create(FieldTypeVM entity)
         {
-            FieldTypeDO fieldTypeDO = new FieldTypeDO();
-            fieldTypeDO.Name = entity.Name;
-            fieldTypeDO.Description = entity.Description;
+            FieldTypeDO fieldTypeDO = new FieldTypeDO(entity.Id, entity.Name, entity.Description);
 
             entity.Id = repository.Create(fieldTypeDO).Id;
             return entity;
@@ -34,12 +34,15 @@ namespace Monopoly.Service.Services
 
         public FieldTypeVM Get(int id)
         {
-            FieldTypeVM fieldTypeVM = new FieldTypeVM();
             FieldTypeDO fieldTypeDO = repository.Get(id);
 
-            fieldTypeVM.Id = fieldTypeDO.Id;
-            fieldTypeVM.Name = fieldTypeDO.Name;
-            fieldTypeVM.Description = fieldTypeDO.Description;
+            if (fieldTypeDO == null)
+            {
+                throw new NotFoundRecordException();
+            }
+
+            FieldTypeVM fieldTypeVM = new FieldTypeVM(fieldTypeDO.Id, fieldTypeDO.Name, fieldTypeDO.Description);
+
 
             return fieldTypeVM;
 
@@ -47,28 +50,21 @@ namespace Monopoly.Service.Services
         public List<FieldTypeVM> GetAll(int page, int perPage)
         {
             List<FieldTypeDO> fieldTypesDO = repository.GetAll(page, perPage);
-            List<FieldTypeVM> fieldTypesVM = new List<FieldTypeVM>();
-            fieldTypesDO.ForEach(fieldTypeDO =>
+            if (fieldTypesDO == null)
             {
-                FieldTypeVM fieldTypeVM = new FieldTypeVM();
-                fieldTypeVM.Id = fieldTypeDO.Id;
-                fieldTypeVM.Name = fieldTypeDO.Name;
-                fieldTypeVM.Description = fieldTypeDO.Description;
-                fieldTypesVM.Add(fieldTypeVM);
-            });
-            return fieldTypesVM;
-
+                throw new NotFoundRecordException();
+            }
+            return fieldTypesDO.Select(fieldTypeDO =>
+            {
+                return new FieldTypeVM(fieldTypeDO.Id, fieldTypeDO.Name, fieldTypeDO.Description);
+            }).ToList();
         }
 
         public FieldTypeVM Update(FieldTypeVM entity)
         {
-            FieldTypeDO fieldTypeDO = new FieldTypeDO();
-            fieldTypeDO.Name = entity.Name;
-            fieldTypeDO.Description = entity.Description;
+            FieldTypeDO fieldTypeDO = new FieldTypeDO(entity.Id, entity.Name, entity.Description);
 
-            entity.Id = repository.Create(fieldTypeDO).Id;
-
-            repository.Update(fieldTypeDO);
+            entity.Id = repository.Update(fieldTypeDO).Id;
             return entity;
         }
         public int TotalCount() { 

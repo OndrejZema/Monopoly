@@ -1,4 +1,5 @@
 ﻿using Monopoly.Repository.DomainObjects;
+using Monopoly.Repository.Exceptions;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;
 
@@ -14,10 +15,9 @@ namespace Monopoly.Service.Services
 
         public BanknoteVM Create(BanknoteVM entity)
         {
-            BanknoteDO banknoteDO = new BanknoteDO();
-            banknoteDO.Unit = entity.Unit;
-            banknoteDO.Value = entity.Value;
-            banknoteDO.Count = entity.Count;
+            BanknoteDO banknoteDO = new BanknoteDO(entity.Value,
+                entity.Count, entity.Unit, entity.GameId);
+
             entity.Id = repository.Create(banknoteDO).Id;
             return entity;
         }
@@ -30,37 +30,33 @@ namespace Monopoly.Service.Services
         public BanknoteVM Get(int id)
         {
             BanknoteDO banknoteDO = repository.Get(id);
-            BanknoteVM banknoteVM = new BanknoteVM();
-            banknoteVM.Id = banknoteDO.Id;
-            banknoteVM.Value = banknoteDO.Value;
-            banknoteVM.Count = banknoteDO.Count;
-            banknoteVM.Unit = banknoteDO.Unit;
+            if (banknoteDO == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            BanknoteVM banknoteVM = new BanknoteVM(banknoteDO.Id,
+                banknoteDO.Value, banknoteDO.Count, banknoteDO.Unit, banknoteDO.GameId);
             return banknoteVM;
         }
 
         public List<BanknoteVM> GetAll(int page, int perPage)
         {
             List<BanknoteDO> banknotesDO = repository.GetAll(page, perPage);
-            List<BanknoteVM> banknotesVM = new List<BanknoteVM>();
-            banknotesDO.ForEach(banknoteDO =>
+            if (banknotesDO == null)
             {
-                BanknoteVM banknoteVM = new BanknoteVM();
-                banknoteVM.Id = banknoteDO.Id;
-                banknoteVM.Value = banknoteDO.Value;
-                banknoteVM.Count = banknoteDO.Count;
-                banknoteVM.Unit = banknoteDO.Unit;
-                banknotesVM.Add(banknoteVM);
-            });
-            return banknotesVM;
+                throw new NotFoundRecordException();
+            }
+            return banknotesDO.Select(banknoteDO =>
+            {
+                return new BanknoteVM(banknoteDO.Id,
+                banknoteDO.Value, banknoteDO.Count, banknoteDO.Unit, banknoteDO.GameId);
+            }).ToList();
         }
 
         public BanknoteVM Update(BanknoteVM entity)
         {
-            BanknoteDO banknoteDO = new BanknoteDO();
-            banknoteDO.Id = (long)entity.Id;
-            banknoteDO.Unit = entity.Unit;
-            banknoteDO.Value = entity.Value;
-            banknoteDO.Count = entity.Count;
+            BanknoteDO banknoteDO = new BanknoteDO(entity.Id, 
+                entity.Value, entity.Count, entity.Unit, entity.GameId);
             entity.Id = repository.Update(banknoteDO).Id;
             return entity;
         }

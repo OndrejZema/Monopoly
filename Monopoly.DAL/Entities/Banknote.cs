@@ -5,7 +5,7 @@ namespace Monopoly.DAL.Entities;
 
 public partial class Banknote
 {
-    public long Id { get; set; }
+    public long? Id { get; set; }
 
     public long Value { get; set; }
 

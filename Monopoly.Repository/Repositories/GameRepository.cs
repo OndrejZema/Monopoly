@@ -1,6 +1,9 @@
 ﻿using Monopoly.DAL.Entities;
 using Monopoly.Repository.DomainObjects;
 using Monopoly.DAL;
+using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Utils;
+
 namespace Monopoly.Repository.Repositories
 {
     public class GameRepository : BaseRepository, IRepository<GameDO>
@@ -11,10 +14,7 @@ namespace Monopoly.Repository.Repositories
 
         public GameDO Create(GameDO entity)
         {
-            Game game = new Game();
-            game.Name = entity.Name;
-            game.Description = entity.Description;
-
+            Game game = Converter.GameDOToGame(entity);
             DbContext.Games.Add(game);
             DbContext.SaveChanges();
             entity.Id = game.Id;
@@ -23,17 +23,22 @@ namespace Monopoly.Repository.Repositories
 
         public void Delete(int id)
         {
-            DbContext.Games.Remove(DbContext.Games.ToList().Find(game => game.Id == id));
+            Game? game = DbContext.Games.Where(game => game.Id == id).FirstOrDefault();
+            if (game == null) {
+                throw new NotFoundRecordException();
+            }
+            DbContext.Games.Remove(game);
             DbContext.SaveChanges();
         }
 
         public GameDO Get(int id)
         {
-            Game game = DbContext.Games.ToList().Find(item => item.Id == id);
-            GameDO gameDO = new GameDO();
-            gameDO.Id = game.Id;
-            gameDO.Name = game.Name;
-            gameDO.Description = game.Description;
+            Game? game = DbContext.Games.Where(item => item.Id == id).FirstOrDefault();
+            if (game == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            GameDO gameDO = new GameDO(game.Id, game.Name, game.Description, game.IsCompleted);
             return gameDO;
         }
 
@@ -43,10 +48,7 @@ namespace Monopoly.Repository.Repositories
             List<GameDO> gamesDO = new List<GameDO>();
             games.ForEach(game =>
             {
-                GameDO gameDO = new GameDO();
-                gameDO.Id = game.Id;
-                gameDO.Name = game.Name;
-                gameDO.Description = game.Description;
+                GameDO gameDO = new GameDO(game.Id, game.Name, game.Description, game.IsCompleted);
                 gamesDO.Add(gameDO);
             });
             return gamesDO;
@@ -54,12 +56,10 @@ namespace Monopoly.Repository.Repositories
 
         public GameDO Update(GameDO entity)
         {
-            Game game = new Game();
-            game.Name = entity.Name;
-            game.Description = entity.Description;
+            Game game = Converter.GameDOToGame(entity);
             DbContext.Games.Update(game);
             DbContext.SaveChanges();
-            entity.Id = game.Id;
+            //entity.Id = game.Id;
             return entity;
         }
         public int TotalCount()

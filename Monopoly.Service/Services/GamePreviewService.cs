@@ -1,11 +1,7 @@
 ﻿using Monopoly.Repository.DomainObjects;
+using Monopoly.Repository.Exceptions;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monopoly.Service.Services
 {
@@ -19,28 +15,30 @@ namespace Monopoly.Service.Services
                 CardRepository cardRepository,
                 FieldRepository fieldRepository,
                 BanknoteRepository banknoteRepository
-            ) { 
-            this.gameRepository = gameRepository;   
-            this.cardRepository = cardRepository;   
-            this.fieldRepository = fieldRepository; 
+            )
+        {
+            this.gameRepository = gameRepository;
+            this.cardRepository = cardRepository;
+            this.fieldRepository = fieldRepository;
             this.banknoteRepository = banknoteRepository;
         }
 
-        public List<GamePreviewVM> GetAll(int page, int perPage) {
-            List<GamePreviewVM> games = gameRepository.GetAll(page, perPage).Select(game =>
-            new GamePreviewVM()
+        public List<GamePreviewVM> GetAll(int page, int perPage)
+        {
+            List<GameDO> games = gameRepository.GetAll(page, perPage);
+            if (games == null)
             {
-                Id= (int)game.Id,
-                Name= game.Name,
-                IsCompleted = game.IsCompleted,
-                CardsCount = cardRepository.GetAll().Where(card => card.GameId == game.Id).Count(),
-                FieldsCount = fieldRepository.GetAll().Where(field => field.GameId == game.Id).Count(),
-                BanknotesCount = banknoteRepository.GetAll().Where(banknote => banknote.GameId == game.Id).Count()
+                throw new NotFoundRecordException();
             }
+            return games.Select(game =>
+            new GamePreviewVM((long)game.Id,
+            game.Name,
+            game.Description,
+            game.IsCompleted,
+            cardRepository.GetAll().Where(card => card.GameId == game.Id).Count(),
+            fieldRepository.GetAll().Where(field => field.GameId == game.Id).Count(),
+            banknoteRepository.GetAll().Where(banknote => banknote.GameId == game.Id).Count())
             ).ToList();
-
-
-            return games;
         }
     }
 }

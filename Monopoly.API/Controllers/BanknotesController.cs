@@ -5,6 +5,9 @@ using Monopoly.Service.Services;
 using System.Collections.Generic;
 using System.Linq;
 using Monopoly.Service.ViewModels;
+using Monopoly.Repository.Exceptions;
+using System;
+
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
@@ -16,30 +19,58 @@ namespace Monopoly.API.Controllers
             this.service = service; 
         }
         [HttpGet]
-        public List<BanknoteVM> Index(int page, int perPage)
+        public ActionResult<List<BanknoteVM>> Index(int page, int perPage)
         {
             Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
-            return service.GetAll(page, perPage);
+            try
+            {
+                return Ok(service.GetAll(page, perPage));
+            }
+            catch(NotFoundRecordException ex)
+            {
+                return NotFound();
+            }
         }
         [HttpGet("{id}")]
-        public BanknoteVM Details(int id)
+        public ActionResult<BanknoteVM> Details(int id)
         {
-            return service.Get(id);
+            try
+            {
+                return Ok(service.Get(id));
+            }
+            catch(NotFoundRecordException ex)
+            {
+                return NotFound();
+            }
         }
         [HttpPost]
-        public BanknoteVM Create([FromBody]BanknoteVM banknote)
+        public ActionResult<BanknoteVM> Create([FromBody]BanknoteVM banknote)
         {
-            return service.Create(banknote);
+            return Ok(service.Create(banknote));
         }
         [HttpPut]
-        public BanknoteVM Edit([FromBody] BanknoteVM banknote)
+        public ActionResult<BanknoteVM> Edit([FromBody] BanknoteVM banknote)
         {
-            return service.Update(banknote);
+            try
+            {
+                return Ok(service.Update(banknote));
+            }
+            catch(Exception ex) {
+                return NotFound();
+            }
         }
         [HttpDelete]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            service.Delete(id);
+            try
+            {
+                service.Delete(id);
+                return Ok();
+            }
+            catch(NotFoundRecordException ex)
+            {
+                return NotFound();
+            }
         }
     }
 }

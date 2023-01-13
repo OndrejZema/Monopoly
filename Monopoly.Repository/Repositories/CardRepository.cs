@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Monopoly.Repository.DomainObjects;
+﻿using Monopoly.DAL;
 using Monopoly.DAL.Entities;
-using Monopoly.DAL;
+using Monopoly.Repository.DomainObjects;
+using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Utils;
 namespace Monopoly.Repository.Repositories
 {
     public class CardRepository : BaseRepository, IRepository<CardDO>
@@ -16,11 +13,7 @@ namespace Monopoly.Repository.Repositories
 
         public CardDO Create(CardDO entity)
         {
-            Card card = new Card();
-            card.Name = entity.Name;
-            card.Description = entity.Description;
-            card.CardTypeId = entity.Type.Id;
-            card.GameId = entity.GameId;
+            Card card = Converter.CardDOToCard(entity);
 
             DbContext.Cards.Add(card);
             DbContext.SaveChanges();
@@ -30,25 +23,36 @@ namespace Monopoly.Repository.Repositories
 
         public void Delete(int id)
         {
-            DbContext.Cards.Remove(DbContext.Cards.ToList().Find(card => card.Id == id));
+            Card? card = DbContext.Cards.Where(card => card.Id == id).FirstOrDefault();
+            if (card == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            DbContext.Cards.Remove(card);
+
+
             DbContext.SaveChanges();
         }
 
         public CardDO Get(int id)
         {
-            CardDO cardDO = new CardDO();
-            Card card = DbContext.Cards.ToList().Find(item => item.Id == id);
-            CardType cardType = DbContext.CardTypes.ToList().Find(cardType => cardType.Id == card.CardTypeId);
-            CardTypeDO cardTypeDO = new CardTypeDO();
-            cardTypeDO.Id = card.Id;
-            cardTypeDO.Name = card.Name;
-            cardTypeDO.Description = card.Description;
+            Card? card = DbContext.Cards.Where(item => item.Id == id).FirstOrDefault();
+            if (card == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == card.CardTypeId).FirstOrDefault();
+            if (cardType == null)
+            {
+                throw new NotFoundRecordException();
+            }
 
-            cardDO.Id = card.Id;
-            cardDO.Name = card.Name;
-            cardDO.Description = card.Description;
-            cardDO.Type = cardTypeDO;
-            cardDO.GameId = card.GameId;
+            CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id,
+                cardType.Name, cardType.Description);
+
+            CardDO cardDO = new CardDO(card.Id,
+                card.Name, card.Description,
+                cardTypeDO, card.GameId);
 
             return cardDO;
         }
@@ -58,19 +62,18 @@ namespace Monopoly.Repository.Repositories
             List<CardDO> cardsDO = new List<CardDO>();
             cards.ForEach(card =>
             {
-                CardDO cardDO = new CardDO();
-                CardType cardType = DbContext.CardTypes.ToList().Find(cardType => cardType.Id == card.CardTypeId);
-                CardTypeDO cardTypeDO = new CardTypeDO();
-                cardTypeDO.Id = card.Id;
-                cardTypeDO.Name = card.Name;
-                cardTypeDO.Description = card.Description;
 
+                CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == card.CardTypeId).FirstOrDefault();
+                if (cardType == null)
+                {
+                    throw new NotFoundRecordException();
+                }
+                CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id,
+                    cardType.Name, cardType.Description);
 
-                cardDO.Id = card.Id;
-                cardDO.Name = card.Name;
-                cardDO.Description = card.Description;
-                cardDO.Type = cardTypeDO;
-                cardDO.GameId = card.GameId;
+                CardDO cardDO = new CardDO(card.Id,
+                    card.Name, card.Description,
+                    cardTypeDO, card.GameId);
                 cardsDO.Add(cardDO);
             });
             return cardsDO;
@@ -81,19 +84,17 @@ namespace Monopoly.Repository.Repositories
             List<CardDO> cardsDO = new List<CardDO>();
             cards.ForEach(card =>
             {
-                CardDO cardDO = new CardDO();
-                CardType cardType = DbContext.CardTypes.ToList().Find(cardType => cardType.Id == card.CardTypeId);
-                CardTypeDO cardTypeDO = new CardTypeDO();
-                cardTypeDO.Id = card.Id;
-                cardTypeDO.Name = card.Name;
-                cardTypeDO.Description = card.Description;
+                CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == card.CardTypeId).FirstOrDefault();
+                if (cardType == null)
+                {
+                    throw new NotFoundRecordException();
+                }
+                CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id,
+                    cardType.Name, cardType.Description);
 
-
-                cardDO.Id = card.Id;
-                cardDO.Name = card.Name;
-                cardDO.Description = card.Description;
-                cardDO.Type = cardTypeDO;
-                cardDO.GameId = card.GameId;
+                CardDO cardDO = new CardDO(card.Id,
+                    card.Name, card.Description,
+                    cardTypeDO, card.GameId);
                 cardsDO.Add(cardDO);
             });
             return cardsDO;
@@ -101,15 +102,11 @@ namespace Monopoly.Repository.Repositories
 
         public CardDO Update(CardDO entity)
         {
-            Card card = new Card();
-            card.Name = entity.Name;
-            card.Description = entity.Description;
-            card.CardTypeId = entity.Type.Id;
-            card.GameId = entity.GameId;
+            Card card = Converter.CardDOToCard(entity);
 
             DbContext.Cards.Update(card);
             DbContext.SaveChanges();
-            entity.Id = card.Id;
+            //entity.Id = card.Id;
             return entity;
         }
         public int TotalCount()

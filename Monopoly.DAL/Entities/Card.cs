@@ -5,7 +5,7 @@ namespace Monopoly.DAL.Entities;
 
 public partial class Card
 {
-    public long Id { get; set; }
+    public long? Id { get; set; }
 
     public string Name { get; set; }
 
