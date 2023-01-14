@@ -3,22 +3,30 @@ import Button from 'react-bootstrap/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy, faEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { Col, Container, Row } from 'react-bootstrap'
-import { PaginationPanel } from '../../../components/PaginationPanel'
 import { Link } from 'react-router-dom'
 import { IGamePreview } from '../../../types/ViewModels'
+import { GlobalContext } from '../../../store/GlobalContextProvider'
+import { setGame } from '../../../store/actions/GameActions'
 
-interface Props{
+interface Props {
     game: IGamePreview
 }
 
 export const Game = (props: Props) => {
+
+    const { gameDispatch } = React.useContext(GlobalContext)
+
     return (
-        <div className='border p-2 mb-3 rounded cursor-pointer game'>
+        <div className='border p-2 mb-3 rounded cursor-pointer game' onClick={() => { setGame(gameDispatch, props.game) }}>
             <div className='d-flex justify-content-between align-items-end'>
                 <h4 className='mb-2'>{props.game.name}</h4>
                 <div className='d-flex'>
-                    <Button variant="outline-secondary" className="me-2"> <FontAwesomeIcon icon={faCopy} /> Clone</Button>
-                    <Button variant="outline-success" className="me-2"> <FontAwesomeIcon icon={faEdit} /> Edit</Button>
+                    <Link to={`/games/clone/${props.game.id}`}>
+                        <Button variant="outline-secondary" className="me-2"> <FontAwesomeIcon icon={faCopy} /> Clone</Button>
+                    </Link>
+                    <Link to={`/games/edit/${props.game.id}`}>
+                        <Button variant="outline-success" className="me-2"> <FontAwesomeIcon icon={faEdit} /> Edit</Button>
+                    </Link>
                     <Button variant="outline-danger" className="me-2"> <FontAwesomeIcon icon={faTrashCan} /> Delete</Button>
                 </div>
             </div>

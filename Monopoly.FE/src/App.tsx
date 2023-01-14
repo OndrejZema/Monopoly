@@ -28,16 +28,33 @@ function App() {
         <Routes>
           <Route path="/" element={<CustomRoute> <Games /> </CustomRoute>}></Route>
           <Route path="/games/create" element={<CustomRoute> <GameEdit /> </CustomRoute>}></Route>
+          <Route path="/games/edit/:id" element={<CustomRoute> <GameEdit /> </CustomRoute>}></Route>
+          <Route path="/games/clone/:id" element={<CustomRoute> <GameEdit doClone={true} /> </CustomRoute>}></Route>
+          
           <Route path="/card-types" element={<CustomRoute> <CardTypes /> </CustomRoute>}></Route>
           <Route path="/card-types/create" element={<CustomRoute> <CardTypeEdit /> </CustomRoute>}></Route>
+          <Route path="/card-types/edit/:id" element={<CustomRoute> <CardTypeEdit /> </CustomRoute>}></Route>
+          <Route path="/card-types/clone/:id" element={<CustomRoute> <CardTypeEdit doClone={true} /> </CustomRoute>}></Route>
+          
           <Route path="/field-types" element={<CustomRoute> <FieldTypes /> </CustomRoute>}></Route>
           <Route path="/field-types/create" element={<CustomRoute> <FieldTypeEdit /> </CustomRoute>}></Route>
+          <Route path="/field-types/edit/:id" element={<CustomRoute> <FieldTypeEdit /> </CustomRoute>}></Route>
+          <Route path="/field-types/clone/:id" element={<CustomRoute> <FieldTypeEdit doClone={true} /> </CustomRoute>}></Route>
+          
           <Route path="/cards" element={<CustomRoute> <Cards /> </CustomRoute>}></Route>
           <Route path="/cards/create" element={<CustomRoute> <CardEdit /> </CustomRoute>}></Route>
+          <Route path="/cards/edit/:id" element={<CustomRoute> <CardEdit /> </CustomRoute>}></Route>
+          <Route path="/cards/clone/:id" element={<CustomRoute> <CardEdit doClone={true} /> </CustomRoute>}></Route>
+          
           <Route path="/fields" element={<CustomRoute> <Fields /> </CustomRoute>}></Route>
           <Route path="/fields/create" element={<CustomRoute> <FieldEdit /> </CustomRoute>}></Route>
+          <Route path="/fields/edit/:id" element={<CustomRoute> <FieldEdit /> </CustomRoute>}></Route>
+          <Route path="/fields/clone/:id" element={<CustomRoute> <FieldEdit doClone={true} /> </CustomRoute>}></Route>
+          
           <Route path="/banknotes" element={<CustomRoute> <Banknotes /> </CustomRoute>}></Route>
           <Route path="/banknotes/create" element={<CustomRoute> <BanknoteEdit /> </CustomRoute>}></Route>
+          <Route path="/banknotes/edit/:id" element={<CustomRoute> <BanknoteEdit /> </CustomRoute>}></Route>
+          <Route path="/banknotes/clone/:id" element={<CustomRoute> <BanknoteEdit doClone={true} /> </CustomRoute>}></Route>
         </Routes>
       </BrowserRouter>
 

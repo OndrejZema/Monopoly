@@ -69,8 +69,8 @@ namespace Monopoly.Service.Services
             entity.Id = repository.Update(cardDO).Id;
             return entity;
         }
-        public int TotalCount() { 
-            return repository.TotalCount();  
+        public int TotalCount(int? gameId) { 
+            return repository.TotalCount(gameId);  
         }
     }
 }

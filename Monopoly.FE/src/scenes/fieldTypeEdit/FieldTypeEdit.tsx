@@ -3,9 +3,14 @@ import { useParams } from 'react-router'
 import { ItemEdit } from '../../components/ItemEdit'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { emptyFieldType, FieldTypeFormSchema } from '../../schemas/Schemas'
-import {IFieldType} from '../../types/ViewModels'
+import { IFieldType } from '../../types/ViewModels'
 
-export const FieldTypeEdit = () => {
+interface Props {
+    doClone?: boolean
+}
+
+
+export const FieldTypeEdit = (props: Props) => {
 
     const params = useParams()
 
@@ -36,12 +41,14 @@ export const FieldTypeEdit = () => {
     return (
         <LoadingPanel loaded={fieldType}>
             <ItemEdit
-                title={`Field type ${fieldType?.id?"edit":"create"}`}
+                title={`Field type ${fieldType?.id ? "edit" : "create"}`}
                 returnUrl='/field-types'
-                saveUrl='/api/file-types'
+                saveUrl={`${process.env.REACT_APP_API}/fieldtypes`}
                 schema={FieldTypeFormSchema}
                 options={{}}
                 data={fieldType}
+                doClone={props.doClone}
+
             />
         </LoadingPanel>
     )

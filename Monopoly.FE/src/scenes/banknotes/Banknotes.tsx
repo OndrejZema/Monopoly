@@ -2,17 +2,19 @@ import React from 'react'
 import { ItemsPanel } from '../../components/ItemsPanel'
 import { BanknoteSchema } from '../../schemas/Schemas'
 import { setTotalCount } from '../../store/actions/PaginationActions'
+import { GlobalContext } from '../../store/GlobalContextProvider'
 import { paginationInitialState, paginationReducer } from '../../store/reducers/PaginationReducer'
 import { IBanknote } from '../../types/ViewModels'
 
 export const Banknotes = () => {
 
+    const {gameState} = React.useContext(GlobalContext)
 
     const [banknotesPaginationState, banknotesPaginationDispatch] = React.useReducer(paginationReducer, paginationInitialState)    
     const [banknotes, setBanknotes] = React.useState<Array<IBanknote>>()
 
     React.useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API}/banknotes?page=${banknotesPaginationState.page}&perPage=${banknotesPaginationState.perPage}`)
+        fetch(`${process.env.REACT_APP_API}/games/${gameState.game?.id}/banknotes?page=${banknotesPaginationState.page}&perPage=${banknotesPaginationState.perPage}`)
         .then(data => {
             if (!data.ok) {
                 throw new Error()

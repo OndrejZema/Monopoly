@@ -44,10 +44,18 @@ namespace Monopoly.Repository.Repositories
             return cardTypeDO;
         }
 
-        public List<CardTypeDO> GetAll(int page, int perPage)
+        public List<CardTypeDO> GetAll(int? page, int? perPage)
         {
 
-            List<CardType> cardTypes = DbContext.CardTypes.Skip(perPage * page).Take(perPage).ToList();
+            List<CardType> cardTypes;
+            if(page != null && perPage != null)
+            {
+                cardTypes = DbContext.CardTypes.Skip((int)perPage * (int)page).Take((int)perPage).ToList();
+            }
+            else
+            {
+                cardTypes = DbContext.CardTypes.ToList();
+            }
             return cardTypes.Select(cardType =>
             {
                 return new CardTypeDO(cardType.Id, cardType.Name, cardType.Description);

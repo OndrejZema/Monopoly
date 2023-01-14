@@ -19,21 +19,20 @@ export const paginationInitialState: IPaginationState = {
     page: 0,
     perPage: 10,
     totalCount: 0,
-    perPageOptions: [1, 2, 5, 10, 20, 50, 100]
+    perPageOptions: [1, 2, 5, 10, 20, 50, 100],
 }
 export const paginationReducer = (state: IPaginationState = paginationInitialState, action: IPaginationAction): IPaginationState => {
     switch (action.type) {
         case SET_PAGE:
             return {
                 ...state,
-                page: action.payload.page !== undefined?action.payload.page:state.page
+                page: action.payload.page !== undefined?action.payload.page:state.page,
             }
         case SET_PER_PAGE:
             return {
                 ...state,
-                page: action.payload.page?action.payload.page:state.page,
+                page: action.payload.page !== undefined?action.payload.page:state.page,
                 perPage: action.payload.perPage?action.payload.perPage:state.perPage
-
             }
         case SET_TOTAL_COUNT:
             return {

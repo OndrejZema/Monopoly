@@ -21,7 +21,7 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
+                Response.Headers.Add("X-Total-Count", service.TotalCount(gameId).ToString());
                 return Ok(service.GetAll(gameId, page, perPage));
             }
             catch (NotFoundRecordException ex)

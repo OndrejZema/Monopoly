@@ -17,7 +17,7 @@ namespace Monopoly.API.Controllers
         }
 
         [HttpGet("")]
-        public ActionResult<List<FieldTypeVM>> Index(int page, int perPage)
+        public ActionResult<List<FieldTypeVM>> Index(int? page, int? perPage)
         {
             try
             {

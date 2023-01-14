@@ -6,9 +6,14 @@ import { CardTypeFormSchema, emptyCardType } from '../../schemas/Schemas'
 import { GlobalContext } from '../../store/GlobalContextProvider'
 import { ICardType } from '../../types/ViewModels'
 
-export const CardTypeEdit = () => {
+interface Props {
+    doClone?: boolean
+}
+
+
+export const CardTypeEdit = (props: Props) => {
     const params = useParams()
-    const {gameState} = React.useContext(GlobalContext)
+    const { gameState } = React.useContext(GlobalContext)
 
     const [cardType, setCardType] = React.useState<ICardType | undefined>()
 
@@ -37,12 +42,14 @@ export const CardTypeEdit = () => {
     return (
         <LoadingPanel loaded={cardType}>
             <ItemEdit
-                title={`Card type ${cardType?.id?"edit":"create"}`}
+                title={`Card type ${cardType?.id ? "edit" : "create"}`}
                 returnUrl='/card-types'
-                saveUrl='/api/card-types'
+                saveUrl={`${process.env.REACT_APP_API}/cardtypes`}
                 schema={CardTypeFormSchema}
                 options={{}}
                 data={cardType}
+                doClone={props.doClone}
+
             />
         </LoadingPanel>
     )

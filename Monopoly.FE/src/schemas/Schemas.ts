@@ -16,9 +16,13 @@ export const GameFormSchema = {
         description: {
             type: "string",
             title: "Description"
+        },
+        isCompleted: {
+            type: "boolean",
+            title: "Is completed"
         }
     },
-    required: ["name", "description"]
+    required: ["name", "description", "isCompleted"]
 }
 export const CardTypeFormSchema = {
     type: "object",
@@ -63,7 +67,7 @@ export const CardFormSchema = {
             type: "string",
             title: "Description"
         },
-        types: {
+        type: {
             type: "array",
             title: "Card type",
             items: {
@@ -82,7 +86,7 @@ export const CardFormSchema = {
             }
         }
     },
-    required: ["name", "description", "types", "games"]
+    required: ["name", "description", "type", "games"]
 }
 export const FieldFormSchema = {
     type: "object",
@@ -96,7 +100,7 @@ export const FieldFormSchema = {
             type: "string",
             title: "Description"
         },
-        types: {
+        type: {
             type: "array",
             title: "Field type",
             items: {
@@ -115,7 +119,7 @@ export const FieldFormSchema = {
             }
         }
     },
-    required: ["name", "description", "types", "games"]
+    required: ["name", "description", "type", "games"]
 }
 
 export const BanknoteFormSchema = {
@@ -146,7 +150,7 @@ export const GameSchema = {
         id: {
             type: "number",
             title: "Id",
-            visible: true,
+            visible: false,
         },
         name: {
             type: "string",
@@ -164,7 +168,7 @@ export const GameSchema = {
             visible: true,
         }
     },
-    required: ["id", "name", "description"]
+    required: ["id", "name", "description", "isCompleted"]
 }
 export const CardTypeSchema = {
     type: "object",
@@ -173,7 +177,7 @@ export const CardTypeSchema = {
         id: {
             type: "number",
             title: "Id",
-            visible: true,
+            visible: false,
         },
         name: {
             type: "string",
@@ -195,7 +199,7 @@ export const FieldTypeSchema = {
         id: {
             type: "number",
             title: "Id",
-            visible: true,
+            visible: false,
         },
         name: {
             type: "string",
@@ -218,7 +222,7 @@ export const CardSchema = {
         id: {
             type: "number",
             title: "Id",
-            visible: true,
+            visible: false,
         },
         name: {
             type: "string",
@@ -265,7 +269,7 @@ export const FieldSchema = {
         id: {
             type: "number",
             title: "Id",
-            visible: true
+            visible: false
         },
         name: {
             type: "string",
@@ -314,7 +318,7 @@ export const BanknoteSchema = {
         id: {
             type: "number",
             title: "Id",
-            visible: true
+            visible: false
         },
         value: {
             type: "number",
@@ -358,19 +362,19 @@ export const emptyCard = {
     name: "",
     description: "",
     type: undefined,
-    game: -1
+    gameId: -1
 }
 export const emptyField = {
     name: "",
     description: "",
     type: undefined,
-    game: -1
+    gameId: -1
 }
 export const emptyBanknote = {
     value: 0,
     count: 0,
     unit: "",
-    game: -1
+    gameId: -1
 
 }
 

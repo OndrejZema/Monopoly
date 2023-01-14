@@ -1,6 +1,7 @@
 import React from 'react'
 import { ItemsPanel } from '../../components/ItemsPanel'
 import { FieldTypeSchema } from '../../schemas/Schemas'
+import { setTotalCount } from '../../store/actions/PaginationActions'
 import { GlobalContext } from '../../store/GlobalContextProvider'
 import { IField, IFieldType } from '../../types/ViewModels'
 
@@ -16,6 +17,14 @@ export const FieldTypes = () => {
             if(!data.ok){
                 throw new Error()
             }
+            let totalCount = data.headers.get("x-total-count")
+            if (totalCount) {
+                if (!isNaN(parseInt(totalCount))) {
+                    if (parseInt(totalCount) !== fieldTypesPaginationState.totalCount) {
+                        setTotalCount(fieldTypesPaginationDispatch, parseInt(totalCount))
+                    }
+                }
+            }
             return data.json()
         }).then(json => {
             //todo check type
@@ -24,7 +33,7 @@ export const FieldTypes = () => {
             console.log(err)
         })
 
-    }, [])
+    }, [fieldTypesPaginationState])
 
     return (<>
         <ItemsPanel

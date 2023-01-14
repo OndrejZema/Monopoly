@@ -8,17 +8,18 @@ import { ICard } from '../../types/ViewModels'
 
 
 export const Cards = () => {
-
+    const {gameState} = React.useContext(GlobalContext);
     const [cardsPaginationState, cardsPaginationDispatch] = React.useReducer(paginationReducer, paginationInitialState)
     const [cards, setCards] = React.useState<Array<ICard>>()
 
     React.useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API}/cards?page=${cardsPaginationState.page}&perPage=${cardsPaginationState.perPage}`)
+        fetch(`${process.env.REACT_APP_API}/games/${gameState.game?.id}/cards?page=${cardsPaginationState.page}&perPage=${cardsPaginationState.perPage}`)
             .then(data => {
                 if (!data.ok) {
                     throw new Error()
                 }
                 let totalCount = data.headers.get("x-total-count")
+                console.log(totalCount)
                 if (totalCount) {
                     if (!isNaN(parseInt(totalCount))) {
                         if (parseInt(totalCount) !== cardsPaginationState.totalCount) {
@@ -29,11 +30,10 @@ export const Cards = () => {
                 return data.json()
             })
             .then(json => {
-                console.log(json)
                 setCards(json)
             })
             .catch(err => {
-                console.log("Error loading games")
+                console.log("Error loading cards")
             })
 
 

@@ -65,6 +65,10 @@ namespace Monopoly.Repository.Repositories
             {
                 banknotes = DbContext.Banknotes.Skip((int)page * (int)perPage).Take((int)perPage).ToList();
             }
+            else if(gameId != null)
+            {
+                banknotes = DbContext.Banknotes.Where(banknotes => banknotes.GameId == gameId).ToList();
+            }
             else
             {
                 banknotes = DbContext.Banknotes.ToList();
@@ -93,9 +97,9 @@ namespace Monopoly.Repository.Repositories
             //entity.Id = banknote.Id;
             return entity;
         }
-        public int TotalCount()
+        public int TotalCount(int? gameId)
         {
-            return DbContext.Banknotes.Count();
+            return gameId == null? DbContext.Banknotes.Count():DbContext.Banknotes.Where(item => item.GameId == gameId).Count();
         }
     }
 }

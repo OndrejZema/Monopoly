@@ -97,9 +97,9 @@ namespace Monopoly.Repository.Repositories
             //entity.Id = card.Id;
             return entity;
         }
-        public int TotalCount()
+        public int TotalCount(int? gameId)
         {
-            return DbContext.Cards.Count();
+            return gameId == null ? DbContext.Cards.Count() : DbContext.Cards.Where(item => item.GameId == gameId).Count();
         }
     }
 }

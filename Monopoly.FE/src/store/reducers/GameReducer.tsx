@@ -1,4 +1,5 @@
 import { IBanknote, ICard, IField, IGame } from "../../types/ViewModels"
+import { SET_GAME } from "../actions/GameActions"
 
 export interface IGameState {
     game?: IGame
@@ -30,6 +31,11 @@ export const gameInitialState: IGameState = {
 }
 export const gameReducer = (state: IGameState = gameInitialState, action: IGameAction): IGameState => {
     switch (action.type) {
+        case SET_GAME:
+            return {
+                ...state,
+                game: action.payload.game?action.payload.game:state.game
+            }
         default: return state
     }
 }

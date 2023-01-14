@@ -21,7 +21,7 @@ namespace Monopoly.API.Controllers
         [HttpGet("/api/games/{gameId}/[controller]")]
         public ActionResult<List<BanknoteVM>> Index(int gameId, int page, int perPage)
         {
-            Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
+            Response.Headers.Add("X-Total-Count", service.TotalCount(gameId).ToString());
             try
             {
                 return Ok(service.GetAll(gameId, page, perPage));

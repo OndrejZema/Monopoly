@@ -30,20 +30,20 @@ namespace Monopoly.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<MonopolyDbContext>();
-            services.AddSingleton<CardRepository>();
-            services.AddSingleton<CardTypeRepository>();
-            services.AddSingleton<FieldRepository>();
-            services.AddSingleton<FieldTypeRepository>();
-            services.AddSingleton<GameRepository>();
-            services.AddSingleton<BanknoteRepository>();
-            services.AddSingleton<CardService>();
-            services.AddSingleton<CardTypeService>();
-            services.AddSingleton<FieldService>();
-            services.AddSingleton<FieldTypeService>();
-            services.AddSingleton<GameService>();
-            services.AddSingleton<GamePreviewService>();
-            services.AddSingleton<BanknoteService>();
+            services.AddScoped<MonopolyDbContext>();
+            services.AddScoped<CardRepository>();
+            services.AddScoped<CardTypeRepository>();
+            services.AddScoped<FieldRepository>();
+            services.AddScoped<FieldTypeRepository>();
+            services.AddScoped<GameRepository>();
+            services.AddScoped<BanknoteRepository>();
+            services.AddScoped<CardService>();
+            services.AddScoped<CardTypeService>();
+            services.AddScoped<FieldService>();
+            services.AddScoped<FieldTypeService>();
+            services.AddScoped<GameService>();
+            services.AddScoped<GamePreviewService>();
+            services.AddScoped<BanknoteService>();
 
             services.AddSwaggerGen(c =>
             {

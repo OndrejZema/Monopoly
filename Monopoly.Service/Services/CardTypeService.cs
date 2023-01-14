@@ -40,7 +40,7 @@ namespace Monopoly.Service.Services
 
         }
 
-        public List<CardTypeVM> GetAll(int page, int perPage)
+        public List<CardTypeVM> GetAll(int? page, int? perPage)
         {
             List<CardTypeDO> cardTypesDO =  repository.GetAll(page, perPage);
             if (cardTypesDO == null)

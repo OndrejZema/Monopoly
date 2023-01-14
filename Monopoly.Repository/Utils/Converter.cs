@@ -60,6 +60,7 @@ namespace Monopoly.Repository.Utils
         public static Game GameDOToGame(GameDO entity)
         {
             Game game = new Game();
+            game.Id = entity.Id;
             game.Name = entity.Name;
             game.Description = entity.Description;
             return game;

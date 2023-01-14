@@ -50,9 +50,17 @@ namespace Monopoly.Repository.Repositories
                 fieldType.Name, fieldType.Description);
             return fieldTypeDO;
         }
-        public List<FieldTypeDO> GetAll(int page, int perPage)
+        public List<FieldTypeDO> GetAll(int? page, int? perPage)
         {
-            List<FieldType> fieldTypes = DbContext.FieldTypes.Skip(perPage * page).Take(perPage).ToList();
+            List<FieldType> fieldTypes;
+            if (page != null && perPage != null)
+            {
+                fieldTypes = DbContext.FieldTypes.Skip((int)perPage * (int)page).Take((int)perPage).ToList();
+            }
+            else
+            {
+                fieldTypes = DbContext.FieldTypes.ToList();
+            }
             return fieldTypes.Select(fieldType =>
             {
                 return new FieldTypeDO(fieldType.Id, fieldType.Name, fieldType.Description);

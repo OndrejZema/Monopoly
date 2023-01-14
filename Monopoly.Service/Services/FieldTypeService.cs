@@ -47,7 +47,7 @@ namespace Monopoly.Service.Services
             return fieldTypeVM;
 
         }
-        public List<FieldTypeVM> GetAll(int page, int perPage)
+        public List<FieldTypeVM> GetAll(int? page, int? perPage)
         {
             List<FieldTypeDO> fieldTypesDO = repository.GetAll(page, perPage);
             if (fieldTypesDO == null)

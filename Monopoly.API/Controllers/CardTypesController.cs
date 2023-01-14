@@ -17,7 +17,7 @@ namespace Monopoly.API.Controllers
         }
 
         [HttpGet("")]
-        public ActionResult<List<CardTypeVM>> Index(int page, int perPage)
+        public ActionResult<List<CardTypeVM>> Index(int? page, int? perPage)
         {
             try
             {

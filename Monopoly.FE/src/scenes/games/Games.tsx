@@ -53,7 +53,7 @@ export const Games = () => {
                 </Button>
             </Link>
         </div>
-        {games?.map(item => <Game game={item} />)}
+        {games?.map((item, index) => <div key={`game_${index}`}><Game game={item} /></div>)}
         <PaginationPanel
             label='Games per page'
             state={gamesPaginationState}

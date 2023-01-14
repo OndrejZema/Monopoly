@@ -4,17 +4,33 @@ import { ItemEdit } from '../../components/ItemEdit'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { emptyField, FieldFormSchema, FieldTypeSchema } from '../../schemas/Schemas'
 import { GlobalContext } from '../../store/GlobalContextProvider'
-import { IField } from '../../types/ViewModels'
+import { IField, IFieldType } from '../../types/ViewModels'
+interface Props {
+    doClone?: boolean
+}
 
-export const FieldEdit = () => {
+export const FieldEdit = (props: Props) => {
 
     const params = useParams()
-    const {gameState} = React.useContext(GlobalContext)
+    const { gameState } = React.useContext(GlobalContext)
 
 
     const [field, setField] = React.useState<IField | undefined>()
+    const [fieldTypes, setFieldTypes] = React.useState<Array<IFieldType>>()
 
     React.useEffect(() => {
+
+        fetch(`${process.env.REACT_APP_API}/fieldtypes`).then(data => {
+            if (!data.ok) {
+                throw new Error()
+            }
+            return data.json()
+        }).then(json => {
+            setFieldTypes(json)
+        }).catch(err => {
+            console.log(err)
+        })
+
         if (params.id) {
             fetch(`${process.env.REACT_APP_API}/fields/${params.id}`)
                 .then(data => {
@@ -31,19 +47,21 @@ export const FieldEdit = () => {
                 })
         }
         else {
-            setField({...emptyField, gameId: gameState.game?.id!})
+            setField({ ...emptyField, gameId: gameState.game?.id! })
         }
     }, [])
 
     return (
-        <LoadingPanel loaded={field?true:false}>
-            <ItemEdit 
-                title={`Field ${field?.id?"edit":"create"}`}
+        <LoadingPanel loaded={field || fieldTypes}>
+            <ItemEdit
+                title={`Field ${field?.id ? "edit" : "create"}`}
                 returnUrl='/fields'
-                saveUrl='/api/fields'
+                saveUrl={`${process.env.REACT_APP_API}/fields`}
                 schema={FieldFormSchema}
-                options={{types: [{label: "lb type", value: 1}]}}
+                options={{ type: fieldTypes?.map(item => { return { label: item.name, value: item } }) }}
                 data={field}
+                doClone={props.doClone}
+
             />
         </LoadingPanel>
     )

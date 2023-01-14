@@ -6,7 +6,12 @@ import { BanknoteFormSchema, emptyBanknote, emptyCard, emptyCardType } from '../
 import { GlobalContext } from '../../store/GlobalContextProvider'
 import { IBanknote, ICardType } from '../../types/ViewModels'
 
-export const BanknoteEdit = () => {
+interface Props{
+    doClone?: boolean
+}
+
+
+export const BanknoteEdit = (props: Props) => {
 
     const params = useParams()
     const {gameState} = React.useContext(GlobalContext)
@@ -41,10 +46,11 @@ export const BanknoteEdit = () => {
             <ItemEdit
                 title={`Banknote ${banknote?.id?"edit":"create"}`}
                 returnUrl='/banknotes'
-                saveUrl='/api/banknotes'
+                saveUrl={`${process.env.REACT_APP_API}/banknotes`}
                 schema={BanknoteFormSchema}
-                options={{type: [{label: "lb1", value: "val1"}]}}
+                options={{}}
                 data={banknote}
+                doClone={props.doClone}
             />
         </LoadingPanel>
     )

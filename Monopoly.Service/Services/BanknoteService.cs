@@ -60,9 +60,9 @@ namespace Monopoly.Service.Services
             entity.Id = repository.Update(banknoteDO).Id;
             return entity;
         }
-        public int TotalCount()
+        public int TotalCount(int? gameId)
         {
-            return repository.TotalCount();
+            return repository.TotalCount(gameId);
         }
     }
 }

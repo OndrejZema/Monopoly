@@ -69,6 +69,10 @@ namespace Monopoly.Repository.Repositories
             {
                 fields = DbContext.Fields.Skip((int)page * (int)perPage).Take((int)perPage).ToList();
             }
+            else if(gameId != null)
+            {
+                fields = DbContext.Fields.Where(field => field.GameId == gameId).ToList();
+            }
             else
             {
                 fields = DbContext.Fields.ToList();
@@ -97,9 +101,9 @@ namespace Monopoly.Repository.Repositories
             //entity.Id = field.Id;
             return entity;
         }
-        public int TotalCount()
+        public int TotalCount(int? gameId)
         {
-            return DbContext.Fields.Count();
+            return gameId == null ? DbContext.Fields.Count() : DbContext.Fields.Where(item => item.GameId == gameId).Count();
         }
     }
 }
