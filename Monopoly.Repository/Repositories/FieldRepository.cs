@@ -58,27 +58,21 @@ namespace Monopoly.Repository.Repositories
 
             return fieldDO;
         }
-        public List<FieldDO> GetAll()
+        public List<FieldDO> GetAll(int? gameId, int? page, int? perPage)
         {
-            List<Field> fields = DbContext.Fields.ToList();
-            return fields.Select(field =>
+            List<Field> fields;
+            if (gameId != null && page != null && perPage != null)
             {
-                FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == field.FieldTypeId).FirstOrDefault();
-                if (fieldType == null)
-                {
-                    throw new NotFoundRecordException();
-                }
-                FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id,
-                     fieldType.Name, fieldType.Description);
-
-                return new FieldDO(field.Id,
-                    field.Name, field.Description, fieldTypeDO, field.GameId);
-
-            }).ToList();
-        }
-        public List<FieldDO> GetAll(int page, int perPage)
-        {
-            List<Field> fields = DbContext.Fields.Skip(perPage * page).Take(perPage).ToList();
+                fields = DbContext.Fields.Where(field=> field.GameId == gameId).Skip((int)page * (int)perPage).Take((int)perPage).ToList();
+            }
+            else if (page != null && perPage != null)
+            {
+                fields = DbContext.Fields.Skip((int)page * (int)perPage).Take((int)perPage).ToList();
+            }
+            else
+            {
+                fields = DbContext.Fields.ToList();
+            }
             return fields.Select(field =>
             {
                 FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == field.FieldTypeId).FirstOrDefault();

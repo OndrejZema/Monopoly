@@ -56,25 +56,24 @@ namespace Monopoly.Repository.Repositories
 
             return cardDO;
         }
-        public List<CardDO> GetAll()
+        public List<CardDO> GetAll(int? gameId, int? page, int? perPage)
         {
-            List<Card> cards = DbContext.Cards.ToList();
-            return cards.Select(card =>
+            List<Card> cards;
+            if(gameId != null && page != null && perPage != null) {
+                cards = DbContext.Cards.Where(card => card.GameId == gameId).Skip((int)page * (int)perPage).Take((int)perPage).ToList(); 
+            }
+            else if(page != null && perPage != null)
             {
-                CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == card.CardTypeId).FirstOrDefault();
-                if (cardType == null)
-                {
-                    throw new NotFoundRecordException();
-                }
-                CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id,
-                    cardType.Name, cardType.Description);
-
-                return new CardDO(card.Id, card.Name, card.Description, cardTypeDO, card.GameId);
-            }).ToList();
-        }
-        public List<CardDO> GetAll(int page, int perPage)
-        {
-            List<Card> cards = DbContext.Cards.Skip(perPage * page).Take(perPage).ToList();
+                cards = DbContext.Cards.Skip((int)page * (int)perPage).Take((int)perPage).ToList();
+            }
+            else if(gameId != null)
+            {
+                cards = DbContext.Cards.Where(card => card.GameId == gameId).ToList();
+            }
+            else
+            {
+                cards = DbContext.Cards.ToList();
+            }
             return cards.Select(card =>
             {
                 CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == card.CardTypeId).FirstOrDefault();

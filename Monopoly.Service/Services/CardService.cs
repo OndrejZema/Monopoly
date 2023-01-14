@@ -45,10 +45,9 @@ namespace Monopoly.Service.Services
             CardVM cardVM= new CardVM(cardDO.Id, cardDO.Name, cardDO.Description, cardTypeVM, cardDO.GameId);
             return cardVM;
         }
-
-        public List<CardVM> GetAll(int page, int perPage)
+        public List<CardVM> GetAll(int? gameId, int page, int perPage)
         {
-            List<CardDO> cardsDO =  repository.GetAll(page, perPage);
+            List<CardDO> cardsDO = repository.GetAll(gameId, page, perPage);
             if(cardsDO == null)
             {
                 throw new NotFoundRecordException();

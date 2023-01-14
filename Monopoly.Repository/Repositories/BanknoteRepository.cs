@@ -53,9 +53,22 @@ namespace Monopoly.Repository.Repositories
                         banknote.Unit, banknote.GameId);
             }).ToList();
         }
-        public List<BanknoteDO> GetAll(int page, int perPage)
+        public List<BanknoteDO> GetAll(int? gameId, int? page, int? perPage)
         {
-            List<Banknote> banknotes = DbContext.Banknotes.Skip(perPage * page).Take(perPage).ToList();
+
+            List<Banknote> banknotes;
+            if (gameId != null && page != null && perPage != null)
+            {
+                banknotes = DbContext.Banknotes.Where(banknotes => banknotes.GameId == gameId).Skip((int)page * (int)perPage).Take((int)perPage).ToList();
+            }
+            else if (page != null && perPage != null)
+            {
+                banknotes = DbContext.Banknotes.Skip((int)page * (int)perPage).Take((int)perPage).ToList();
+            }
+            else
+            {
+                banknotes = DbContext.Banknotes.ToList();
+            }
             return banknotes.Select(banknote =>
             {
                 return new BanknoteDO(banknote.Id, banknote.Value, banknote.Count,

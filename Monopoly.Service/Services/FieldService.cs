@@ -45,9 +45,9 @@ namespace Monopoly.Service.Services
 
             return fieldVM;
         }
-        public List<FieldVM> GetAll(int page, int perPage)
+        public List<FieldVM> GetAll(int? gameId, int page, int perPage)
         {
-            List<FieldDO> fieldsDO =  repository.GetAll(page, perPage);
+            List<FieldDO> fieldsDO =  repository.GetAll(gameId, page, perPage);
             if (fieldsDO== null)
             {
                 throw new NotFoundRecordException();

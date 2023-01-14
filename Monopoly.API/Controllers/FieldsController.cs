@@ -16,13 +16,13 @@ namespace Monopoly.API.Controllers
             this.service = service;
         }
 
-        [HttpGet("")]
-        public ActionResult<List<FieldVM>> Index(int page, int perPage)
+        [HttpGet("/api/games/{gameId}/[controller]")]
+        public ActionResult<List<FieldVM>> Index(int gameId, int page, int perPage)
         {
             try
             {
                 Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
-                return service.GetAll(page, perPage);
+                return service.GetAll(gameId, page, perPage);
             }
             catch (NotFoundRecordException ex)
             {

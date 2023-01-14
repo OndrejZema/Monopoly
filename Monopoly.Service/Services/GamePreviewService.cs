@@ -36,9 +36,9 @@ namespace Monopoly.Service.Services
             game.Name,
             game.Description,
             game.IsCompleted,
-            cardRepository.GetAll().Where(card => card.GameId == game.Id).ToList().Count(),
-            fieldRepository.GetAll().Where(field => field.GameId == game.Id).ToList().Count(),
-            banknoteRepository.GetAll().Where(banknote => banknote.GameId == game.Id).ToList().Count())
+            cardRepository.GetAll((int)game.Id, null, null).Count(),
+            fieldRepository.GetAll((int)game.Id, null, null).Count(),
+            banknoteRepository.GetAll((int)game.Id, null, null).Count())
             ).ToList();
         }
     }
