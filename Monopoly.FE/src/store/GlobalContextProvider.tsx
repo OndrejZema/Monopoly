@@ -18,7 +18,7 @@ interface IGlobalContext {
     fieldTypesPaginationDispatch: (action: IPaginationAction) => void
 
 
-    notificationState: INotificationsState
+    notificationsState: INotificationsState
     notificationsDispatch: (action: INotificationsAction) => void
 }
 
@@ -36,7 +36,7 @@ export const GlobalContext = React.createContext<IGlobalContext>({
     fieldTypesPaginationState: paginationInitialState,
     fieldTypesPaginationDispatch: () => { },
 
-    notificationState: notificationsInitialState,
+    notificationsState: notificationsInitialState,
     notificationsDispatch: () => { }
 
 
@@ -53,20 +53,20 @@ export const GlobalContextProvider = (props: GlobalContextProviderProps) => {
     const [cardTypesPaginationState, cardTypesPaginationDispatch] = React.useReducer(paginationReducer, paginationInitialState)
     const [fieldTypesPaginationState, fieldTypesPaginationDispatch] = React.useReducer(paginationReducer, paginationInitialState)
 
-    const [notificationState, notificationsDispatch] = React.useReducer(notificationsReducer, notificationsInitialState)
+    const [notificationsState, notificationsDispatch] = React.useReducer(notificationsReducer, notificationsInitialState)
 
     const store = React.useMemo(() => ({
         gameState, gameDispatch,
         gamesPaginationState, gamesPaginationDispatch,
         cardTypesPaginationState, cardTypesPaginationDispatch,
         fieldTypesPaginationState, fieldTypesPaginationDispatch,
-        notificationState, notificationsDispatch
+        notificationsState, notificationsDispatch
     }), [
         gameState, gameDispatch,
         gamesPaginationState, gamesPaginationDispatch,
         cardTypesPaginationState, cardTypesPaginationDispatch,
         fieldTypesPaginationState, fieldTypesPaginationDispatch,
-        notificationState, notificationsDispatch
+        notificationsState, notificationsDispatch
     ])
 
     return (

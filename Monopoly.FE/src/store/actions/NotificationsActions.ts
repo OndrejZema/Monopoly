@@ -8,7 +8,7 @@ export const REMOVE_NOTIFICATION: string = "REMOVE_NOTIFICATION"
 
 export const createNotification = (dispatch: React.Dispatch<INotificationsAction>, title: string, text: string, variant: string, time?: number) => {
 
-    let id = `alert ${Date.now()}`
+    let id = `notification_${Date.now()}`
     if(time){
         setInterval(()=>{
             removeNotification(dispatch, id)

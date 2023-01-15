@@ -6,7 +6,7 @@ import { BanknoteFormSchema, emptyBanknote, emptyCard, emptyCardType } from '../
 import { GlobalContext } from '../../store/GlobalContextProvider'
 import { IBanknote, ICardType } from '../../types/ViewModels'
 
-interface Props{
+interface Props {
     doClone?: boolean
 }
 
@@ -14,8 +14,8 @@ interface Props{
 export const BanknoteEdit = (props: Props) => {
 
     const params = useParams()
-    const {gameState} = React.useContext(GlobalContext)
-    
+    const { gameState } = React.useContext(GlobalContext)
+
     const [banknote, setBanknote] = React.useState<IBanknote | undefined>()
 
     React.useEffect(() => {
@@ -28,14 +28,14 @@ export const BanknoteEdit = (props: Props) => {
                     return data.json()
                 })
                 .then(json => {
-                    setBanknote(json)
+                    setBanknote(props.doClone ? { ...json, id: undefined } : json)
                 })
                 .catch(err => {
                     console.log("Error loading field")
                 })
         }
         else {
-            setBanknote({...emptyBanknote, gameId: gameState.game?.id!})
+            setBanknote({ ...emptyBanknote, gameId: gameState.game?.id! })
         }
     }, [])
 
@@ -44,9 +44,9 @@ export const BanknoteEdit = (props: Props) => {
     return (
         <LoadingPanel loaded={banknote}>
             <ItemEdit
-                title={`Banknote ${banknote?.id?"edit":"create"}`}
+                title={`Banknote ${banknote?.id ? "edit" : "create"}`}
                 returnUrl='/banknotes'
-                saveUrl={`${process.env.REACT_APP_API}/banknotes`}
+                apiUrl={`${process.env.REACT_APP_API}/banknotes`}
                 schema={BanknoteFormSchema}
                 options={{}}
                 data={banknote}

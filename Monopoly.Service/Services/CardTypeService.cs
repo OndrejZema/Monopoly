@@ -54,7 +54,7 @@ namespace Monopoly.Service.Services
         }
         public CardTypeVM Update(CardTypeVM entity)
         {
-            CardTypeDO cardTypeDO = new CardTypeDO(entity.Name, entity.Description);
+            CardTypeDO cardTypeDO = new CardTypeDO(entity.Id, entity.Name, entity.Description);
             entity.Id = repository.Update(cardTypeDO).Id;
             return entity;
         }

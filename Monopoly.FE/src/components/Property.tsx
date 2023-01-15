@@ -9,7 +9,7 @@ interface Props {
     type: string
     value?: string | number | any
     options?: Array<IOption>
-    onChange: (name: string, value: string | number) => void
+    onChange: (name: string, value: string | number | boolean | any) => void
 }
 
 export const Property = (props: Props) => {
@@ -25,7 +25,9 @@ export const Property = (props: Props) => {
                     onChange={(e) => { props.onChange(props.name, parseInt(e.target.value))}}
                     value={props.value} />
             case "boolean":
-                return <Form.Check type="switch" value={props.value} onChange={(e)=>{props.onChange(props.name, e.target.value)}} />
+                //Warning e.target.checked.. not e.target.value 
+                return <Form.Check type="switch" checked={props.value} 
+                onChange={(e)=>{props.onChange(props.name, e.target.checked)}} />
             case "array":
                 return props.options ?
                 <Select options={(props.options as Array<any>)}

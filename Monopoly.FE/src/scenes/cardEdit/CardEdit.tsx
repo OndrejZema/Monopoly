@@ -62,7 +62,7 @@ export const CardEdit = (props: Props) => {
             <ItemEdit
                 title={`Card ${card?.id?"edit":"create"}`}
                 returnUrl='/cards'
-                saveUrl={`${process.env.REACT_APP_API}/cards`}
+                apiUrl={`${process.env.REACT_APP_API}/cards`}
                 schema={CardFormSchema}
                 options={{type: cardTypes?.map(type => {return{label: type.name, value: type}})}}
                 data={card}

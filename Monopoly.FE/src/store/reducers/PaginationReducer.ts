@@ -32,12 +32,12 @@ export const paginationReducer = (state: IPaginationState = paginationInitialSta
             return {
                 ...state,
                 page: action.payload.page !== undefined?action.payload.page:state.page,
-                perPage: action.payload.perPage?action.payload.perPage:state.perPage
+                perPage: action.payload.perPage !== undefined?action.payload.perPage:state.perPage
             }
         case SET_TOTAL_COUNT:
             return {
                 ...state,
-                totalCount: action.payload.totalCount?action.payload.totalCount:state.totalCount
+                totalCount: action.payload.totalCount !== undefined?action.payload.totalCount:state.totalCount
             }
         default: return state
     }

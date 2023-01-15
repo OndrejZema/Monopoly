@@ -66,7 +66,7 @@ namespace Monopoly.API.Controllers
                 return NotFound();
             }
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
             try
@@ -77,6 +77,10 @@ namespace Monopoly.API.Controllers
             catch (NotFoundRecordException ex)
             {
                 return NotFound();
+            }
+            catch (RecordWithDependenciesException ex)
+            {
+                return StatusCode(409);
             }
         }
     }

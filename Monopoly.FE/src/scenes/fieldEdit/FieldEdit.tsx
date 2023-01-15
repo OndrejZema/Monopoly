@@ -40,7 +40,7 @@ export const FieldEdit = (props: Props) => {
                     return data.json()
                 })
                 .then(json => {
-                    setField(json)
+                    setField(props.doClone?{...json, id: undefined}:json)
                 })
                 .catch(err => {
                     console.log("Error loading field")
@@ -56,7 +56,7 @@ export const FieldEdit = (props: Props) => {
             <ItemEdit
                 title={`Field ${field?.id ? "edit" : "create"}`}
                 returnUrl='/fields'
-                saveUrl={`${process.env.REACT_APP_API}/fields`}
+                apiUrl={`${process.env.REACT_APP_API}/fields`}
                 schema={FieldFormSchema}
                 options={{ type: fieldTypes?.map(item => { return { label: item.name, value: item } }) }}
                 data={field}

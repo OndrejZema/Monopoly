@@ -3,13 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Button, Spinner } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
+import { createNotification } from '../store/actions/NotificationsActions'
+import { GlobalContext } from '../store/GlobalContextProvider'
 import { LoadingPanel } from './LoadingPanel'
 import { Property } from './Property'
 
 interface Props {
     title: string
     returnUrl: string
-    saveUrl: string
+    apiUrl: string
     schema: any
     options: any // object of options like {type: [{label: "Card type one", value: "1"}], gameId: [{label: "Game 1", value: "game1"}]}
     data?: any
@@ -19,7 +21,7 @@ interface Props {
 export const ItemEdit = (props: Props) => {
     const navigate = useNavigate()
 
-
+    const {notificationsDispatch} = React.useContext(GlobalContext)
     const [data, setData] = React.useState<any>()
 
     React.useEffect(() => {
@@ -29,7 +31,7 @@ export const ItemEdit = (props: Props) => {
     })
 
     const handleBtnSaveClick = () => {
-        fetch(props.saveUrl, {
+        fetch(props.apiUrl, {
             method: props.doClone ? "POST" : "PUT",
             headers: {
                 'Content-type': 'application/json'
@@ -41,13 +43,15 @@ export const ItemEdit = (props: Props) => {
             }
             return response.json()
         }).then(json => {
-            
+            createNotification(notificationsDispatch, `Success`, "", "success", 3000)
             navigate(props.returnUrl)
         }).catch(err => {
-            console.log(err)
+            // console.log(err)
+            createNotification(notificationsDispatch, `Error`, "", "danger")
         })
     }
-    const handleChange = (name: string, value: string | number) => {
+    const handleChange = (name: string, value: string | number | boolean | any) => {
+        console.log(`${name}: ${value}`)
         setData({ ...data, [name]: value })
     }
     if (!props.data || !data) {

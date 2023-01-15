@@ -33,16 +33,16 @@ export const GameEdit = (props: Props) => {
         }
     }, [])
 
-    React.useEffect(()=>{
-        console.log(game)
-    }, [game])
+    // React.useEffect(()=>{
+    //     console.log(game)
+    // }, [game])
 
     return (
         <>
             <ItemEdit
                 title='Game edit'
                 returnUrl='/'
-                saveUrl={`${process.env.REACT_APP_API}/games`}
+                apiUrl={`${process.env.REACT_APP_API}/games`}
                 schema={GameFormSchema}
                 options={{}}
                 data={game}

@@ -27,6 +27,14 @@ namespace Monopoly.Repository.Repositories
             if (game == null) {
                 throw new NotFoundRecordException();
             }
+            int cards = DbContext.Cards.Where(card => card.GameId == id).ToList().Count;
+            int fields= DbContext.Fields.Where(field => field.GameId == id).ToList().Count;
+            int banknotes = DbContext.Banknotes.Where(banknote => banknote.GameId == id).ToList().Count;
+            if(cards != 0 || fields != 0 || banknotes != 0)
+            {
+                throw new RecordWithDependenciesException();
+            }
+
             DbContext.Games.Remove(game);
             DbContext.SaveChanges();
         }

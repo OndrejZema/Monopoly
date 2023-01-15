@@ -9,35 +9,17 @@ import { GlobalContext } from '../../store/GlobalContextProvider'
 import { IGamePreview } from '../../types/ViewModels'
 import { LoadingPanel } from '../../components/LoadingPanel'
 import { setTotalCount } from '../../store/actions/PaginationActions'
+import { loadData } from '../../services/ItemsService'
 
 
 export const Games = () => {
 
-    const { gamesPaginationState, gamesPaginationDispatch } = React.useContext(GlobalContext)
+    const { gamesPaginationState, gamesPaginationDispatch, notificationsDispatch } = React.useContext(GlobalContext)
     const [games, setGames] = React.useState<Array<IGamePreview>>()
 
     React.useEffect(() => {
-        fetch(`${process.env.REACT_APP_API}/gamespreview?page=${gamesPaginationState.page}&perPage=${gamesPaginationState.perPage}`)
-            .then(data => {
-                if (!data.ok) {
-                    throw new Error()
-                }
-                let totalCount = data.headers.get("x-total-count")
-                if (totalCount) {
-                    if (!isNaN(parseInt(totalCount))) {
-                        if (parseInt(totalCount) !== gamesPaginationState.totalCount) {
-                            setTotalCount(gamesPaginationDispatch, parseInt(totalCount))
-                        }
-                    }
-                }
-                return data.json()
-            })
-            .then(json => {
-                setGames(json)
-            })
-            .catch(err => {
-                console.log("Error loading games")
-            })
+        loadData("gamespreview", setGames, 
+        gamesPaginationState, gamesPaginationDispatch, notificationsDispatch)
 
     }, [gamesPaginationState])
 
@@ -53,7 +35,10 @@ export const Games = () => {
                 </Button>
             </Link>
         </div>
-        {games?.map((item, index) => <div key={`game_${index}`}><Game game={item} /></div>)}
+        {games?.map((item, index) => <div key={`game_${index}`}><Game game={item} reload={()=>{
+            loadData("gamespreview", setGames, 
+            gamesPaginationState, gamesPaginationDispatch, notificationsDispatch)
+        }} /></div>)}
         <PaginationPanel
             label='Games per page'
             state={gamesPaginationState}

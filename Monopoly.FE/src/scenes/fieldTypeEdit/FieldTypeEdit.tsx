@@ -18,7 +18,7 @@ export const FieldTypeEdit = (props: Props) => {
 
     React.useEffect(() => {
         if (params.id) {
-            fetch(`${process.env.REACT_APP_API}/field-types/${params.id}`)
+            fetch(`${process.env.REACT_APP_API}/fieldtypes/${params.id}`)
                 .then(data => {
                     if (!data.ok) {
                         throw new Error()
@@ -26,7 +26,7 @@ export const FieldTypeEdit = (props: Props) => {
                     return data.json()
                 })
                 .then(json => {
-                    setFieldType(json)
+                    setFieldType(props.doClone?{...json, id: undefined}:json)
                 })
                 .catch(err => {
                     console.log("Error loading field")
@@ -43,7 +43,7 @@ export const FieldTypeEdit = (props: Props) => {
             <ItemEdit
                 title={`Field type ${fieldType?.id ? "edit" : "create"}`}
                 returnUrl='/field-types'
-                saveUrl={`${process.env.REACT_APP_API}/fieldtypes`}
+                apiUrl={`${process.env.REACT_APP_API}/fieldtypes`}
                 schema={FieldTypeFormSchema}
                 options={{}}
                 data={fieldType}

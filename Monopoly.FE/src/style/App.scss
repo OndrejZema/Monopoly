@@ -17,3 +17,23 @@
     color: black;
   }
 }
+
+.bg-selected{
+  background-color: #32a871;
+  color: white !important;
+  &:hover{
+    background-color: #198754;
+    color: white !important;
+  }
+}
+.notifications-panel{
+  position: fixed;
+  opacity: 0.5;
+  top: 0px;
+  right: 0px;
+  padding: 1rem;
+  z-index: 999;
+  &:hover{
+    opacity: 1;
+  }
+}

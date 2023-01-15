@@ -20,10 +20,12 @@ import { FieldEdit } from './scenes/fieldEdit/FieldEdit';
 import { Banknotes } from './scenes/banknotes/Banknotes';
 import { BanknoteEdit } from './scenes/banknoteEdit/BanknoteEdit';
 import { GlobalContextProvider } from './store/GlobalContextProvider';
+import { NotificationsPanel } from './components/NotificationsPanel';
 
 function App() {
   return (
     <GlobalContextProvider>
+      <NotificationsPanel />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CustomRoute> <Games /> </CustomRoute>}></Route>

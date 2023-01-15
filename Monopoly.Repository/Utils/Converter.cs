@@ -63,6 +63,7 @@ namespace Monopoly.Repository.Utils
             game.Id = entity.Id;
             game.Name = entity.Name;
             game.Description = entity.Description;
+            game.IsCompleted = entity.IsCompleted?1:0;
             return game;
         }
     }

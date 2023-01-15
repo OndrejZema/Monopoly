@@ -65,7 +65,7 @@ namespace Monopoly.API.Controllers
                 return NotFound();
             }
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
             try

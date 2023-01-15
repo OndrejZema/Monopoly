@@ -19,7 +19,7 @@ export const CardTypeEdit = (props: Props) => {
 
     React.useEffect(() => {
         if (params.id) {
-            fetch(`${process.env.REACT_APP_API}/card-types/${params.id}`)
+            fetch(`${process.env.REACT_APP_API}/cardtypes/${params.id}`)
                 .then(data => {
                     if (!data.ok) {
                         throw new Error()
@@ -27,7 +27,7 @@ export const CardTypeEdit = (props: Props) => {
                     return data.json()
                 })
                 .then(json => {
-                    setCardType(json)
+                    setCardType(props.doClone?{...json, id: undefined}:json)
                 })
                 .catch(err => {
                     console.log("Error loading field")
@@ -44,7 +44,7 @@ export const CardTypeEdit = (props: Props) => {
             <ItemEdit
                 title={`Card type ${cardType?.id ? "edit" : "create"}`}
                 returnUrl='/card-types'
-                saveUrl={`${process.env.REACT_APP_API}/cardtypes`}
+                apiUrl={`${process.env.REACT_APP_API}/cardtypes`}
                 schema={CardTypeFormSchema}
                 options={{}}
                 data={cardType}

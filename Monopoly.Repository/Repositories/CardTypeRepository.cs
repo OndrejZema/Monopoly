@@ -28,6 +28,11 @@ namespace Monopoly.Repository.Repositories
             {
                 throw new NotFoundRecordException();
             }
+            int cards = DbContext.Cards.Where(card => card.CardTypeId == id).ToList().Count;
+            if(cards != 0)
+            {
+                throw new RecordWithDependenciesException();
+            }
             DbContext.CardTypes.Remove(cardType);
             DbContext.SaveChanges();
         }

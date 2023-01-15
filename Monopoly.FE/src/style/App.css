@@ -19,4 +19,27 @@
 .link:hover {
   color: black;
 }
+
+.bg-selected {
+  background-color: #32a871;
+  color: white !important;
+}
+
+.bg-selected:hover {
+  background-color: #198754;
+  color: white !important;
+}
+
+.notifications-panel {
+  position: fixed;
+  opacity: 0.5;
+  top: 0px;
+  right: 0px;
+  padding: 1rem;
+  z-index: 999;
+}
+
+.notifications-panel:hover {
+  opacity: 1;
+}
 /*# sourceMappingURL=App.css.map */

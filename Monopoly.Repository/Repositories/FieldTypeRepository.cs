@@ -35,6 +35,11 @@ namespace Monopoly.Repository.Repositories
             {
                 throw new NotFoundRecordException();
             }
+            int fields = DbContext.Fields.Where(field => field.FieldTypeId == id).ToList().Count;
+            if(fields != 0)
+            {
+                throw new RecordWithDependenciesException();
+            }
             DbContext.FieldTypes.Remove(fieldType);
             DbContext.SaveChanges();
         }
