@@ -9,21 +9,49 @@ namespace Monopoly.Service.Services
     public class GameService
     {
         private GameRepository repository;
-        public GameService(GameRepository repository)
+        private CardRepository cardRepo;
+        private FieldRepository fieldRepo;
+        private BanknoteRepository banknoteRepo;
+        public GameService(GameRepository repository, CardRepository cardRepo, FieldRepository fieldRepo, BanknoteRepository banknoteRepo)
         {
             this.repository = repository;
+            this.cardRepo = cardRepo;
+            this.fieldRepo = fieldRepo;
+            this.banknoteRepo = banknoteRepo;
         }
 
         public GameVM Create(GameVM entity)
         {
-            GameDO gameDO = new GameDO(entity.Id, entity.Name, entity.Description, entity.IsCompleted);
-
+            GameDO gameDO = new GameDO(entity.Name, entity.Description, entity.IsCompleted);
+            if (!gameDO.IsValid())
+            {
+                throw new ValueException();
+            }
             entity.Id = repository.Create(gameDO).Id;
             return entity;
         }
 
         public void Delete(int id)
         {
+            if(repository.Get(id) == null)
+            {
+                throw new NotFoundRecordException();
+            }
+
+            int c = fieldRepo.GetAll().Where(item => item.GameId == id).ToList().Count;
+            int a = cardRepo.GetAll().Where(item => item.GameId == id).ToList().Count;
+            int b = banknoteRepo.GetAll().Where(item => item.GameId == id).ToList().Count;
+          
+
+
+
+            if (cardRepo.GetAll().Where(item => item.GameId == id).ToList().Count != 0 ||
+                fieldRepo.GetAll().Where(item => item.GameId == id).ToList().Count != 0 ||
+                banknoteRepo.GetAll().Where(item => item.GameId == id).ToList().Count != 0)
+            {
+                throw new RecordWithDependenciesException();
+            }
+
             repository.Delete(id);
         }
 
@@ -55,6 +83,10 @@ namespace Monopoly.Service.Services
         public GameVM Update(GameVM entity)
         {
             GameDO gameDO = new GameDO(entity.Id, entity.Name, entity.Description, entity.IsCompleted);
+            if (!gameDO.IsValid())
+            {
+                throw new ValueException();
+            }
             repository.Update(gameDO);
             return entity;
         }

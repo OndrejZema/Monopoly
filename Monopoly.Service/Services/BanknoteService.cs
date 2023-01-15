@@ -8,22 +8,34 @@ namespace Monopoly.Service.Services
     public class BanknoteService
     {
         private BanknoteRepository repository;
-        public BanknoteService(BanknoteRepository repository)
+        private GameRepository gameRepo;
+        public BanknoteService(BanknoteRepository repository, GameRepository gameRepo)
         {
             this.repository = repository;
+            this.gameRepo = gameRepo;
         }
 
         public BanknoteVM Create(BanknoteVM entity)
         {
             BanknoteDO banknoteDO = new BanknoteDO(entity.Value,
                 entity.Count, entity.Unit, entity.GameId);
-
+            if (!banknoteDO.IsValid())
+            {
+                throw new ValueException();
+            }
+            if (gameRepo.Get((long)banknoteDO.GameId) == null) {
+                throw new NotFoundRecordException();
+            }
             entity.Id = repository.Create(banknoteDO).Id;
             return entity;
         }
 
         public void Delete(int id)
         {
+            if(repository.Get(id) == null)
+            {
+                throw new NotFoundRecordException();
+            }
             repository.Delete(id);
         }
 
@@ -57,6 +69,15 @@ namespace Monopoly.Service.Services
         {
             BanknoteDO banknoteDO = new BanknoteDO(entity.Id, 
                 entity.Value, entity.Count, entity.Unit, entity.GameId);
+            if(!banknoteDO.IsValid())
+            {
+                throw new ValueException();
+            }
+            if(gameRepo.Get(banknoteDO.GameId) == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            
             entity.Id = repository.Update(banknoteDO).Id;
             return entity;
         }

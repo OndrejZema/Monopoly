@@ -15,14 +15,14 @@ namespace Monopoly.Repository.Repositories
         public CardTypeDO Create(CardTypeDO entity)
         {
             CardType cardType = Converter.CardTypeDOToCardType(entity);
-
+            cardType.Id = null;
             DbContext.CardTypes.Add(cardType);
             DbContext.SaveChanges();
             entity.Id = cardType.Id;
             return entity;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {   CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == id).FirstOrDefault();
             if (cardType == null)
             {
@@ -37,18 +37,21 @@ namespace Monopoly.Repository.Repositories
             DbContext.SaveChanges();
         }
 
-        public CardTypeDO Get(int id)
+        public CardTypeDO Get(long id)
         {
             CardType? cardType = DbContext.CardTypes.Where(item => item.Id == id).FirstOrDefault();
             if (cardType == null)
             {
-                throw new NotFoundRecordException();
+                return null;
             }
             CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id, cardType.Name, cardType.Description);
 
             return cardTypeDO;
         }
-
+        public List<CardTypeDO> GetAll()
+        {
+            return GetAll(null, null);
+        }
         public List<CardTypeDO> GetAll(int? page, int? perPage)
         {
 

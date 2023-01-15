@@ -14,18 +14,32 @@ namespace Monopoly.Service.Services
     public class CardTypeService
     {
         private CardTypeRepository repository;
-        public CardTypeService(CardTypeRepository repository) { 
+        private CardRepository cardRepo;
+        public CardTypeService(CardTypeRepository repository, CardRepository cardRepo) { 
             this.repository = repository;
+            this.cardRepo = cardRepo;
         }
         public CardTypeVM Create(CardTypeVM entity)
         {
             CardTypeDO cardTypeDO = new CardTypeDO(entity.Name, entity.Description);
+            if (!cardTypeDO.IsValid()) {
+                throw new ValueException();
+            }
+
             entity.Id = repository.Create(cardTypeDO).Id;
             return entity;
 
         }
         public void Delete(int id)
         {
+            if(repository.Get(id) == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            if(cardRepo.GetAll().Where(item => item.Type.Id == id).ToList().Count != 0)
+            {
+                throw new RecordWithDependenciesException();
+            }
             repository.Delete(id);
         }
         public CardTypeVM Get(int id)
@@ -55,6 +69,19 @@ namespace Monopoly.Service.Services
         public CardTypeVM Update(CardTypeVM entity)
         {
             CardTypeDO cardTypeDO = new CardTypeDO(entity.Id, entity.Name, entity.Description);
+            if(cardTypeDO.Id == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            //if(repository.Get((long)cardTypeDO.Id) == null)
+            //{
+            //    throw new NotFoundRecordException();
+            //}   
+            if (!cardTypeDO.IsValid())
+            {
+                throw new ValueException();
+            }
+
             entity.Id = repository.Update(cardTypeDO).Id;
             return entity;
         }

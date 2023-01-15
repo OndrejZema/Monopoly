@@ -15,13 +15,14 @@ namespace Monopoly.Repository.Repositories
         public BanknoteDO Create(BanknoteDO entity)
         {
             Banknote banknote = Converter.BanknoteDOToBanknote(entity);
+            banknote.Id = null;
             DbContext.Banknotes.Add(banknote);
             DbContext.SaveChanges();
             entity.Id = banknote.Id;
             return entity;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             Banknote? banknote = DbContext.Banknotes.Where(banknote => banknote.Id == id).FirstOrDefault();
             if (banknote == null)
@@ -32,12 +33,12 @@ namespace Monopoly.Repository.Repositories
             DbContext.SaveChanges();
         }
 
-        public BanknoteDO Get(int id)
+        public BanknoteDO Get(long id)
         {
             Banknote? banknote = DbContext.Banknotes.Where(banknote => banknote.Id == id).FirstOrDefault();
             if (banknote == null)
             {
-                throw new NotFoundRecordException();
+                return null;
             }
             BanknoteDO banknoteDO = new BanknoteDO(banknote.Id,
                 banknote.Value, banknote.Count,
@@ -46,12 +47,7 @@ namespace Monopoly.Repository.Repositories
         }
         public List<BanknoteDO> GetAll()
         {
-            List<Banknote> banknotes = DbContext.Banknotes.ToList();
-            return banknotes.Select(banknote =>
-            {
-                return new BanknoteDO(banknote.Id, banknote.Value, banknote.Count,
-                        banknote.Unit, banknote.GameId);
-            }).ToList();
+            return GetAll(null, null, null);
         }
         public List<BanknoteDO> GetAll(int? gameId, int? page, int? perPage)
         {
@@ -79,15 +75,6 @@ namespace Monopoly.Repository.Repositories
                     banknote.Unit, banknote.GameId);
             }).ToList();
         }
-        public List<BanknoteDO> GetAll(int gameId, int page, int perPage)
-        {
-            List<Banknote> banknotes = DbContext.Banknotes.Where(banknote => banknote.GameId == gameId).Skip(perPage * page).Take(perPage).ToList();
-            return banknotes.Select(banknote =>
-            {
-                return new BanknoteDO(banknote.Id, banknote.Value, banknote.Count,
-                    banknote.Unit, banknote.GameId);
-            }).ToList();
-        }
 
         public BanknoteDO Update(BanknoteDO entity)
         {
@@ -97,7 +84,7 @@ namespace Monopoly.Repository.Repositories
             //entity.Id = banknote.Id;
             return entity;
         }
-        public int TotalCount(int? gameId)
+        public int TotalCount(long? gameId)
         {
             return gameId == null? DbContext.Banknotes.Count():DbContext.Banknotes.Where(item => item.GameId == gameId).Count();
         }

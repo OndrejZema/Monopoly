@@ -1,4 +1,4 @@
-import { faAngleLeft, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft, faCopy, faEdit, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Button, Spinner, Table } from 'react-bootstrap'
@@ -65,13 +65,13 @@ export const ItemsPanel = (props: Props) => {
                     selectedItem && <>
                         <Link to={`/${props.url}/clone/${selectedItem.id}`}>
                             <Button variant="outline-secondary" className='me-2'>
-                                <FontAwesomeIcon icon={faPlus} className="me-1" />
+                                <FontAwesomeIcon icon={faCopy} className="me-1" />
                                 Clone
                             </Button>
                         </Link>
                         <Link to={`/${props.url}/edit/${selectedItem.id}`}>
                             <Button variant="outline-success" className='me-2'>
-                                <FontAwesomeIcon icon={faPlus} className="me-1" />
+                                <FontAwesomeIcon icon={faEdit} className="me-1" />
                                 Edit
                             </Button>
                         </Link>

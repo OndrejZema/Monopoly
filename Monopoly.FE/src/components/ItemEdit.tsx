@@ -31,8 +31,9 @@ export const ItemEdit = (props: Props) => {
     })
 
     const handleBtnSaveClick = () => {
+        // console.log(props.doClone ? "POST" : "PUT")
         fetch(props.apiUrl, {
-            method: props.doClone ? "POST" : "PUT",
+            method: props.data.id === undefined ? "POST" : "PUT",
             headers: {
                 'Content-type': 'application/json'
             },
@@ -51,7 +52,7 @@ export const ItemEdit = (props: Props) => {
         })
     }
     const handleChange = (name: string, value: string | number | boolean | any) => {
-        console.log(`${name}: ${value}`)
+        // console.log(`${name}: ${value}`)
         setData({ ...data, [name]: value })
     }
     if (!props.data || !data) {

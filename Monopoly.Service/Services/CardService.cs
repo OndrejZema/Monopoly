@@ -13,9 +13,13 @@ namespace Monopoly.Service.Services
     public class CardService
     {
         private CardRepository repository;
-        public CardService(CardRepository repository)
+        private CardTypeRepository cardTypeRepo;
+        private GameRepository gameRepo;
+        public CardService(CardRepository repository, CardTypeRepository cardTypeRepo, GameRepository gameRepo)
         {
             this.repository = repository;
+            this.cardTypeRepo = cardTypeRepo;
+            this.gameRepo = gameRepo;
         }
         public CardVM Create(CardVM entity)
         {
@@ -25,12 +29,25 @@ namespace Monopoly.Service.Services
 
             CardDO cardDO = new CardDO(entity.Name, entity.Description, cardTypeDO, entity.GameId);
 
+            if (!cardDO.IsValid())
+            {
+                throw new ValueException();
+            }
+            if (cardTypeRepo.Get((long)cardDO.Type.Id) == null || gameRepo.Get(cardDO.GameId) == null)
+            {
+                throw new NotFoundRecordException();
+            }
+
             entity.Id = repository.Create(cardDO).Id;
             return entity;
         }
 
         public void Delete(int id)
         {
+            if(repository.Get(id) == null)
+            {
+                throw new NotFoundRecordException();
+            }
             repository.Delete(id);
         }
 
@@ -65,6 +82,23 @@ namespace Monopoly.Service.Services
             CardTypeDO cardTypeDO = new CardTypeDO(entity.Type.Id, entity.Type.Name, entity.Type.Description);
 
             CardDO cardDO = new CardDO(entity.Name, entity.Description, cardTypeDO, entity.GameId);
+
+            if (cardDO.Id == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            //if (repository.Get((long)cardDO.Id) == null)
+            //{
+            //    throw new NotFoundRecordException();
+            //}
+            if (!cardDO.IsValid())
+            {
+                throw new ValueException();
+            }
+            if (cardTypeRepo.Get((long)cardDO.Type.Id) == null || gameRepo.Get(cardDO.GameId) == null)
+            {
+                throw new NotFoundRecordException();
+            }
 
             entity.Id = repository.Update(cardDO).Id;
             return entity;

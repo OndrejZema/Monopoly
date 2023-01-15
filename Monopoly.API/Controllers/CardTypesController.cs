@@ -2,7 +2,6 @@
 using Monopoly.Repository.Exceptions;
 using Monopoly.Service.Services;
 using Monopoly.Service.ViewModels;
-using System;
 using System.Collections.Generic;
 namespace Monopoly.API.Controllers
 {
@@ -22,7 +21,7 @@ namespace Monopoly.API.Controllers
             try
             {
                 Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
-                return service.GetAll(page, perPage);
+                return Ok(service.GetAll(page, perPage));
             }
             catch (NotFoundRecordException ex)
             {
@@ -34,7 +33,7 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Get(id);
+                return Ok(service.Get(id));
             }
             catch (NotFoundRecordException ex)
             {
@@ -46,12 +45,11 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Create(cardType);
+                return Ok(service.Create(cardType));
             }
-            catch (Exception ex)
+            catch (ValueException ex)
             {
-                Response.StatusCode = 500;
-                return null;
+                return StatusCode(400);
             }
         }
         [HttpPut]
@@ -59,11 +57,16 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Update(cardType);
+                return Ok(service.Update(cardType));
             }
             catch (NotFoundRecordException ex)
             {
                 return NotFound();
+            }
+            catch (ValueException ex)
+            {
+
+                return StatusCode(400);
             }
         }
         [HttpDelete("{id}")]

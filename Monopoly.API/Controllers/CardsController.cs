@@ -49,9 +49,13 @@ namespace Monopoly.API.Controllers
             {
                 return Ok(service.Create(card));
             }
-            catch (Exception ex)
+            catch (NotFoundRecordException ex)
             {
                 return NotFound();
+            }
+            catch (ValueException ex)
+            {
+                return StatusCode(400);
             }
         }
         [HttpPut]
@@ -61,9 +65,13 @@ namespace Monopoly.API.Controllers
             {
                 return Ok(service.Update(card));
             }
-            catch(Exception ex)
+            catch (NotFoundRecordException ex)
             {
                 return NotFound();
+            }
+            catch (ValueException ex)
+            {
+                return StatusCode(400);
             }
         }
         [HttpDelete("{id}")]
@@ -73,6 +81,10 @@ namespace Monopoly.API.Controllers
             {
                 service.Delete(id);
                 return Ok();
+            }
+            catch (RecordWithDependenciesException ex)
+            {
+                return StatusCode(409);
             }
             catch (NotFoundRecordException ex)
             {

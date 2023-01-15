@@ -46,7 +46,18 @@ namespace Monopoly.API.Controllers
         [HttpPost]
         public ActionResult<BanknoteVM> Create([FromBody]BanknoteVM banknote)
         {
-            return Ok(service.Create(banknote));
+            try
+            {
+                return Ok(service.Create(banknote));
+            }
+            catch (NotFoundRecordException ex)
+            {
+                return NotFound();
+            }
+            catch (ValueException ex)
+            {
+                return StatusCode(400);
+            }
         }
         [HttpPut]
         public ActionResult<BanknoteVM> Edit([FromBody] BanknoteVM banknote)
@@ -55,8 +66,12 @@ namespace Monopoly.API.Controllers
             {
                 return Ok(service.Update(banknote));
             }
-            catch(Exception ex) {
+            catch(NotFoundRecordException ex) {
                 return NotFound();
+            }
+            catch(ValueException ex)
+            {
+                return StatusCode(400);
             }
         }
         [HttpDelete("{id}")]

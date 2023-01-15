@@ -15,20 +15,33 @@ namespace Monopoly.Service.Services
     public class FieldTypeService
     {
         private FieldTypeRepository repository;
-        public FieldTypeService(FieldTypeRepository repository) { 
-            this.repository = repository;   
+        private FieldRepository fieldRepo;
+        public FieldTypeService(FieldTypeRepository repository, FieldRepository fieldRepo) { 
+            this.repository = repository; 
+            this.fieldRepo = fieldRepo;
         }
         
         public FieldTypeVM Create(FieldTypeVM entity)
         {
-            FieldTypeDO fieldTypeDO = new FieldTypeDO(entity.Id, entity.Name, entity.Description);
-
+            FieldTypeDO fieldTypeDO = new FieldTypeDO(entity.Name, entity.Description);
+            if (!fieldTypeDO.IsValid())
+            {
+                throw new ValueException();
+            }
             entity.Id = repository.Create(fieldTypeDO).Id;
             return entity;
         }
 
         public void Delete(int id)
         {
+            if (repository.Get(id) == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            if(fieldRepo.GetAll().Where(item => item.Type.Id == id).ToList().Count != 0)
+            {
+                throw new RecordWithDependenciesException();
+            }
             repository.Delete(id);
         }
 
@@ -63,7 +76,18 @@ namespace Monopoly.Service.Services
         public FieldTypeVM Update(FieldTypeVM entity)
         {
             FieldTypeDO fieldTypeDO = new FieldTypeDO(entity.Id, entity.Name, entity.Description);
-
+            if (fieldTypeDO.Id == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            //if (repository.Get((long)fieldTypeDO.Id) == null)
+            //{
+            //    throw new NotFoundRecordException();
+            //}
+            if (!fieldTypeDO.IsValid())
+            {
+                throw new ValueException();
+            }
             entity.Id = repository.Update(fieldTypeDO).Id;
             return entity;
         }

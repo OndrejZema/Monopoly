@@ -1,6 +1,6 @@
 ﻿namespace Monopoly.Repository.DomainObjects
 {
-    public class FieldTypeDO
+    public class FieldTypeDO : IIsValid
     {
         public long? Id { get; set; }
 
@@ -16,5 +16,10 @@
         }
         public FieldTypeDO(string name, string description)
             : this(null, name, description) { }
+
+        public bool IsValid()
+        {
+            return Name != "";
+        }
     }
 }

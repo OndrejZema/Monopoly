@@ -1,6 +1,6 @@
 ﻿namespace Monopoly.Repository.DomainObjects
 {
-    public class BanknoteDO
+    public class BanknoteDO : IIsValid
     {
         public long? Id { get; set; }
 
@@ -23,5 +23,9 @@
         public BanknoteDO(long value, long count, string unit, long gameId) 
             :this(null, value, count, unit, gameId) { }
 
+        public bool IsValid()
+        {
+            return (Value > 0 && Count > 0 && Unit != "");
+        }
     }
 }

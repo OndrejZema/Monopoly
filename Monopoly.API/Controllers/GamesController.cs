@@ -23,7 +23,7 @@ namespace Monopoly.API.Controllers
             try
             {
                 Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
-                return service.GetAll(page, perPage);
+                return Ok(service.GetAll(page, perPage));
             }
             catch (NotFoundRecordException ex)
             {
@@ -35,7 +35,7 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Get(id);
+                return Ok(service.Get(id));
             }
             catch (NotFoundRecordException ex)
             {
@@ -47,7 +47,7 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Create(game);
+                return Ok(service.Create(game));
             }
             catch (NotFoundRecordException ex)
             {
@@ -59,11 +59,15 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Update(game);
+                return Ok(service.Update(game));
             }
             catch (NotFoundRecordException ex)
             {
                 return NotFound();
+            }
+            catch(ValueException ex)
+            {
+                return StatusCode(400);
             }
         }
         [HttpDelete("{id}")]

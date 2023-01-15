@@ -10,9 +10,13 @@ namespace Monopoly.Service.Services
     {
 
         private FieldRepository repository;
-        public FieldService(FieldRepository repository)
+        private FieldTypeRepository fieldTypeRepo;
+        private GameRepository gameRepo;
+        public FieldService(FieldRepository repository, FieldTypeRepository fieldTypeRepo, GameRepository gameRepo)
         {
             this.repository = repository;
+            this.fieldTypeRepo = fieldTypeRepo;
+            this.gameRepo = gameRepo;
         }
 
         public FieldVM Create(FieldVM entity)
@@ -22,12 +26,25 @@ namespace Monopoly.Service.Services
 
             FieldDO fieldDO = new FieldDO(entity.Name, entity.Description, fieldTypeDO, entity.GameId);
 
+            if (!fieldDO.IsValid())
+            {
+                throw new ValueException();
+            }
+            if(fieldTypeRepo.Get((long)fieldDO.Type.Id) == null || gameRepo.Get(fieldDO.GameId) == null)
+            {
+                throw new NotFoundRecordException();
+            }
+
             entity.Id = repository.Create(fieldDO).Id;
             return entity;
         }
 
         public void Delete(int id)
         {
+            if(repository.Get(id) == null)
+            {
+                throw new NotFoundRecordException();
+            }
             repository.Delete(id);
         }
 
@@ -69,6 +86,22 @@ namespace Monopoly.Service.Services
 
             FieldTypeDO fieldTypeDO = new FieldTypeDO(entity.Type.Id, entity.Type.Name, entity.Type.Description);
             FieldDO fieldDO = new FieldDO(entity.Id, entity.Name, entity.Description, fieldTypeDO, entity.GameId);
+            if (fieldDO.Id == null)
+            {
+                throw new NotFoundRecordException();
+            }
+            //if (repository.Get((long)fieldDO.Id) == null)
+            //{
+            //    throw new NotFoundRecordException();
+            //}
+            if (!fieldDO.IsValid())
+            {
+                throw new ValueException();
+            }
+            if (fieldTypeRepo.Get((long)fieldDO.Type.Id) == null || gameRepo.Get(fieldDO.GameId) == null)
+            {
+                throw new NotFoundRecordException();
+            }
 
             entity.Id = repository.Update(fieldDO).Id;
             return entity;

@@ -1,6 +1,6 @@
 ﻿namespace Monopoly.Repository.DomainObjects
 {
-    public class GameDO
+    public class GameDO : IIsValid
     {
         public long? Id { get; set; }
 
@@ -18,7 +18,14 @@
         }
         public GameDO(string name, string description) 
             : this(null, name, description, false) { }
+        public GameDO(string name, string description, bool isCompleted)
+            : this(null, name, description, isCompleted) { }
         public GameDO(long? id, string name, string description, long isCompleted)
             : this(id, name, description, isCompleted==1?true:false) { }
+
+        public bool IsValid()
+        {
+            return Name != "";
+        }
     }
 }

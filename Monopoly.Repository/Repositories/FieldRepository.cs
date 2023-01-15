@@ -20,13 +20,14 @@ namespace Monopoly.Repository.Repositories
         public FieldDO Create(FieldDO entity)
         {
             Field field = Converter.FieldDOToField(entity);
+            field.Id = null;
             DbContext.Fields.Add(field);
             DbContext.SaveChanges();
             entity.Id = field.Id;
             return entity;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             Field? field = DbContext.Fields.Where(field => field.Id == id).FirstOrDefault();
             if(field == null)
@@ -37,17 +38,17 @@ namespace Monopoly.Repository.Repositories
             DbContext.SaveChanges();
         }
 
-        public FieldDO Get(int id)
+        public FieldDO Get(long id)
         {
             Field? field = DbContext.Fields.Where(item => item.Id == id).FirstOrDefault();
             if (field == null)
             {
-                throw new NotFoundRecordException();
+                return null;
             }
             FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == field.FieldTypeId).FirstOrDefault();
             if (field == null)
             {
-                throw new NotFoundRecordException();
+                return null;
             }
             FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id,
                 fieldType.Name, fieldType.Description
@@ -57,6 +58,10 @@ namespace Monopoly.Repository.Repositories
                 field.Name, field.Description, fieldTypeDO, field.GameId);
 
             return fieldDO;
+        }
+        public List<FieldDO> GetAll()
+        {
+            return GetAll(null, null, null);
         }
         public List<FieldDO> GetAll(int? gameId, int? page, int? perPage)
         {
@@ -101,7 +106,7 @@ namespace Monopoly.Repository.Repositories
             //entity.Id = field.Id;
             return entity;
         }
-        public int TotalCount(int? gameId)
+        public int TotalCount(long? gameId)
         {
             return gameId == null ? DbContext.Fields.Count() : DbContext.Fields.Where(item => item.GameId == gameId).Count();
         }

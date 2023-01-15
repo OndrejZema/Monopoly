@@ -14,14 +14,14 @@ namespace Monopoly.Repository.Repositories
         public CardDO Create(CardDO entity)
         {
             Card card = Converter.CardDOToCard(entity);
-
+            card.Id = null;
             DbContext.Cards.Add(card);
             DbContext.SaveChanges();
             entity.Id = card.Id;
             return entity;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             Card? card = DbContext.Cards.Where(card => card.Id == id).FirstOrDefault();
             if (card == null)
@@ -34,17 +34,17 @@ namespace Monopoly.Repository.Repositories
             DbContext.SaveChanges();
         }
 
-        public CardDO Get(int id)
+        public CardDO Get(long id)
         {
             Card? card = DbContext.Cards.Where(item => item.Id == id).FirstOrDefault();
             if (card == null)
             {
-                throw new NotFoundRecordException();
+                return null;
             }
             CardType? cardType = DbContext.CardTypes.Where(cardType => cardType.Id == card.CardTypeId).FirstOrDefault();
             if (cardType == null)
             {
-                throw new NotFoundRecordException();
+                return null;
             }
 
             CardTypeDO cardTypeDO = new CardTypeDO(cardType.Id,
@@ -55,6 +55,10 @@ namespace Monopoly.Repository.Repositories
                 cardTypeDO, card.GameId);
 
             return cardDO;
+        }
+        public List<CardDO> GetAll()
+        {
+            return GetAll(null, null, null);
         }
         public List<CardDO> GetAll(int? gameId, int? page, int? perPage)
         {
@@ -97,7 +101,7 @@ namespace Monopoly.Repository.Repositories
             //entity.Id = card.Id;
             return entity;
         }
-        public int TotalCount(int? gameId)
+        public int TotalCount(long? gameId)
         {
             return gameId == null ? DbContext.Cards.Count() : DbContext.Cards.Where(item => item.GameId == gameId).Count();
         }

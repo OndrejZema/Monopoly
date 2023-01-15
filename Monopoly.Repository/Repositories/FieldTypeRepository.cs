@@ -21,14 +21,14 @@ namespace Monopoly.Repository.Repositories
         public FieldTypeDO Create(FieldTypeDO entity)
         {
             FieldType fieldType = Converter.FieldTypeDOToFieldType(entity);
-
+            fieldType.Id = null;
             DbContext.FieldTypes.Add(fieldType);
             DbContext.SaveChanges();
             entity.Id = fieldType.Id;
             return entity;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             FieldType? fieldType = DbContext.FieldTypes.Where(fieldType => fieldType.Id == id).FirstOrDefault();
             if (fieldType == null)
@@ -44,16 +44,19 @@ namespace Monopoly.Repository.Repositories
             DbContext.SaveChanges();
         }
 
-        public FieldTypeDO Get(int id)
+        public FieldTypeDO Get(long id)
         {
             FieldType? fieldType = DbContext.FieldTypes.Where(item => item.Id == id).FirstOrDefault();
             if (fieldType== null)
             {
-                throw new NotFoundRecordException();
+                return null;
             }
             FieldTypeDO fieldTypeDO = new FieldTypeDO(fieldType.Id, 
                 fieldType.Name, fieldType.Description);
             return fieldTypeDO;
+        }
+        public List<FieldTypeDO> GetAll() {
+            return GetAll(null, null);
         }
         public List<FieldTypeDO> GetAll(int? page, int? perPage)
         {

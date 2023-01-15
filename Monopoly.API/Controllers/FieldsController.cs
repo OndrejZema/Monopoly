@@ -2,7 +2,6 @@
 using Monopoly.Repository.Exceptions;
 using Monopoly.Service.Services;
 using Monopoly.Service.ViewModels;
-using System;
 using System.Collections.Generic;
 namespace Monopoly.API.Controllers
 {
@@ -22,7 +21,7 @@ namespace Monopoly.API.Controllers
             try
             {
                 Response.Headers.Add("X-Total-Count", service.TotalCount(gameId).ToString());
-                return service.GetAll(gameId, page, perPage);
+                return Ok(service.GetAll(gameId, page, perPage));
             }
             catch (NotFoundRecordException ex)
             {
@@ -34,7 +33,7 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Get(id);
+                return Ok(service.Get(id));
             }
             catch (NotFoundRecordException ex)
             {
@@ -46,11 +45,15 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Create(field);
+                return Ok(service.Create(field));
             }
             catch (NotFoundRecordException ex)
             {
                 return NotFound();
+            }
+            catch (ValueException ex)
+            {
+                return StatusCode(400);
             }
         }
         [HttpPut]
@@ -58,11 +61,15 @@ namespace Monopoly.API.Controllers
         {
             try
             {
-                return service.Update(field);
+                return Ok(service.Update(field));
             }
             catch (NotFoundRecordException ex)
             {
                 return NotFound();
+            }
+            catch (ValueException ex)
+            {
+                return StatusCode(400);
             }
         }
         [HttpDelete("{id}")]
@@ -72,6 +79,10 @@ namespace Monopoly.API.Controllers
             {
                 service.Delete(id);
                 return Ok();
+            }
+            catch (RecordWithDependenciesException ex)
+            {
+                return StatusCode(409);
             }
             catch (NotFoundRecordException ex)
             {

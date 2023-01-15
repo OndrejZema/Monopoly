@@ -18,8 +18,8 @@ export const Games = () => {
     const [games, setGames] = React.useState<Array<IGamePreview>>()
 
     React.useEffect(() => {
-        loadData("gamespreview", setGames, 
-        gamesPaginationState, gamesPaginationDispatch, notificationsDispatch)
+        loadData("gamespreview", setGames,
+            gamesPaginationState, gamesPaginationDispatch, notificationsDispatch)
 
     }, [gamesPaginationState])
 
@@ -35,10 +35,13 @@ export const Games = () => {
                 </Button>
             </Link>
         </div>
-        {games?.map((item, index) => <div key={`game_${index}`}><Game game={item} reload={()=>{
-            loadData("gamespreview", setGames, 
-            gamesPaginationState, gamesPaginationDispatch, notificationsDispatch)
-        }} /></div>)}
+        {games?.length ?
+            games?.map((item, index) => <div key={`game_${index}`}><Game game={item} reload={() => {
+                loadData("gamespreview", setGames,
+                    gamesPaginationState, gamesPaginationDispatch, notificationsDispatch)
+            }} /></div>)
+            : <div className='d-flex justify-content-center p-3 border rounded bg-light'><h3 className='text-secondary font-monospace'>No games</h3></div>
+        }
         <PaginationPanel
             label='Games per page'
             state={gamesPaginationState}
