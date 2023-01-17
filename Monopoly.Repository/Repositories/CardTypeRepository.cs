@@ -81,7 +81,7 @@ namespace Monopoly.Repository.Repositories
         }
         public int TotalCount()
         {
-            return DbContext.FieldTypes.Count();
+            return DbContext.CardTypes.Count();
         }
     }
 }

@@ -81,7 +81,7 @@ namespace Monopoly.Service.Services
         {
             CardTypeDO cardTypeDO = new CardTypeDO(entity.Type.Id, entity.Type.Name, entity.Type.Description);
 
-            CardDO cardDO = new CardDO(entity.Name, entity.Description, cardTypeDO, entity.GameId);
+            CardDO cardDO = new CardDO(entity.Id, entity.Name, entity.Description, cardTypeDO, entity.GameId);
 
             if (cardDO.Id == null)
             {
