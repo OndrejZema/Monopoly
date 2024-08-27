@@ -49,6 +49,8 @@ namespace Monopoly.NewDAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.HasIndex(new[] { "Id" }, "IX_banknote_id")
                         .IsUnique();
 
@@ -74,8 +76,7 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnName("description");
 
                     b.Property<long>("GameId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("game_id");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -83,6 +84,10 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CardTypeId");
+
+                    b.HasIndex("GameId");
 
                     b.HasIndex(new[] { "Id" }, "IX_card_id")
                         .IsUnique();
@@ -109,7 +114,12 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "Id" }, "IX_card_type_id")
                         .IsUnique();
@@ -136,8 +146,7 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnName("field_type_id");
 
                     b.Property<long>("GameId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("game_id");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -145,6 +154,10 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FieldTypeId");
+
+                    b.HasIndex("GameId");
 
                     b.HasIndex(new[] { "Id" }, "IX_field_id")
                         .IsUnique();
@@ -171,7 +184,12 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "Id" }, "IX_field_type_id")
                         .IsUnique();
@@ -202,12 +220,155 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "Id" }, "IX_game_id")
                         .IsUnique();
 
                     b.ToTable("game", (string)null);
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.User", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.Banknote", b =>
+                {
+                    b.HasOne("Monopoly.NewDAL.Entities.Game", "Game")
+                        .WithMany("Banknotes")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.Card", b =>
+                {
+                    b.HasOne("Monopoly.NewDAL.Entities.CardType", "CardType")
+                        .WithMany("Cards")
+                        .HasForeignKey("CardTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Monopoly.NewDAL.Entities.Game", "Game")
+                        .WithMany("Cards")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CardType");
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.CardType", b =>
+                {
+                    b.HasOne("Monopoly.NewDAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.Field", b =>
+                {
+                    b.HasOne("Monopoly.NewDAL.Entities.FieldType", "FieldType")
+                        .WithMany("Fields")
+                        .HasForeignKey("FieldTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Monopoly.NewDAL.Entities.Game", "Game")
+                        .WithMany("Fields")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FieldType");
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.FieldType", b =>
+                {
+                    b.HasOne("Monopoly.NewDAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.Game", b =>
+                {
+                    b.HasOne("Monopoly.NewDAL.Entities.User", "User")
+                        .WithMany("Games")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.CardType", b =>
+                {
+                    b.Navigation("Cards");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.FieldType", b =>
+                {
+                    b.Navigation("Fields");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.Game", b =>
+                {
+                    b.Navigation("Banknotes");
+
+                    b.Navigation("Cards");
+
+                    b.Navigation("Fields");
+                });
+
+            modelBuilder.Entity("Monopoly.NewDAL.Entities.User", b =>
+                {
+                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }

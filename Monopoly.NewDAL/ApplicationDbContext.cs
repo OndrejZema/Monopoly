@@ -5,6 +5,7 @@ namespace Monopoly.NewDAL;
 
 public class ApplicationDbContext : DbContext
 {
+    public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<Banknote> Banknotes { get; set; }
 
     public virtual DbSet<Card> Cards { get; set; }
@@ -39,6 +40,7 @@ public class ApplicationDbContext : DbContext
                 .IsRequired()
                 .HasColumnName("unit");
             entity.Property(e => e.Value).HasColumnName("value");
+            entity.HasOne<Game>(b => b.Game).WithMany(g => g.Banknotes).HasForeignKey(b => b.GameId).OnDelete(DeleteBehavior.NoAction);
         });
 
         builder.Entity<Card>(entity =>
@@ -52,10 +54,11 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Description)
                 .IsRequired()
                 .HasColumnName("description");
-            entity.Property(e => e.GameId).HasColumnName("game_id");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnName("name");
+            entity.HasOne<CardType>(b => b.CardType).WithMany(g => g.Cards).HasForeignKey(b => b.CardTypeId).OnDelete(DeleteBehavior.NoAction);
+
         });
 
         builder.Entity<CardType>(entity =>
@@ -67,6 +70,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Name).HasColumnName("name");
+
         });
 
         builder.Entity<Field>(entity =>
@@ -80,10 +84,11 @@ public class ApplicationDbContext : DbContext
                 .IsRequired()
                 .HasColumnName("description");
             entity.Property(e => e.FieldTypeId).HasColumnName("field_type_id");
-            entity.Property(e => e.GameId).HasColumnName("game_id");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnName("name");
+            entity.HasOne<FieldType>(b => b.FieldType).WithMany(g => g.Fields).HasForeignKey(b => b.FieldTypeId).OnDelete(DeleteBehavior.NoAction);
+
         });
 
         builder.Entity<FieldType>(entity =>
@@ -99,6 +104,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnName("name");
+
         });
 
         builder.Entity<Game>(entity =>
@@ -113,6 +119,8 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnName("name");
+            entity.HasOne<User>(b => b.User).WithMany(u => u.Games).HasForeignKey(b => b.UserId).OnDelete(DeleteBehavior.NoAction);
+
         });
     }
 }

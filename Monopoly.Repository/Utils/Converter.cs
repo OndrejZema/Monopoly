@@ -22,7 +22,6 @@ namespace Monopoly.Repository.Utils
             card.Name = entity.Name;
             card.Description = entity.Description;
             card.CardTypeId = (long)entity.Type.Id;
-            card.GameId = entity.GameId;
             return card;
         }
         public static CardType CardTypeDOToCardType(CardTypeDO entity) {
@@ -40,7 +39,6 @@ namespace Monopoly.Repository.Utils
             field.Name = entity.Name;
             field.Description = entity.Description;
             field.FieldTypeId = (long)entity.Type.Id;
-            field.GameId = entity.GameId;
             return field;
         }
         public static FieldType FieldTypeDOToFieldType(FieldTypeDO entity)
