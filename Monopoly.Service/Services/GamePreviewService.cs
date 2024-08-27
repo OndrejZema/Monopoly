@@ -1,5 +1,4 @@
-﻿using Monopoly.DAL.Entities;
-using Monopoly.Repository.DomainObjects;
+﻿using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Exceptions;
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Monopoly.Service.ViewModels;
 using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Exceptions;
-using Monopoly.DAL.Entities;
 
 namespace Monopoly.Service.Services
 {

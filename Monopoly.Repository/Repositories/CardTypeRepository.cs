@@ -1,6 +1,6 @@
-﻿using Monopoly.DAL.Entities;
+﻿using Monopoly.NewDAL.Entities;
 using Monopoly.Repository.DomainObjects;
-using Monopoly.DAL;
+using Monopoly.NewDAL;
 using Monopoly.Repository.Exceptions;
 using Monopoly.Repository.Utils;
 
@@ -8,7 +8,7 @@ namespace Monopoly.Repository.Repositories
 {
     public class CardTypeRepository : BaseRepository, IRepository<CardTypeDO>
     {
-        public CardTypeRepository(MonopolyDbContext dbContext) : base(dbContext)
+        public CardTypeRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
 

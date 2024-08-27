@@ -1,0 +1,6 @@
+@Monopoly.NewAPI_HostAddress = http://localhost:5162
+
+GET {{Monopoly.NewAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

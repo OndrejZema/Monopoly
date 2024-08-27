@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.API", "Monopoly.API\Monopoly.API.csproj", "{7A492E4E-1CA2-44B7-A256-DD2DD5833737}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.DAL", "Monopoly.DAL\Monopoly.DAL.csproj", "{83B02464-37C9-4EAC-9396-3CD514B9CD01}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.Terminal", "Monopoly.Terminal\Monopoly.Terminal.csproj", "{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.Service", "Monopoly.Service\Monopoly.Service.csproj", "{D45AD455-B73C-412D-9A5D-712C997E62EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monopoly.Repository", "Monopoly.Repository\Monopoly.Repository.csproj", "{E469B1AE-1CBB-4C8D-9E10-3297BDC352C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monopoly.NewAPI", "Monopoly.NewAPI\Monopoly.NewAPI.csproj", "{41A1C67D-2E5E-4522-9818-EBF4F02F8E9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monopoly.NewDAL", "Monopoly.NewDAL\Monopoly.NewDAL.csproj", "{BF8E5DD2-3C37-48DB-9957-5C49706D39F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,18 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7A492E4E-1CA2-44B7-A256-DD2DD5833737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A492E4E-1CA2-44B7-A256-DD2DD5833737}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A492E4E-1CA2-44B7-A256-DD2DD5833737}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A492E4E-1CA2-44B7-A256-DD2DD5833737}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83B02464-37C9-4EAC-9396-3CD514B9CD01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83B02464-37C9-4EAC-9396-3CD514B9CD01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83B02464-37C9-4EAC-9396-3CD514B9CD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83B02464-37C9-4EAC-9396-3CD514B9CD01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{885EC4A7-6F3D-47D3-A394-34BB78AFCB94}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D45AD455-B73C-412D-9A5D-712C997E62EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D45AD455-B73C-412D-9A5D-712C997E62EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D45AD455-B73C-412D-9A5D-712C997E62EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +25,14 @@ Global
 		{E469B1AE-1CBB-4C8D-9E10-3297BDC352C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E469B1AE-1CBB-4C8D-9E10-3297BDC352C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E469B1AE-1CBB-4C8D-9E10-3297BDC352C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41A1C67D-2E5E-4522-9818-EBF4F02F8E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41A1C67D-2E5E-4522-9818-EBF4F02F8E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41A1C67D-2E5E-4522-9818-EBF4F02F8E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41A1C67D-2E5E-4522-9818-EBF4F02F8E9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF8E5DD2-3C37-48DB-9957-5C49706D39F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF8E5DD2-3C37-48DB-9957-5C49706D39F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF8E5DD2-3C37-48DB-9957-5C49706D39F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF8E5DD2-3C37-48DB-9957-5C49706D39F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

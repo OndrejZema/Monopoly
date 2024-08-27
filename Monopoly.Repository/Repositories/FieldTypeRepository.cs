@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using Monopoly.Repository.DomainObjects;
-using Monopoly.DAL.Entities;
-using Monopoly.DAL;
+using Monopoly.NewDAL.Entities;
+using Monopoly.NewDAL;
 using Monopoly.Repository.Exceptions;
 using Monopoly.Repository.Utils;
 
@@ -14,7 +9,7 @@ namespace Monopoly.Repository.Repositories
 {
     public class FieldTypeRepository : BaseRepository, IRepository<FieldTypeDO>
     {
-        public FieldTypeRepository(MonopolyDbContext dbContext) : base(dbContext)
+        public FieldTypeRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
 

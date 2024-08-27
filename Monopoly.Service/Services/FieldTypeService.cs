@@ -8,7 +8,6 @@ using Monopoly.Service.ViewModels;
 using Monopoly.Repository.DomainObjects;
 using Microsoft.VisualBasic.FileIO;
 using Monopoly.Repository.Exceptions;
-using Monopoly.DAL.Entities;
 
 namespace Monopoly.Service.Services
 {

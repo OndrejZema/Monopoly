@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Monopoly.DAL;
+﻿using Monopoly.NewDAL;
+
 namespace Monopoly.Repository.Repositories
 {
     public class BaseRepository
     {
-        private MonopolyDbContext dbContext;
-        public MonopolyDbContext DbContext
+        private ApplicationDbContext dbContext;
+        public ApplicationDbContext DbContext
         {
             get { return dbContext; }
         }
-        public BaseRepository(MonopolyDbContext dbContext)
+        public BaseRepository(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

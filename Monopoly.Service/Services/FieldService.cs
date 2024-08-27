@@ -2,7 +2,6 @@
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;
 using Monopoly.Repository.Exceptions;
-using Monopoly.DAL.Entities;
 
 namespace Monopoly.Service.Services
 {
