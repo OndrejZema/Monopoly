@@ -2,16 +2,18 @@
 using Monopoly.Repository.Repositories;
 using Monopoly.Service.ViewModels;
 using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Repositories.Interfaces;
+using Monopoly.Service.Services.Interfaces;
 
 namespace Monopoly.Service.Services
 {
-    public class FieldService
+    public class FieldService : IFieldService
     {
 
-        private FieldRepository repository;
-        private FieldTypeRepository fieldTypeRepo;
-        private GameRepository gameRepo;
-        public FieldService(FieldRepository repository, FieldTypeRepository fieldTypeRepo, GameRepository gameRepo)
+        private IFieldRepository repository;
+        private IFieldTypeRepository fieldTypeRepo;
+        private IGameRepository gameRepo;
+        public FieldService(IFieldRepository repository, IFieldTypeRepository fieldTypeRepo, IGameRepository gameRepo)
         {
             this.repository = repository;
             this.fieldTypeRepo = fieldTypeRepo;

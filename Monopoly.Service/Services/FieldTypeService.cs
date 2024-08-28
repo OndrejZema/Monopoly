@@ -1,21 +1,17 @@
 ﻿using Monopoly.Repository.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Monopoly.Service.ViewModels;
 using Monopoly.Repository.DomainObjects;
-using Microsoft.VisualBasic.FileIO;
 using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Repositories.Interfaces;
+using Monopoly.Service.Services.Interfaces;
 
 namespace Monopoly.Service.Services
 {
-    public class FieldTypeService
+    public class FieldTypeService : IFieldTypeService
     {
-        private FieldTypeRepository repository;
-        private FieldRepository fieldRepo;
-        public FieldTypeService(FieldTypeRepository repository, FieldRepository fieldRepo) { 
+        private IFieldTypeRepository repository;
+        private IFieldRepository fieldRepo;
+        public FieldTypeService(IFieldTypeRepository repository, IFieldRepository fieldRepo) { 
             this.repository = repository; 
             this.fieldRepo = fieldRepo;
         }

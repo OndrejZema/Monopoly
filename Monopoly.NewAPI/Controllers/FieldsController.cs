@@ -3,14 +3,16 @@ using Monopoly.Repository.Exceptions;
 using Monopoly.Service.Services;
 using Monopoly.Service.ViewModels;
 using System.Collections.Generic;
+using Monopoly.Service.Services.Interfaces;
+
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class FieldsController : ControllerBase
     {
-        private FieldService service;
-        public FieldsController(FieldService service)
+        private IFieldService service;
+        public FieldsController(IFieldService service)
         {
             this.service = service;
         }

@@ -114,12 +114,7 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "Id" }, "IX_card_type_id")
                         .IsUnique();
@@ -184,12 +179,7 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "Id" }, "IX_field_type_id")
                         .IsUnique();
@@ -220,7 +210,7 @@ namespace Monopoly.NewDAL.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -244,20 +234,11 @@ namespace Monopoly.NewDAL.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -295,17 +276,6 @@ namespace Monopoly.NewDAL.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("Monopoly.NewDAL.Entities.CardType", b =>
-                {
-                    b.HasOne("Monopoly.NewDAL.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Monopoly.NewDAL.Entities.Field", b =>
                 {
                     b.HasOne("Monopoly.NewDAL.Entities.FieldType", "FieldType")
@@ -325,26 +295,11 @@ namespace Monopoly.NewDAL.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("Monopoly.NewDAL.Entities.FieldType", b =>
-                {
-                    b.HasOne("Monopoly.NewDAL.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Monopoly.NewDAL.Entities.Game", b =>
                 {
-                    b.HasOne("Monopoly.NewDAL.Entities.User", "User")
+                    b.HasOne("Monopoly.NewDAL.Entities.User", null)
                         .WithMany("Games")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Monopoly.NewDAL.Entities.CardType", b =>

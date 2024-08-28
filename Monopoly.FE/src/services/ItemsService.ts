@@ -9,7 +9,7 @@ export const loadData = (url: string, setData: (data: any)=>void,
     paginationDispatch: React.Dispatch<IPaginationAction>, notificationsDispatch: React.Dispatch<INotificationsAction>, gameId?: number) => {
 
     let apiUrl:string = `${process.env.REACT_APP_API}/${gameId?`games/${gameId}/`:""}${url}?page=${paginationState.page}&perPage=${paginationState.perPage}`
-    fetch(apiUrl)
+    fetch(apiUrl, {method: "GET", headers: {'Authorization': `Bearer ${localStorage.getItem("token")}`}})
     .then(data => {
         if (!data.ok) {
             throw new Error()

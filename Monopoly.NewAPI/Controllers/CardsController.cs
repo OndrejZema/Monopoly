@@ -4,6 +4,7 @@ using Monopoly.Service.Services;
 using Monopoly.Service.ViewModels;
 using System;
 using System.Collections.Generic;
+using Monopoly.Service.Services.Interfaces;
 
 namespace Monopoly.API.Controllers
 {
@@ -11,8 +12,8 @@ namespace Monopoly.API.Controllers
     [ApiController]
     public class CardsController : ControllerBase
     {
-        private CardService service;
-        public CardsController(CardService service)
+        private ICardService service;
+        public CardsController(ICardService service)
         {
             this.service = service;
         }

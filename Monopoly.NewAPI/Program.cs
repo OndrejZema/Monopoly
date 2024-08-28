@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using Monopoly.NewAPI.Middlewares;
 using Monopoly.NewDAL;
 using Monopoly.Repository.Repositories;
+using Monopoly.Repository.Repositories.Interfaces;
 using Monopoly.Service.Services;
+using Monopoly.Service.Services.Interfaces;
 
 namespace Monopoly.NewAPI;
 
@@ -9,6 +12,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        DotNetEnv.Env.Load();
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -30,19 +34,21 @@ public class Program
         builder.Services.AddSwaggerGen();
         
         builder.Services.AddControllers();
-        builder.Services.AddScoped<CardRepository>();
-        builder.Services.AddScoped<CardTypeRepository>();
-        builder.Services.AddScoped<FieldRepository>();
-        builder.Services.AddScoped<FieldTypeRepository>();
-        builder.Services.AddScoped<GameRepository>();
-        builder.Services.AddScoped<BanknoteRepository>();
-        builder.Services.AddScoped<CardService>();
-        builder.Services.AddScoped<CardTypeService>();
-        builder.Services.AddScoped<FieldService>();
-        builder.Services.AddScoped<FieldTypeService>();
-        builder.Services.AddScoped<GameService>();
-        builder.Services.AddScoped<GamePreviewService>();
-        builder.Services.AddScoped<BanknoteService>();
+        builder.Services.AddScoped<ICardRepository, CardRepository>();
+        builder.Services.AddScoped<ICardTypeRepository, CardTypeRepository>();
+        builder.Services.AddScoped<IFieldRepository, FieldRepository>();
+        builder.Services.AddScoped<IFieldTypeRepository, FieldTypeRepository>();
+        builder.Services.AddScoped<IGameRepository, GameRepository>();
+        builder.Services.AddScoped<IBanknoteRepository, BanknoteRepository>();
+        builder.Services.AddScoped<ICardService, CardService>();
+        builder.Services.AddScoped<ICardTypeService, CardTypeService>();
+        builder.Services.AddScoped<IFieldService, FieldService>();
+        builder.Services.AddScoped<IFieldTypeService, FieldTypeService>();
+        builder.Services.AddScoped<IGameService, GameService>();
+        builder.Services.AddScoped<IGamePreviewService, GamePreviewService>();
+        builder.Services.AddScoped<IBanknoteService, BanknoteService>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
         builder.Services.AddControllers();
         

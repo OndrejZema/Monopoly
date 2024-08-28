@@ -7,6 +7,7 @@ using System.Linq;
 using Monopoly.Service.ViewModels;
 using Monopoly.Repository.Exceptions;
 using System;
+using Monopoly.Service.Services.Interfaces;
 
 namespace Monopoly.NewAPI.Controllers
 {
@@ -14,8 +15,8 @@ namespace Monopoly.NewAPI.Controllers
     [ApiController]
     public class BanknotesController : ControllerBase
     {
-        private BanknoteService service;
-        public BanknotesController(BanknoteService service) { 
+        private IBanknoteService service;
+        public BanknotesController(IBanknoteService service) { 
             this.service = service; 
         }
         [HttpGet("/api/games/{gameId}/[controller]")]

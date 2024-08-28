@@ -4,14 +4,16 @@ using Monopoly.Service.Services;
 using Monopoly.Service.ViewModels;
 using System;
 using System.Collections.Generic;
+using Monopoly.Service.Services.Interfaces;
+
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class GamesController : ControllerBase
     {
-        private GameService service;
-        public GamesController(GameService service)
+        private IGameService service;
+        public GamesController(IGameService service)
         {
             this.service = service;
         }
@@ -20,6 +22,7 @@ namespace Monopoly.API.Controllers
         [HttpGet]
         public ActionResult<List<GameVM>> Index(int page, int perPage)
         {
+            string token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             try
             {
                 Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());

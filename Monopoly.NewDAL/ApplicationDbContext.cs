@@ -119,7 +119,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnName("name");
-            entity.HasOne<User>(b => b.User).WithMany(u => u.Games).HasForeignKey(b => b.UserId).OnDelete(DeleteBehavior.NoAction);
+            //entity.HasOne<User>(b => b.User).WithMany(u => u.Games).HasForeignKey(b => b.UserId).OnDelete(DeleteBehavior.NoAction);
 
         });
     }

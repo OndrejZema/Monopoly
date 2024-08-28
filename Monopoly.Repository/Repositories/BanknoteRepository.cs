@@ -2,11 +2,12 @@
 using Monopoly.NewDAL.Entities;
 using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Repositories.Interfaces;
 using Monopoly.Repository.Utils;
 
 namespace Monopoly.Repository.Repositories
 {
-    public class BanknoteRepository : BaseRepository, IRepository<BanknoteDO>
+    public class BanknoteRepository : BaseRepository, IBanknoteRepository
     {
         public BanknoteRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

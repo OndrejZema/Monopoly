@@ -4,14 +4,16 @@ using Monopoly.Service.Services;
 using Monopoly.Service.ViewModels;
 using System;
 using System.Collections.Generic;
+using Monopoly.Service.Services.Interfaces;
+
 namespace Monopoly.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class FieldTypesController : ControllerBase
     {
-        private FieldTypeService service;
-        public FieldTypesController(FieldTypeService service)
+        private IFieldTypeService service;
+        public FieldTypesController(IFieldTypeService service)
         {
             this.service = service;
         }
@@ -22,7 +24,7 @@ namespace Monopoly.API.Controllers
             try
             {
                 Response.Headers.Add("X-Total-Count", service.TotalCount().ToString());
-                return Ok(service.GetAll(page, perPage));
+                return Ok(service.GetAll( page, perPage));
             }
             catch (NotFoundRecordException ex)
             {

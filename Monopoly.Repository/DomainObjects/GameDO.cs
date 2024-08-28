@@ -9,6 +9,7 @@
         public string Description { get; set; }
 
         public bool IsCompleted { get; set; }
+        public long UserId { get; set; }
         public GameDO(long? id, string name, string description, bool isCompleted)
         {
             Id = id;

@@ -2,11 +2,12 @@
 using Monopoly.Repository.DomainObjects;
 using Monopoly.NewDAL;
 using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Repositories.Interfaces;
 using Monopoly.Repository.Utils;
 
 namespace Monopoly.Repository.Repositories
 {
-    public class GameRepository : BaseRepository, IRepository<GameDO>
+    public class GameRepository : BaseRepository, IGameRepository
     {
         public GameRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

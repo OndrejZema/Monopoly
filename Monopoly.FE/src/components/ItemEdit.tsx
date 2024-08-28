@@ -35,7 +35,8 @@ export const ItemEdit = (props: Props) => {
         fetch(props.apiUrl, {
             method: props.data.id === undefined ? "POST" : "PUT",
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify(data)
         }).then(response => {

@@ -1,21 +1,25 @@
 ﻿using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Exceptions;
 using Monopoly.Repository.Repositories;
+using Monopoly.Repository.Repositories.Interfaces;
+using Monopoly.Service.Services.Interfaces;
 using Monopoly.Service.ViewModels;
 
 namespace Monopoly.Service.Services
 {
-    public class GamePreviewService
+    public class GamePreviewService : IGamePreviewService
     {
-        private GameRepository gameRepository;
-        private CardRepository cardRepository;
-        private FieldRepository fieldRepository;
-        private BanknoteRepository banknoteRepository;
-        public GamePreviewService(GameRepository gameRepository,
-                CardRepository cardRepository,
-                FieldRepository fieldRepository,
-                BanknoteRepository banknoteRepository
-            )
+        private IGameRepository gameRepository;
+        private ICardRepository cardRepository;
+        private IFieldRepository fieldRepository;
+        private IBanknoteRepository banknoteRepository;
+
+        public GamePreviewService(
+            IGameRepository gameRepository,
+            ICardRepository cardRepository,
+            IFieldRepository fieldRepository,
+            IBanknoteRepository banknoteRepository
+        )
         {
             this.gameRepository = gameRepository;
             this.cardRepository = cardRepository;
@@ -30,14 +34,15 @@ namespace Monopoly.Service.Services
             {
                 throw new NotFoundRecordException();
             }
+
             return games.Select(game =>
-            new GamePreviewVM((long)game.Id,
-            game.Name,
-            game.Description,
-            game.IsCompleted,
-            cardRepository.GetAll((int)game.Id, null, null).Count(),
-            fieldRepository.GetAll((int)game.Id, null, null).Count(),
-            banknoteRepository.GetAll((int)game.Id, null, null).Count())
+                new GamePreviewVM((long)game.Id,
+                    game.Name,
+                    game.Description,
+                    game.IsCompleted,
+                    cardRepository.GetAll((int)game.Id, null, null).Count(),
+                    fieldRepository.GetAll((int)game.Id, null, null).Count(),
+                    banknoteRepository.GetAll((int)game.Id, null, null).Count())
             ).ToList();
         }
     }

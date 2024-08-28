@@ -7,15 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Repositories.Interfaces;
+using Monopoly.Service.Services.Interfaces;
 
 namespace Monopoly.Service.Services
 {
-    public class CardService
+    public class CardService : ICardService
     {
-        private CardRepository repository;
-        private CardTypeRepository cardTypeRepo;
-        private GameRepository gameRepo;
-        public CardService(CardRepository repository, CardTypeRepository cardTypeRepo, GameRepository gameRepo)
+        private ICardRepository repository;
+        private ICardTypeRepository cardTypeRepo;
+        private IGameRepository gameRepo;
+        public CardService(ICardRepository repository, ICardTypeRepository cardTypeRepo, IGameRepository gameRepo)
         {
             this.repository = repository;
             this.cardTypeRepo = cardTypeRepo;

@@ -3,11 +3,12 @@ using Monopoly.Repository.DomainObjects;
 using Monopoly.NewDAL.Entities;
 using Monopoly.NewDAL;
 using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Repositories.Interfaces;
 using Monopoly.Repository.Utils;
 
 namespace Monopoly.Repository.Repositories
 {
-    public class FieldTypeRepository : BaseRepository, IRepository<FieldTypeDO>
+    public class FieldTypeRepository : BaseRepository, IFieldTypeRepository
     {
         public FieldTypeRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

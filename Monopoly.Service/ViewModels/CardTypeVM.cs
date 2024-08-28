@@ -6,7 +6,6 @@
         public string? Name { get; set; }
 
         public string? Description { get; set; }
-
         public CardTypeVM() { }
         public CardTypeVM(long? id, string name, string description)
         {

@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 using Monopoly.Service.ViewModels;
 using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Repositories.Interfaces;
+using Monopoly.Service.Services.Interfaces;
 
 namespace Monopoly.Service.Services
 {
-    public class CardTypeService
+    public class CardTypeService : ICardTypeService
     {
-        private CardTypeRepository repository;
-        private CardRepository cardRepo;
-        public CardTypeService(CardTypeRepository repository, CardRepository cardRepo) { 
+        private ICardTypeRepository repository;
+        private ICardRepository cardRepo;
+        public CardTypeService(ICardTypeRepository repository, ICardRepository cardRepo) { 
             this.repository = repository;
             this.cardRepo = cardRepo;
         }

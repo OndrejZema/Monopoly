@@ -2,10 +2,11 @@
 using Monopoly.NewDAL.Entities;
 using Monopoly.Repository.DomainObjects;
 using Monopoly.Repository.Exceptions;
+using Monopoly.Repository.Repositories.Interfaces;
 using Monopoly.Repository.Utils;
 namespace Monopoly.Repository.Repositories
 {
-    public class CardRepository : BaseRepository, IRepository<CardDO>
+    public class CardRepository : BaseRepository, ICardRepository
     {
         public CardRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

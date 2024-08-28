@@ -10,9 +10,9 @@ public partial class Game
 
     public long IsCompleted { get; set; }
     
-    public long UserId { get; set; }
+    // public long UserId { get; set; }
     
-    public User User { get; set; }
+    // public User User { get; set; }
     public ICollection<Banknote> Banknotes { get; set; }
     public ICollection<Field> Fields { get; set; }
 
