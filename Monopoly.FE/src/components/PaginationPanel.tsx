@@ -16,7 +16,7 @@ export const PaginationPanel = (props: Props) => {
         if (Math.ceil(props.state.totalCount / props.state.perPage) !== pagesCount) {
             setPagesCount(Math.ceil(props.state.totalCount / props.state.perPage))
         }
-    })
+    }, [])
     return (
         <div className="border rounded p-2 mb-3">
             <Container>

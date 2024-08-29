@@ -22,6 +22,7 @@ public class Program
                 builder =>
                 {
                     builder.WithOrigins("*")
+                        .WithExposedHeaders("x-total-count")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });

@@ -14,7 +14,8 @@ export const loadData = (url: string, setData: (data: any)=>void,
         if (!data.ok) {
             throw new Error()
         }
-        let totalCount = data.headers.get("x-total-count")
+        let totalCount = data.headers.get("X-Total-Count")
+
         if (totalCount) {
             if (!isNaN(parseInt(totalCount))) {
                 if (parseInt(totalCount) !== paginationState.totalCount) {
